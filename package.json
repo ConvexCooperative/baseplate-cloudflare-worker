@@ -9,6 +9,7 @@
     "prepare": "husky install",
     "lint": "eslint \"src/**/*\"",
     "format": "prettier --write .",
+    "test": "echo \"No tests yet\"",
     "check-format": "prettier --check .",
     "build": "webpack --config webpack.config.cjs --mode=production"
   },
