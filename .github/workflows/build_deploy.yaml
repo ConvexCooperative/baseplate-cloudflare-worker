@@ -7,18 +7,19 @@ on:
   repository_dispatch:
 jobs:
   test:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-      with:
-        node-version: "16"
-    - uses: pnpm/action-setup@v2.0.1
-      with:
-        version: 6.9.1
-    - run: pnpm install --frozen-lockfile
-    - run: pnpm run build
-    - run: pnpm test
-    - run: pnpm run check-format
-    - run: pnpm run lint
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.9.1
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - run: pnpm test
+      - run: pnpm run check-format
+      - run: pnpm run lint
 
   deploy:
     runs-on: ubuntu-latest
