@@ -7,3 +7,6 @@ compatibility_flags = []
 workers_dev = true
 compatibility_date = "2021-11-11"
 webpack_config = "webpack.config.cjs"
+kv_namespaces = [ 
+  { binding = "MAIN_KV", preview_id = "e494f429e91b43b09a28fb2473ccdebe", id= "e494f429e91b43b09a28fb2473ccdebe" },
+]
