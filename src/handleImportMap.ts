@@ -19,6 +19,7 @@ export async function handleImportMap(
     return new Response(JSON.stringify(importMap, null, 2), {
       status: 200,
       headers: {
+        // https://github.com/WICG/import-maps#installation
         "content-type": "application/importmap+json; charset=UTF-8",
         "cache-control": orgSettings.importMapCacheControl,
       },
@@ -32,11 +33,16 @@ async function readImportMap({
   orgKey,
   importMapName,
 }: Params): Promise<ImportMap> {
-  // If KV fails, we'll return a 500 because "we" (cloudflare) is down
-  const importMapKV: ImportMap | null = (await MAIN_KV.get(
-    `import-map-${orgKey}-${importMapName}`,
-    { type: "json" }
-  )) as ImportMap | null;
+  let importMapKV: ImportMap | null = null;
+  try {
+    importMapKV = (await MAIN_KV.get(`import-map-${orgKey}-${importMapName}`, {
+      type: "json",
+    })) as ImportMap | null;
+  } catch (err) {
+    // Defensive programming so that we don't take down their production applications
+    // if KV has invalid JSON in it or is down
+    console.error(err);
+  }
 
   let importMap: ImportMap;
 
