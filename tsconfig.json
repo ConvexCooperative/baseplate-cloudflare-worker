@@ -1,5 +1,6 @@
 {
-  "files": ["src/single-spa-foundry-worker.ts"],
+  "files": ["src/main.ts"],
+  "include": ["src/declarations.d.ts"],
   "compilerOptions": {
     "esModuleInterop": true,
     "module": "esnext",
