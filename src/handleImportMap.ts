@@ -71,7 +71,7 @@ interface Params {
   importMapName: string;
 }
 
-interface ImportMap {
+export interface ImportMap {
   imports: ModuleMap;
   scopes: {
     [scope: string]: ModuleMap;
