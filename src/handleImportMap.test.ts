@@ -22,7 +22,7 @@ describe(`handleImportMap`, () => {
     expect(await response.json()).toEqual(importMap);
   });
 
-  it(`returns a default import map if the map isn't in KV`, async () => {
+  it(`returns a 404 Not Found if the map isn't in KV`, async () => {
     const request = new Request("https://cdn.example.com");
     const response: Response = await handleImportMap(request, {
       importMapName: "system",
