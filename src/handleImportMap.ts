@@ -1,5 +1,5 @@
 import { getOrgSettings } from "./getOrgSettings";
-import { internalError, notFoundResponse } from "./responseUtils";
+import { internalErrorResponse, notFoundResponse } from "./responseUtils";
 import { isPlainObject } from "lodash-es";
 
 const emptyImportMap: ImportMap = {
@@ -24,7 +24,7 @@ export async function handleImportMap(
         `Import Map Invalid for org ${params.orgKey} and request URL ${request.url}!`
       );
       console.error(importMapErrors);
-      return internalError();
+      return internalErrorResponse();
     } else {
       return new Response(JSON.stringify(importMap, null, 2), {
         status: 200,

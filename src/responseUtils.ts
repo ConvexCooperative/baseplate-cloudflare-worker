@@ -13,7 +13,7 @@ export function notFoundResponse(): Response {
   );
 }
 
-export function internalError(): Response {
+export function internalErrorResponse(): Response {
   return new Response(
     "single-spa foundry Cloudflare worker failed. Check with customer support for assistance.",
     {
