@@ -16,7 +16,7 @@ export async function handleImportMap(
     readImportMap(params),
   ]);
 
-  if (orgSettings.orgExists) {
+  if (orgSettings.orgExists && importMap) {
     const importMapErrors = verifyImportMap(importMap);
 
     if (importMapErrors.length > 0) {

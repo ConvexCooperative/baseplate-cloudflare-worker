@@ -13,7 +13,7 @@ describe(`handleImportMap`, () => {
     (global.MAIN_KV as MockCloudflareKV).mockKv({
       "import-map-juc-system": importMap,
     });
-    const request = new Request("https://cdn.example.com");
+    const request = new Request("https://cdn.example.com/systemjs.importmap");
     const response: Response = await handleImportMap(request, {
       importMapName: "system",
       orgKey: "juc",
@@ -23,7 +23,9 @@ describe(`handleImportMap`, () => {
   });
 
   it(`returns a 404 Not Found if the map isn't in KV`, async () => {
-    const request = new Request("https://cdn.example.com");
+    (global.MAIN_KV as MockCloudflareKV).mockKv({});
+
+    const request = new Request("https://cdn.example.com/systemjs.importmap");
     const response: Response = await handleImportMap(request, {
       importMapName: "system",
       orgKey: "juc",
