@@ -1,6 +1,7 @@
 import { match, MatchFunction, MatchResult } from "path-to-regexp";
 import { handleImportMap } from "./handleImportMap";
 import { notFoundResponse } from "./notFound";
+import { handleOptions } from './cors'
 
 addEventListener("fetch", (evt: FetchEvent) => {
   evt.respondWith(handleRequest(evt.request));
@@ -14,7 +15,15 @@ const routeMatchers: RouteMatchers = Object.entries(routeHandlers).map(
   ([path, handler]) => [match(path), handler]
 );
 
+const allowedMethods = ["GET", "HEAD", "OPTIONS"]
+
 async function handleRequest(request: Request) {
+  if (request.method === 'OPTIONS') {
+    return handleOptions(request)
+  } else if (!allowedMethods.includes(request.method)) {
+    return notFoundResponse()
+  }
+
   const requestUrl = new URL(request.url);
 
   let routeHandler: RouteHandler | undefined,
