@@ -30,4 +30,79 @@ describe(`handleImportMap`, () => {
     });
     expect(response.status).toBe(404);
   });
+
+  it(`returns a 500 if importMap.imports`, async () => {
+    const request = new Request("https://cdn.example.com/systemjs.importmap");
+    (global.MAIN_KV as MockCloudflareKV).mockKv({
+      "import-map-juc-system": {
+        // strings are invalid values for "imports"
+        imports: "asdfsadf",
+      },
+    });
+
+    const response: Response = await handleImportMap(request, {
+      importMapName: "system",
+      orgKey: "juc",
+    });
+    expect(response.status).toBe(500);
+  });
+
+  it(`returns a 500 if importMap.imports[key] is invalid`, async () => {
+    const request = new Request("https://cdn.example.com/systemjs.importmap");
+    (global.MAIN_KV as MockCloudflareKV).mockKv({
+      "import-map-juc-system": {
+        imports: {
+          // object is invalid here
+          react: {},
+        },
+      },
+    });
+
+    const response: Response = await handleImportMap(request, {
+      importMapName: "system",
+      orgKey: "juc",
+    });
+    expect(response.status).toBe(500);
+  });
+
+  it(`returns a 500 if importMap.scopes[key] is invalid`, async () => {
+    const request = new Request("https://cdn.example.com/systemjs.importmap");
+    (global.MAIN_KV as MockCloudflareKV).mockKv({
+      "import-map-juc-system": {
+        imports: {
+          react: "/react.js",
+        },
+        // strings are invalid values for "scopes"
+        scopes: "asdfsafd",
+      },
+    });
+
+    const response: Response = await handleImportMap(request, {
+      importMapName: "system",
+      orgKey: "juc",
+    });
+    expect(response.status).toBe(500);
+  });
+
+  it(`returns a 500 if importMap.scopes[key][key] is invalid`, async () => {
+    const request = new Request("https://cdn.example.com/systemjs.importmap");
+    (global.MAIN_KV as MockCloudflareKV).mockKv({
+      "import-map-juc-system": {
+        imports: {
+          react: "/react.js",
+        },
+        scopes: {
+          "/hi/": {
+            react: {},
+          },
+        },
+      },
+    });
+
+    const response: Response = await handleImportMap(request, {
+      importMapName: "system",
+      orgKey: "juc",
+    });
+    expect(response.status).toBe(500);
+  });
 });
