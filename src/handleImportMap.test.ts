@@ -33,7 +33,7 @@ describe(`handleImportMap`, () => {
     expect(response.status).toBe(404);
   });
 
-  it(`returns a 500 if importMap.imports`, async () => {
+  it(`returns a 500 if importMap.imports is invalid`, async () => {
     const request = new Request("https://cdn.example.com/systemjs.importmap");
     (global.MAIN_KV as MockCloudflareKV).mockKv({
       "import-map-juc-system": {
