@@ -13,7 +13,7 @@ describe(`handleImportMap`, () => {
     (global.MAIN_KV as MockCloudflareKV).mockKv({
       "import-map-juc-system": importMap,
     });
-    const request = new Request("https://cdn.example.com");
+    const request = new Request("https://cdn.example.com/systemjs.importmap");
     const response: Response = await handleImportMap(request, {
       importMapName: "system",
       orgKey: "juc",
@@ -23,11 +23,88 @@ describe(`handleImportMap`, () => {
   });
 
   it(`returns a 404 Not Found if the map isn't in KV`, async () => {
-    const request = new Request("https://cdn.example.com");
+    (global.MAIN_KV as MockCloudflareKV).mockKv({});
+
+    const request = new Request("https://cdn.example.com/systemjs.importmap");
     const response: Response = await handleImportMap(request, {
       importMapName: "system",
       orgKey: "juc",
     });
     expect(response.status).toBe(404);
+  });
+
+  it(`returns a 500 if importMap.imports is invalid`, async () => {
+    const request = new Request("https://cdn.example.com/systemjs.importmap");
+    (global.MAIN_KV as MockCloudflareKV).mockKv({
+      "import-map-juc-system": {
+        // strings are invalid values for "imports"
+        imports: "asdfsadf",
+      },
+    });
+
+    const response: Response = await handleImportMap(request, {
+      importMapName: "system",
+      orgKey: "juc",
+    });
+    expect(response.status).toBe(500);
+  });
+
+  it(`returns a 500 if importMap.imports[key] is invalid`, async () => {
+    const request = new Request("https://cdn.example.com/systemjs.importmap");
+    (global.MAIN_KV as MockCloudflareKV).mockKv({
+      "import-map-juc-system": {
+        imports: {
+          // object is invalid here
+          react: {},
+        },
+      },
+    });
+
+    const response: Response = await handleImportMap(request, {
+      importMapName: "system",
+      orgKey: "juc",
+    });
+    expect(response.status).toBe(500);
+  });
+
+  it(`returns a 500 if importMap.scopes[key] is invalid`, async () => {
+    const request = new Request("https://cdn.example.com/systemjs.importmap");
+    (global.MAIN_KV as MockCloudflareKV).mockKv({
+      "import-map-juc-system": {
+        imports: {
+          react: "/react.js",
+        },
+        // strings are invalid values for "scopes"
+        scopes: "asdfsafd",
+      },
+    });
+
+    const response: Response = await handleImportMap(request, {
+      importMapName: "system",
+      orgKey: "juc",
+    });
+    expect(response.status).toBe(500);
+  });
+
+  it(`returns a 500 if importMap.scopes[key][key] is invalid`, async () => {
+    const request = new Request("https://cdn.example.com/systemjs.importmap");
+    (global.MAIN_KV as MockCloudflareKV).mockKv({
+      "import-map-juc-system": {
+        imports: {
+          react: "/react.js",
+        },
+        scopes: {
+          "/hi/": {
+            react: {},
+          },
+        },
+      },
+    });
+
+    const response: Response = await handleImportMap(request, {
+      importMapName: "system",
+      orgKey: "juc",
+    });
+    expect(response.status).toBe(500);
   });
 });

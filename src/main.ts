@@ -1,6 +1,6 @@
 import { match, MatchFunction, MatchResult } from "path-to-regexp";
 import { handleImportMap } from "./handleImportMap";
-import { notFoundResponse } from "./notFound";
+import { notFoundResponse } from "./responseUtils";
 
 addEventListener("fetch", (evt: FetchEvent) => {
   evt.respondWith(handleRequest(evt.request));

@@ -1,5 +1,6 @@
 import { getOrgSettings } from "./getOrgSettings";
-import { notFoundResponse } from "./notFound";
+import { internalErrorResponse, notFoundResponse } from "./responseUtils";
+import { isPlainObject } from "lodash-es";
 
 const emptyImportMap: ImportMap = {
   imports: {},
@@ -15,15 +16,25 @@ export async function handleImportMap(
     readImportMap(params),
   ]);
 
-  if (orgSettings.orgExists) {
-    return new Response(JSON.stringify(importMap, null, 2), {
-      status: 200,
-      headers: {
-        // https://github.com/WICG/import-maps#installation
-        "content-type": "application/importmap+json; charset=UTF-8",
-        "cache-control": orgSettings.importMapCacheControl,
-      },
-    });
+  if (orgSettings.orgExists && importMap) {
+    const importMapErrors = verifyImportMap(importMap);
+
+    if (importMapErrors.length > 0) {
+      console.error(
+        `Import Map Invalid for org ${params.orgKey} and request URL ${request.url}!`
+      );
+      console.error(importMapErrors);
+      return internalErrorResponse();
+    } else {
+      return new Response(JSON.stringify(importMap, null, 2), {
+        status: 200,
+        headers: {
+          // https://github.com/WICG/import-maps#installation
+          "content-type": "application/importmap+json; charset=UTF-8",
+          "cache-control": orgSettings.importMapCacheControl,
+        },
+      });
+    }
   } else {
     return notFoundResponse();
   }
@@ -32,38 +43,67 @@ export async function handleImportMap(
 async function readImportMap({
   orgKey,
   importMapName,
-}: Params): Promise<ImportMap> {
-  let importMapKV: ImportMap | null = null;
+}: Params): Promise<ImportMap | null> {
+  const kvKey = `import-map-${orgKey}-${importMapName}`;
+
   try {
-    importMapKV = (await MAIN_KV.get(`import-map-${orgKey}-${importMapName}`, {
+    return (await MAIN_KV.get(kvKey, {
       type: "json",
     })) as ImportMap | null;
   } catch (err) {
     // Defensive programming so that we don't take down their production applications
     // if KV has invalid JSON in it or is down
+    console.error(`Error reading import map with key ${kvKey}`);
     console.error(err);
+    return null;
   }
+}
 
-  let importMap: ImportMap;
+function verifyImportMap(input: ImportMap | null): string[] {
+  const errors: string[] = [];
 
-  if (importMapKV) {
-    importMap = importMapKV;
+  if (isPlainObject(input)) {
+    const importMap = input as ImportMap;
+
+    if (isPlainObject(importMap.imports)) {
+      errors.push(...verifyModuleMap(importMap.imports, "importMap.imports"));
+    } else {
+      errors.push("importMap.imports is not present");
+    }
+
+    if (isPlainObject(importMap.scopes)) {
+      for (let scope in importMap.scopes) {
+        const moduleMap = importMap.scopes[scope];
+        if (isPlainObject(moduleMap)) {
+          errors.push(
+            ...verifyModuleMap(moduleMap, `importMap.scopes[${scope}]`)
+          );
+        } else {
+          errors.push(
+            `importMap.scopes[${scope}] is not a plain object: ${moduleMap}`
+          );
+        }
+      }
+    } else {
+      errors.push("importMap.scopes is not present");
+    }
   } else {
-    console.warn(`No import map found for orgKey '${orgKey}'`);
-    importMap = emptyImportMap;
+    errors.push(`importMap is falsey value or not object: ${input}`);
   }
 
-  // In case the KV value is somehow corrupted, still return a valid import map
-  if (!importMap.imports) {
-    importMap.imports = {};
+  return errors;
+}
+
+function verifyModuleMap(moduleMap: ModuleMap, path: string): string[] {
+  const errors: string[] = [];
+
+  for (let key in moduleMap) {
+    if (typeof moduleMap[key] !== "string") {
+      errors.push(`${path}[${key}] is not a string: ${moduleMap[key]}`);
+    }
   }
 
-  // In case the KV value is somehow corrupted, still return a valid import map
-  if (!importMap.scopes) {
-    importMap.scopes = {};
-  }
-
-  return importMap;
+  return errors;
 }
 
 interface Params {
