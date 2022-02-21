@@ -5,7 +5,7 @@ describe(`handleImportMap`, () => {
   it(`returns a valid import map`, async () => {
     const importMap: ImportMap = {
       imports: {
-        react: "/react.js",
+        react: "https://cdn.single-spa-foundry.com/react.js",
       },
       scopes: {},
     };
@@ -72,7 +72,7 @@ describe(`handleImportMap`, () => {
     (global.MAIN_KV as MockCloudflareKV).mockKv({
       "import-map-juc-system": {
         imports: {
-          react: "/react.js",
+          react: "https://cdn.single-spa-foundry.com/react.js",
         },
         // strings are invalid values for "scopes"
         scopes: "asdfsafd",
@@ -91,7 +91,7 @@ describe(`handleImportMap`, () => {
     (global.MAIN_KV as MockCloudflareKV).mockKv({
       "import-map-juc-system": {
         imports: {
-          react: "/react.js",
+          react: "https://cdn.single-spa-foundry.com/react.js",
         },
         scopes: {
           "/hi/": {
