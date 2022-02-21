@@ -19,7 +19,6 @@ export async function handleOptions(request: Request): Promise<Response> {
     orgSettings = await getOrgSettings(orgKey);
   }
 
-  // We don't know which org this request is for
   return new Response(body, {
     status: 200,
     headers: corsHeaders(request, orgSettings),
@@ -46,11 +45,20 @@ export function corsHeaders(
   const requestFromValidOrigin =
     allowAnyOrigin ||
     (requestOrigin && orgSettings.cors.allowOrigins.includes(requestOrigin));
+  const requestHasCredentials = Boolean(
+    request.headers.get("Cookie") || request.headers.get("Authorization")
+  );
 
   if (requestFromValidOrigin) {
-    headers["Access-Control-Allow-Origin"] = allowAnyOrigin
-      ? "*"
-      : (requestOrigin as string);
+    /*
+    As per https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
+    "Only a single origin can be specified. If the server supports clients from multiple origins, it must return the origin for the specific client making the request."
+    "For requests without credentials, the literal value "*" can be specified as a wildcard"
+    */
+    headers["Access-Control-Allow-Origin"] =
+      allowAnyOrigin && !requestHasCredentials
+        ? "*"
+        : (requestOrigin as string);
   }
 
   if (orgSettings.cors.exposeHeaders.length > 0) {
