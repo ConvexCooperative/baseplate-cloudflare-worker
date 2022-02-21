@@ -1,4 +1,5 @@
 name = "single-spa-foundry-worker"
+account_id = '4e3c47217c0159e8dfb0da2f736bf59f'
 type = "webpack"
 route = ''
 zone_id = ''
