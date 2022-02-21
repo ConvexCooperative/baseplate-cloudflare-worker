@@ -9,7 +9,7 @@ const defaultSettings: OrgSettings = {
     maxAge: 86400,
     allowCredentials: true,
     allowHeaders: [],
-    allowMethods: ["GET", "HEAD"],
+    allowMethods: ["GET", "HEAD", "OPTIONS"],
   },
   orgExists: false,
 };

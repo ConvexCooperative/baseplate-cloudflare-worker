@@ -1,4 +1,10 @@
-export function notFoundResponse(): Response {
+import { corsHeaders } from "./cors";
+import { OrgSettings } from "./getOrgSettings";
+
+export function notFoundResponse(
+  request: Request,
+  orgSettings?: OrgSettings
+): Response {
   return new Response(
     JSON.stringify({
       errors: "Not Found",
@@ -8,12 +14,16 @@ export function notFoundResponse(): Response {
       headers: {
         "content-type": "application/json; charset=UTF-8",
         "cache-control": "public, max-age=0",
+        ...corsHeaders(request, orgSettings),
       },
     }
   );
 }
 
-export function internalErrorResponse(): Response {
+export function internalErrorResponse(
+  request: Request,
+  orgSettings?: OrgSettings
+): Response {
   return new Response(
     "single-spa foundry Cloudflare worker failed. Check with customer support for assistance.",
     {
@@ -21,6 +31,7 @@ export function internalErrorResponse(): Response {
       headers: {
         "content-type": "text/plain; charset=UTF-8",
         "cache-control": "public, max-age=0",
+        ...corsHeaders(request, orgSettings),
       },
     }
   );
