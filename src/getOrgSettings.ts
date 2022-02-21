@@ -1,5 +1,16 @@
+import { merge } from "lodash-es";
+
 const defaultSettings: OrgSettings = {
   importMapCacheControl: "public, must-revalidate, max-age=60",
+  cors: {
+    allowOrigins: ["*"],
+    exposeHeaders: [],
+    // 1 day in seconds
+    maxAge: 86400,
+    allowCredentials: true,
+    allowHeaders: [],
+    allowMethods: ["GET", "HEAD"],
+  },
   orgExists: false,
 };
 
@@ -23,15 +34,22 @@ export async function getOrgSettings(orgKey: string): Promise<OrgSettings> {
     orgSettings = {};
   }
 
-  const finalSettings: OrgSettings = {
-    ...defaultSettings,
-    ...orgSettings,
-  };
+  const finalSettings: OrgSettings = merge({}, defaultSettings, orgSettings);
 
   return finalSettings;
 }
 
 export interface OrgSettings {
   importMapCacheControl: string;
+  cors: CORSSettings;
   orgExists: boolean;
+}
+
+export interface CORSSettings {
+  allowOrigins: string[];
+  exposeHeaders: string[];
+  maxAge: number;
+  allowCredentials: boolean;
+  allowMethods: string[];
+  allowHeaders: string[];
 }
