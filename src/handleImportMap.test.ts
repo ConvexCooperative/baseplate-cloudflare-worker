@@ -5,7 +5,7 @@ describe(`handleImportMap`, () => {
   it(`returns a valid import map`, async () => {
     const importMap: ImportMap = {
       imports: {
-        react: "/react.js",
+        react: "https://cdn.single-spa-foundry.com/react.js",
       },
       scopes: {},
     };
@@ -20,6 +20,35 @@ describe(`handleImportMap`, () => {
     });
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual(importMap);
+  });
+
+  it(`returns a valid import map, with packages via trailing slashes`, async () => {
+    const importMap: ImportMap = {
+      imports: {
+        react: "https://cdn.single-spa-foundry.com/react.js",
+      },
+      scopes: {},
+    };
+
+    const importMapPackagesViaTrailingSlashes: ImportMap = {
+      imports: {
+        react: "https://cdn.single-spa-foundry.com/react.js",
+        "react/": "https://cdn.single-spa-foundry.com/",
+      },
+      scopes: {},
+    };
+
+    (global.MAIN_KV as MockCloudflareKV).mockKv({
+      "import-map-juc-system": importMap,
+    });
+    const request = new Request("https://cdn.example.com/systemjs.importmap");
+    const response: Response = await handleImportMap(request, {
+      importMapName: "system",
+      orgKey: "juc",
+    });
+
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual(importMapPackagesViaTrailingSlashes);
   });
 
   it(`returns a 404 Not Found if the map isn't in KV`, async () => {
@@ -72,7 +101,7 @@ describe(`handleImportMap`, () => {
     (global.MAIN_KV as MockCloudflareKV).mockKv({
       "import-map-juc-system": {
         imports: {
-          react: "/react.js",
+          react: "https://cdn.single-spa-foundry.com/react.js",
         },
         // strings are invalid values for "scopes"
         scopes: "asdfsafd",
@@ -91,7 +120,7 @@ describe(`handleImportMap`, () => {
     (global.MAIN_KV as MockCloudflareKV).mockKv({
       "import-map-juc-system": {
         imports: {
-          react: "/react.js",
+          react: "https://cdn.single-spa-foundry.com/react.js",
         },
         scopes: {
           "/hi/": {

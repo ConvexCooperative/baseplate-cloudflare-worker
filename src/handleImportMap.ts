@@ -26,6 +26,8 @@ export async function handleImportMap(
       console.error(importMapErrors);
       return internalErrorResponse();
     } else {
+      addPackagesViaTrailingSlashes(importMap);
+
       return new Response(JSON.stringify(importMap, null, 2), {
         status: 200,
         headers: {
@@ -104,6 +106,17 @@ function verifyModuleMap(moduleMap: ModuleMap, path: string): string[] {
   }
 
   return errors;
+}
+
+function addPackagesViaTrailingSlashes(importMap: ImportMap) {
+  for (let importSpecifier in importMap.imports) {
+    if (!importSpecifier.endsWith("/")) {
+      importMap.imports[importSpecifier + "/"] = new URL(
+        ".",
+        importMap.imports[importSpecifier]
+      ).href;
+    }
+  }
 }
 
 interface Params {
