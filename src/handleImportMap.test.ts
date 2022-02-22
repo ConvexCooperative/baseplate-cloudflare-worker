@@ -22,6 +22,35 @@ describe(`handleImportMap`, () => {
     expect(await response.json()).toEqual(importMap);
   });
 
+  it(`returns a valid import map, with packages via trailing slashes`, async () => {
+    const importMap: ImportMap = {
+      imports: {
+        react: "https://cdn.single-spa-foundry.com/react.js",
+      },
+      scopes: {},
+    };
+
+    const importMapPackagesViaTrailingSlashes: ImportMap = {
+      imports: {
+        react: "https://cdn.single-spa-foundry.com/react.js",
+        "react/": "https://cdn.single-spa-foundry.com/",
+      },
+      scopes: {},
+    };
+
+    (global.MAIN_KV as MockCloudflareKV).mockKv({
+      "import-map-juc-system": importMap,
+    });
+    const request = new Request("https://cdn.example.com/systemjs.importmap");
+    const response: Response = await handleImportMap(request, {
+      importMapName: "system",
+      orgKey: "juc",
+    });
+
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual(importMapPackagesViaTrailingSlashes);
+  });
+
   it(`returns a 404 Not Found if the map isn't in KV`, async () => {
     (global.MAIN_KV as MockCloudflareKV).mockKv({});
 
