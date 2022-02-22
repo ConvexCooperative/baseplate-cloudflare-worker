@@ -11,3 +11,6 @@ webpack_config = "webpack.config.cjs"
 kv_namespaces = [ 
   { binding = "MAIN_KV", preview_id = "e494f429e91b43b09a28fb2473ccdebe", id= "e494f429e91b43b09a28fb2473ccdebe" },
 ]
+[vars]
+# TODO: swap this to be a bucket/server that's actually for foundry. This is just a placeholder
+FOUNDRY_MFE_HOST = "https://react.microfrontends.app/"
