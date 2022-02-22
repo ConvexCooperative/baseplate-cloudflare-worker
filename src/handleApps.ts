@@ -17,11 +17,9 @@ export async function handleApps(
 
   const requestUrl = new URL(request.url);
 
-  // TODO: deal with environments better
   const proxySettings = getMicrofrontendProxySettings(orgSettings);
   const proxyHost = getMicrofrontendProxyHost(proxySettings);
-  const proxyUrl =
-    proxyHost + params.pathParts.slice(1).join("/") + requestUrl.search;
+  const proxyUrl = proxyHost + params.pathParts.join("/") + requestUrl.search;
 
   const proxyRequest = new Request(proxyUrl, request);
   proxyRequest.headers.set("Origin", requestUrl.origin);
@@ -36,7 +34,7 @@ export async function handleApps(
 function getMicrofrontendProxySettings(
   orgSettings: OrgSettings
 ): StaticFileProxySettings {
-  // TODO: deal with FOUNDRY_ENV env and also customer envs to
+  // TODO: deal with FOUNDRY_ENV and also customer envs
   const env = "default";
 
   return orgSettings.staticFiles.microfrontendProxy.environments[env];

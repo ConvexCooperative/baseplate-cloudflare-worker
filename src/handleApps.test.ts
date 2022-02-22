@@ -29,7 +29,6 @@ describe(`handleApps`, () => {
       {
         orgKey: "walmart",
         pathParts: [
-          "apps",
           "navbar",
           "c1a777c770ee187cebedd0724653c771495f2af9",
           "react-mf-navbar.js",
@@ -75,7 +74,6 @@ describe(`handleApps`, () => {
       {
         orgKey: "walmart",
         pathParts: [
-          "apps",
           "navbar",
           "c1a777c770ee187cebedd0724653c771495f2af9",
           "react-mf-navbar.js",
