@@ -2,6 +2,8 @@ import "isomorphic-fetch";
 import { jest } from "@jest/globals";
 import { OrgSettings } from "./getOrgSettings";
 
+global.FOUNDRY_ENV = "prod";
+
 beforeEach(() => {
   const mainKv: MockCloudflareKV = {
     get: jest.fn(),
@@ -28,6 +30,7 @@ beforeEach(() => {
   };
 
   global.MAIN_KV = mainKv;
+  global.FOUNDRY_ENV = "prod";
 });
 
 export interface MockCloudflareKV {
