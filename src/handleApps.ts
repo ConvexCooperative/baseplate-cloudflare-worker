@@ -1,3 +1,4 @@
+import { corsHeaders } from "./cors";
 import {
   getOrgSettings,
   OrgSettings,
@@ -26,7 +27,13 @@ export async function handleApps(
 
   const proxyResponse = await fetch(proxyRequest);
 
-  // TODO: insert cors headers
+  const additionalHeaders = corsHeaders(request, orgSettings);
+  for (let additionalHeader in additionalHeaders) {
+    proxyResponse.headers.append(
+      additionalHeader,
+      additionalHeaders[additionalHeader]
+    );
+  }
 
   return proxyResponse;
 }

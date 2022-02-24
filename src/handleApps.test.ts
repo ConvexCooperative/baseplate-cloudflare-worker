@@ -4,7 +4,7 @@ import { handleApps } from "./handleApps";
 import { MockCloudflareKV } from "./setupTests";
 
 describe(`handleApps`, () => {
-  let response,
+  let response: Response,
     mockFetch = jest.fn();
 
   beforeEach(() => {
@@ -85,6 +85,37 @@ describe(`handleApps`, () => {
     expect((mockFetch.mock.calls[0][0] as Request).url).toBe(
       "https://cdn.walmart.com/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
     );
+  });
+
+  it(`appends cors headers to cross origin requests`, async () => {
+    mockFetch.mockReturnValueOnce(
+      new Response("console.log('hi');", {
+        status: 200,
+      })
+    );
+
+    response = await handleApps(
+      new Request(
+        "https://cdn.single-spa-foundry.com/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js",
+        {
+          headers: {
+            // this makes it a cross-origin request
+            Origin: "example.com",
+          },
+        }
+      ),
+      {
+        orgKey: "walmart",
+        pathParts: [
+          "navbar",
+          "c1a777c770ee187cebedd0724653c771495f2af9",
+          "react-mf-navbar.js",
+        ],
+      }
+    );
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("access-control-allow-origin")).toBeTruthy();
   });
 });
 
