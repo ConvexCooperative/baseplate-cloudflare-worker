@@ -12,7 +12,7 @@ export async function handleApps(
   const orgSettings = await getOrgSettings(params.orgKey);
 
   if (!orgSettings.orgExists) {
-    return notFoundResponse();
+    return notFoundResponse(request, orgSettings);
   }
 
   const requestUrl = new URL(request.url);

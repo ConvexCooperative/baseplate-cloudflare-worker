@@ -1,6 +1,7 @@
 import { getOrgSettings } from "./getOrgSettings";
 import { internalErrorResponse, notFoundResponse } from "./responseUtils";
 import { isPlainObject } from "lodash-es";
+import { corsHeaders } from "./cors";
 
 const emptyImportMap: ImportMap = {
   imports: {},
@@ -24,19 +25,22 @@ export async function handleImportMap(
         `Import Map Invalid for org ${params.orgKey} and request URL ${request.url}!`
       );
       console.error(importMapErrors);
-      return internalErrorResponse();
+      return internalErrorResponse(request, orgSettings);
     } else {
+      addPackagesViaTrailingSlashes(importMap);
+
       return new Response(JSON.stringify(importMap, null, 2), {
         status: 200,
         headers: {
           // https://github.com/WICG/import-maps#installation
           "content-type": "application/importmap+json; charset=UTF-8",
           "cache-control": orgSettings.importMapCacheControl,
+          ...corsHeaders(request, orgSettings),
         },
       });
     }
   } else {
-    return notFoundResponse();
+    return notFoundResponse(request, orgSettings);
   }
 }
 
@@ -104,6 +108,17 @@ function verifyModuleMap(moduleMap: ModuleMap, path: string): string[] {
   }
 
   return errors;
+}
+
+function addPackagesViaTrailingSlashes(importMap: ImportMap) {
+  for (let importSpecifier in importMap.imports) {
+    if (!importSpecifier.endsWith("/")) {
+      importMap.imports[importSpecifier + "/"] = new URL(
+        ".",
+        importMap.imports[importSpecifier]
+      ).href;
+    }
+  }
 }
 
 interface Params {
