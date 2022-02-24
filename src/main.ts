@@ -6,15 +6,40 @@ addEventListener("fetch", (evt: FetchEvent) => {
   evt.respondWith(handleRequest(evt.request));
 });
 
-const routeHandlers: RouteHandlers = {
+const prodRouteHandlers: RouteHandlers = {
   "/:orgKey/:importMapName.importmap": handleImportMap,
 };
 
-const routeMatchers: RouteMatchers = Object.entries(routeHandlers).map(
-  ([path, handler]) => [match(path), handler]
-);
+const testRouteHandlers: RouteHandlers = {
+  "/:orgKey/:envName/:importMapName.importmap": handleImportMap,
+};
 
-async function handleRequest(request: Request) {
+const devRouteHandlers: RouteHandlers = {
+  ...prodRouteHandlers,
+  ...testRouteHandlers,
+};
+
+let routeMatchers: RouteMatchers;
+updateRouteMatchers();
+
+export function updateRouteMatchers() {
+  let routeHandlers: RouteHandlers;
+
+  if (FOUNDRY_ENV === "dev") {
+    routeHandlers = devRouteHandlers;
+  } else if (FOUNDRY_ENV === "test") {
+    routeHandlers = testRouteHandlers;
+  } else {
+    routeHandlers = prodRouteHandlers;
+  }
+
+  routeMatchers = Object.entries(routeHandlers).map(([path, handler]) => [
+    match(path),
+    handler,
+  ]);
+}
+
+export async function handleRequest(request: Request) {
   const requestUrl = new URL(request.url);
 
   let routeHandler: RouteHandler | undefined,
