@@ -1,6 +1,7 @@
 import { getOrgSettings } from "./getOrgSettings";
 import { internalErrorResponse, notFoundResponse } from "./responseUtils";
 import { isPlainObject } from "lodash-es";
+import { corsHeaders } from "./cors";
 
 const emptyImportMap: ImportMap = {
   imports: {},
@@ -24,7 +25,7 @@ export async function handleImportMap(
         `Import Map Invalid for org ${params.orgKey} and request URL ${request.url}!`
       );
       console.error(importMapErrors);
-      return internalErrorResponse();
+      return internalErrorResponse(request, orgSettings);
     } else {
       addPackagesViaTrailingSlashes(importMap);
 
@@ -34,11 +35,12 @@ export async function handleImportMap(
           // https://github.com/WICG/import-maps#installation
           "content-type": "application/importmap+json; charset=UTF-8",
           "cache-control": orgSettings.importMapCacheControl,
+          ...corsHeaders(request, orgSettings),
         },
       });
     }
   } else {
-    return notFoundResponse();
+    return notFoundResponse(request, orgSettings);
   }
 }
 
