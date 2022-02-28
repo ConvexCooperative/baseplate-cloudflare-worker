@@ -11,9 +11,20 @@ webpack_config = "webpack.config.cjs"
 kv_namespaces = [ 
   { binding = "MAIN_KV", preview_id = "e494f429e91b43b09a28fb2473ccdebe", id= "e494f429e91b43b09a28fb2473ccdebe" },
 ]
+
 [vars]
 FOUNDRY_ENV = "prod"
+
+[env.dev]
+kv_namespaces = [ 
+  { binding = "MAIN_KV", preview_id = "e494f429e91b43b09a28fb2473ccdebe", id= "e494f429e91b43b09a28fb2473ccdebe" },
+]
 [env.dev.vars]
 FOUNDRY_ENV = "dev"
+
+[env.test]
+kv_namespaces = [ 
+  { binding = "MAIN_KV", preview_id = "e494f429e91b43b09a28fb2473ccdebe", id= "e494f429e91b43b09a28fb2473ccdebe" },
+]
 [env.test.vars]
 FOUNDRY_ENV = "test"

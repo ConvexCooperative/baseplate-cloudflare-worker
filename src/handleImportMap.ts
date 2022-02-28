@@ -55,6 +55,7 @@ async function readImportMap({
     // if KV has invalid JSON in it or is down
     console.error(`Error reading import map with key ${kvKey}`);
     console.error(err);
+    console.error(err?.message);
     return null;
   }
 }
