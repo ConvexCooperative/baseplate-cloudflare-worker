@@ -6,6 +6,7 @@ describe(`handleImportMap`, () => {
     const importMap: ImportMap = {
       imports: {
         react: "https://cdn.single-spa-foundry.com/react.js",
+        "react/": "https://cdn.single-spa-foundry.com/",
       },
       scopes: {},
     };

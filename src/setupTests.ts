@@ -7,6 +7,8 @@ import { merge } from "lodash-es";
 let mocks = {};
 
 beforeEach(() => {
+  global.FOUNDRY_MFE_HOST = "https://cdn.single-spa-foundry.com/apps/";
+
   mocks = {};
 
   const mainKv: MockCloudflareKV = {

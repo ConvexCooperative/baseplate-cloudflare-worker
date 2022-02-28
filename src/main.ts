@@ -1,6 +1,8 @@
 import { match, MatchFunction, MatchResult } from "path-to-regexp";
 import { handleImportMap } from "./handleImportMap";
 import { notFoundResponse } from "./responseUtils";
+import { handleApps } from "./handleApps";
+import { startupChecks } from "./startupChecks";
 import { handleOptions } from "./cors";
 
 addEventListener("fetch", (evt: FetchEvent) => {
@@ -9,11 +11,14 @@ addEventListener("fetch", (evt: FetchEvent) => {
 
 const routeHandlers: RouteHandlers = {
   "/:orgKey/:importMapName.importmap": handleImportMap,
+  "/:orgKey/apps/:pathParts*": handleApps,
 };
 
 const routeMatchers: RouteMatchers = Object.entries(routeHandlers).map(
   ([path, handler]) => [match(path), handler]
 );
+
+startupChecks();
 
 const allowedMethods = ["GET", "HEAD", "OPTIONS"];
 
