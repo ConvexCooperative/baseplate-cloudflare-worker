@@ -9,14 +9,39 @@ addEventListener("fetch", (evt: FetchEvent) => {
   evt.respondWith(handleRequest(evt.request));
 });
 
-const routeHandlers: RouteHandlers = {
+const prodRouteHandlers: RouteHandlers = {
   "/:orgKey/:importMapName.importmap": handleImportMap,
   "/:orgKey/apps/:pathParts*": handleApps,
 };
 
-const routeMatchers: RouteMatchers = Object.entries(routeHandlers).map(
-  ([path, handler]) => [match(path), handler]
-);
+const testRouteHandlers: RouteHandlers = {
+  "/:orgKey/:envName/:importMapName.importmap": handleImportMap,
+};
+
+const devRouteHandlers: RouteHandlers = {
+  ...prodRouteHandlers,
+  ...testRouteHandlers,
+};
+
+let routeMatchers: RouteMatchers;
+updateRouteMatchers();
+
+export function updateRouteMatchers() {
+  let routeHandlers: RouteHandlers;
+
+  if (FOUNDRY_ENV === "dev") {
+    routeHandlers = devRouteHandlers;
+  } else if (FOUNDRY_ENV === "test") {
+    routeHandlers = testRouteHandlers;
+  } else {
+    routeHandlers = prodRouteHandlers;
+  }
+
+  routeMatchers = Object.entries(routeHandlers).map(([path, handler]) => [
+    match(path),
+    handler,
+  ]);
+}
 
 startupChecks();
 

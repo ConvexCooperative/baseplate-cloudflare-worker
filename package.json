@@ -5,7 +5,9 @@
   "type": "module",
   "main": "src/single-spa-foundry-worker.js",
   "scripts": {
-    "start": "wrangler dev",
+    "start": "wrangler dev --env dev",
+    "start:prod": "wrangler dev",
+    "start:test": "wrangler dev --env test",
     "prepare": "husky install",
     "lint": "eslint \"src/**/*\"",
     "format": "prettier --write .",
