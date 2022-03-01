@@ -27,15 +27,16 @@ export async function handleApps(
 
   const proxyResponse = await fetch(proxyRequest);
 
+  const finalResponse = new Response(proxyResponse.body, proxyResponse);
   const additionalHeaders = corsHeaders(request, orgSettings);
   for (let additionalHeader in additionalHeaders) {
-    proxyResponse.headers.append(
+    finalResponse.headers.append(
       additionalHeader,
       additionalHeaders[additionalHeader]
     );
   }
 
-  return proxyResponse;
+  return finalResponse;
 }
 
 function getMicrofrontendProxySettings(
