@@ -1,4 +1,7 @@
 declare var MAIN_KV: KVNamespace;
+declare var prod: KVNamespace;
+declare var test: KVNamespace;
+declare var dev: KVNamespace;
 declare var FOUNDRY_ENV: string;
 
 // Cloudflare worker env variables
