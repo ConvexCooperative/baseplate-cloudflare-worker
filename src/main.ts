@@ -15,7 +15,7 @@ const prodRouteHandlers: RouteHandlers = {
 };
 
 const testRouteHandlers: RouteHandlers = {
-  "/:orgKey/:envName/:importMapName.importmap": handleImportMap,
+  "/:orgKey/:customerEnv/:importMapName.importmap": handleImportMap,
 };
 
 const devRouteHandlers: RouteHandlers = {
@@ -72,7 +72,11 @@ export async function handleRequest(request: Request) {
   }
 
   if (routeHandler && matchResult) {
-    return routeHandler(request, matchResult.params);
+    const params = {
+      customerEnv: "__main__",
+      ...matchResult.params,
+    };
+    return routeHandler(request, params);
   } else {
     return notFoundResponse(request);
   }
