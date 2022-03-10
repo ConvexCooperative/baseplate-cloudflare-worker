@@ -24,6 +24,7 @@ kv_namespaces = [
 ]
 [env.dev.vars]
 FOUNDRY_ENV = "dev"
+# TODO: swap this to be a bucket/server that's actually for foundry. This is just a placeholder
 FOUNDRY_MFE_HOST = "https://react.microfrontends.app/"
 
 [env.test]
@@ -32,4 +33,5 @@ kv_namespaces = [
 ]
 [env.test.vars]
 FOUNDRY_ENV = "test"
+# TODO: swap this to be a bucket/server that's actually for foundry. This is just a placeholder
 FOUNDRY_MFE_HOST = "https://react.microfrontends.app/"
