@@ -13,7 +13,7 @@ describe("main handle request", () => {
     };
 
     (global.MAIN_KV as MockCloudflareKV).mockKv({
-      "import-map-walmart-systemjs": importMap,
+      "import-map-walmart-__main__-systemjs": importMap,
     });
 
     let response = await handleRequest(
@@ -27,7 +27,7 @@ describe("main handle request", () => {
 
     response = await handleRequest(
       new Request(
-        "https://cdn.single-spa-foundry.com/walmart/stage/systemjs.importmap"
+        "https://cdn.single-spa-foundry.com/walmart/__main__/systemjs.importmap"
       )
     );
 
@@ -44,7 +44,7 @@ describe("main handle request", () => {
     };
 
     (global.MAIN_KV as MockCloudflareKV).mockKv({
-      "import-map-walmart-systemjs": importMap,
+      "import-map-walmart-__main__-systemjs": importMap,
     });
 
     let response = await handleRequest(
@@ -57,7 +57,7 @@ describe("main handle request", () => {
 
     response = await handleRequest(
       new Request(
-        "https://cdn.single-spa-foundry.com/walmart/stage/systemjs.importmap"
+        "https://cdn.single-spa-foundry.com/walmart/__main__/systemjs.importmap"
       )
     );
 
@@ -75,7 +75,7 @@ describe("main handle request", () => {
     };
 
     (global.MAIN_KV as MockCloudflareKV).mockKv({
-      "import-map-walmart-systemjs": importMap,
+      "import-map-walmart-__main__-systemjs": importMap,
     });
 
     let response = await handleRequest(
@@ -89,7 +89,7 @@ describe("main handle request", () => {
 
     response = await handleRequest(
       new Request(
-        "https://cdn.single-spa-foundry.com/walmart/stage/systemjs.importmap"
+        "https://cdn.single-spa-foundry.com/walmart/__main__/systemjs.importmap"
       )
     );
 
