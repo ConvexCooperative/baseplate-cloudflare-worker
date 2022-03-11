@@ -47,8 +47,9 @@ export async function handleImportMap(
 async function readImportMap({
   orgKey,
   importMapName,
+  customerEnv,
 }: Params): Promise<ImportMap | null> {
-  const kvKey = `import-map-${orgKey}-${importMapName}`;
+  const kvKey = `import-map-${orgKey}-${customerEnv}-${importMapName}`;
 
   try {
     return (await MAIN_KV.get(kvKey, {
@@ -125,6 +126,7 @@ function addPackagesViaTrailingSlashes(importMap: ImportMap) {
 interface Params {
   orgKey: string;
   importMapName: string;
+  customerEnv: string;
 }
 
 export interface ImportMap {
