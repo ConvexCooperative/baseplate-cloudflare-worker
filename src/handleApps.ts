@@ -1,9 +1,9 @@
 import { corsHeaders } from "./cors";
 import {
-  getOrgSettings,
   OrgSettings,
   StaticFileProxySettings,
-} from "./getOrgSettings";
+} from "@single-spa-foundry/utils";
+import { getOrgSettings } from "./getOrgSettings";
 import { notFoundResponse } from "./responseUtils";
 
 export async function handleApps(
