@@ -6,9 +6,9 @@ on:
         required: true
         type: string
       secrets:
-        cfApiToken:
+        cloudflare-api-token:
           required: true
-        cfAccountId:
+        cloudflare-account-id:
           required: true
 jobs:
   deploy:
@@ -20,7 +20,7 @@ jobs:
       - name: Publish
         uses: cloudflare/wrangler-action@1.3.0
         with:
-          apiToken: ${{ secrets.cfApiToken }}
+          apiToken: ${{ secrets.cloudflare-api-token }}
           environment: ${{ inputs.envName }}
         env:
-          CF_ACCOUNT_ID: ${{ secrets.cfAccountId }}
+          CF_ACCOUNT_ID: ${{ secrets.cloudflare-account-id }}
