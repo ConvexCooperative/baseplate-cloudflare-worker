@@ -4,7 +4,7 @@ import {
   OrgSettings,
   StaticFileProxySettings,
 } from "./getOrgSettings";
-import { notFoundResponse } from "./responseUtils";
+import { internalErrorResponse, notFoundResponse } from "./responseUtils";
 
 export async function handleApps(
   request: Request,
@@ -18,8 +18,25 @@ export async function handleApps(
 
   const requestUrl = new URL(request.url);
 
-  const proxySettings = getMicrofrontendProxySettings(orgSettings);
+  const proxySettings = getMicrofrontendProxySettings(
+    orgSettings,
+    params.customerEnv
+  );
+  if (!proxySettings) {
+    console.error(
+      `No proxy settings found for org ${params.orgKey} and customerEnv ${params.customerEnv}`
+    );
+    return internalErrorResponse(request, orgSettings);
+  }
+
   const proxyHost = getMicrofrontendProxyHost(proxySettings);
+
+  if (!proxyHost) {
+    console.error(
+      `No proxy host found for org ${params.orgKey} and customerEnv ${params.customerEnv}`
+    );
+  }
+
   const proxyUrl = proxyHost + params.pathParts.join("/") + requestUrl.search;
 
   const proxyRequest = new Request(proxyUrl, request);
@@ -40,23 +57,20 @@ export async function handleApps(
 }
 
 function getMicrofrontendProxySettings(
-  orgSettings: OrgSettings
+  orgSettings: OrgSettings,
+  customerEnv: string
 ): StaticFileProxySettings {
-  // TODO: deal with FOUNDRY_ENV and also customer envs
-  const env = "default";
-
-  return orgSettings.staticFiles.microfrontendProxy.environments[env];
+  return orgSettings.staticFiles.microfrontendProxy.environments[customerEnv];
 }
 
 function getMicrofrontendProxyHost(
   envSettings: StaticFileProxySettings
 ): string {
-  return envSettings.useFoundryHosting
-    ? FOUNDRY_MFE_HOST
-    : (envSettings.customHost as string);
+  return envSettings.customHost;
 }
 
 interface Params {
   orgKey: string;
   pathParts: string[];
+  customerEnv: string;
 }

@@ -3,11 +3,7 @@ import { merge } from "lodash-es";
 const defaultSettings: OrgSettings = {
   staticFiles: {
     microfrontendProxy: {
-      environments: {
-        default: {
-          useFoundryHosting: true,
-        },
-      },
+      environments: {},
     },
   },
   importMapCacheControl: "public, must-revalidate, max-age=60",
@@ -51,7 +47,6 @@ export async function getOrgSettings(orgKey: string): Promise<OrgSettings> {
 interface StaticFileSettings {
   microfrontendProxy: {
     environments: {
-      default: StaticFileProxySettings;
       [key: string]: StaticFileProxySettings;
     };
   };
@@ -59,7 +54,7 @@ interface StaticFileSettings {
 
 export interface StaticFileProxySettings {
   useFoundryHosting: boolean;
-  customHost?: string;
+  customHost: string;
 }
 
 export interface OrgSettings {
