@@ -5,11 +5,6 @@ on:
       envName:
         required: true
         type: string
-      secrets:
-        CF_API_TOKEN:
-          required: true
-        CF_ACCOUNT_ID:
-          required: true
 jobs:
   deploy:
     name: Deploy to Cloudflare environment

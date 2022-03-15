@@ -27,24 +27,15 @@ jobs:
     uses: JustUtahCoders/single-spa-foundry-worker/.github/workflows/deploy.yaml@main
     with:
       envName: dev
-    secrets:
-      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-      CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
 
   deploy-test:
     needs: deploy-dev
     uses: JustUtahCoders/single-spa-foundry-worker/.github/workflows/deploy.yaml@main
     with:
       envName: test
-    secrets:
-      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-      CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
 
   deploy-prod:
     needs: deploy-test
     uses: JustUtahCoders/single-spa-foundry-worker/.github/workflows/deploy.yaml@main
     with:
       envName: prod
-    secrets:
-      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-      CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
