@@ -7,7 +7,7 @@ specifiers:
   '@cloudflare/workers-types': ^3.1.1
   '@cloudflare/wrangler': ^1.19.8
   '@jest/globals': ^27.3.1
-  '@single-spa-foundry/utils': ^1.0.1
+  '@single-spa-foundry/utils': ^1.0.2
   '@types/babel__core': ^7.1.16
   '@types/jest': ^27.0.2
   '@types/webpack': ^5.28.0
@@ -29,7 +29,7 @@ specifiers:
   webpack-cli: ^4.9.1
 
 dependencies:
-  '@single-spa-foundry/utils': 1.0.1
+  '@single-spa-foundry/utils': 1.0.2
   path-to-regexp: 6.2.0
 
 devDependencies:
@@ -738,8 +738,8 @@ packages:
       chalk: 4.1.2
     dev: true
 
-  /@single-spa-foundry/utils/1.0.1:
-    resolution: {integrity: sha512-8laEvm5PHDiMNQoYBhpth+9ivNojHaNtC6ToFOedM03KkibXQcA+KQkhYJcgj6KJmlBtyJDT58xkBTe/e1BKrQ==}
+  /@single-spa-foundry/utils/1.0.2:
+    resolution: {integrity: sha512-8L6MLva1jCoq6VjA3fxBnF06xluKYKY4svzOfABOCQzQWZ1YQKMiwMk3G/VgusOpqui7lFCS0eeTsiHrmo5WPQ==}
     dependencies:
       lodash-es: 4.17.21
     dev: false
