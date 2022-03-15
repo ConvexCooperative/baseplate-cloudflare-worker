@@ -8,8 +8,6 @@ on:
     secrets:
       CF_API_TOKEN:
         required: true
-      CF_ACCOUNT_ID:
-        required: true
 jobs:
   deploy:
     name: Deploy to Cloudflare environment
@@ -22,5 +20,3 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           environment: ${{ inputs.envName }}
-        env:
-          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
