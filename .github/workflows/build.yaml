@@ -28,8 +28,8 @@ jobs:
     with:
       envName: dev
     secrets:
-      cloudflare-api-token: ${{ secrets.CF_API_TOKEN }}
-      cloudflare-account-id: ${{ secrets.CF_ACCOUNT_ID }}
+      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
 
   deploy-test:
     needs: deploy-dev
@@ -37,8 +37,8 @@ jobs:
     with:
       envName: test
     secrets:
-      cloudflare-api-token: ${{ secrets.CF_API_TOKEN }}
-      cloudflare-account-id: ${{ secrets.CF_ACCOUNT_ID }}
+      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
 
   deploy-prod:
     needs: deploy-test
@@ -46,5 +46,5 @@ jobs:
     with:
       envName: prod
     secrets:
-      cloudflare-api-token: ${{ secrets.CF_API_TOKEN }}
-      cloudflare-account-id: ${{ secrets.CF_ACCOUNT_ID }}
+      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
