@@ -7,6 +7,7 @@ specifiers:
   '@cloudflare/workers-types': ^3.1.1
   '@cloudflare/wrangler': ^1.19.8
   '@jest/globals': ^27.3.1
+  '@single-spa-foundry/utils': ^1.0.1
   '@types/babel__core': ^7.1.16
   '@types/jest': ^27.0.2
   '@types/webpack': ^5.28.0
@@ -28,6 +29,7 @@ specifiers:
   webpack-cli: ^4.9.1
 
 dependencies:
+  '@single-spa-foundry/utils': 1.0.1
   path-to-regexp: 6.2.0
 
 devDependencies:
@@ -735,6 +737,12 @@ packages:
       '@types/yargs': 16.0.4
       chalk: 4.1.2
     dev: true
+
+  /@single-spa-foundry/utils/1.0.1:
+    resolution: {integrity: sha512-8laEvm5PHDiMNQoYBhpth+9ivNojHaNtC6ToFOedM03KkibXQcA+KQkhYJcgj6KJmlBtyJDT58xkBTe/e1BKrQ==}
+    dependencies:
+      lodash-es: 4.17.21
+    dev: false
 
   /@sinonjs/commons/1.8.3:
     resolution: {integrity: sha512-xkNcLAn/wZaX14RPlwizcKicDk9G3F8m2nU3L7Ukm5zBgTwiT0wsoFAHx9Jq56fJA1z/7uKGtCRu16sOUCLIHQ==}
@@ -2990,7 +2998,6 @@ packages:
 
   /lodash-es/4.17.21:
     resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
-    dev: true
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
@@ -3698,7 +3705,7 @@ packages:
     dependencies:
       '@istanbuljs/schema': 0.1.3
       glob: 7.2.0
-      minimatch: 3.0.4
+      minimatch: 3.1.2
     dev: true
 
   /text-table/0.2.0:
