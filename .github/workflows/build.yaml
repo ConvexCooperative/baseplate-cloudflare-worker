@@ -24,7 +24,7 @@ jobs:
 
   deploy-dev:
     needs: test
-    uses: JustUtahCoders/single-spa-foundry-worker/.github/workflows/deploy.yaml
+    uses: JustUtahCoders/single-spa-foundry-worker/.github/workflows/deploy.yaml@main
     with:
       envName: dev
     secrets:
@@ -33,7 +33,7 @@ jobs:
 
   deploy-test:
     needs: deploy-dev
-    uses: JustUtahCoders/single-spa-foundry-worker/.github/workflows/deploy.yaml
+    uses: JustUtahCoders/single-spa-foundry-worker/.github/workflows/deploy.yaml@main
     with:
       envName: test
     secrets:
@@ -42,7 +42,7 @@ jobs:
 
   deploy-prod:
     needs: deploy-test
-    uses: JustUtahCoders/single-spa-foundry-worker/.github/workflows/deploy.yaml
+    uses: JustUtahCoders/single-spa-foundry-worker/.github/workflows/deploy.yaml@main
     with:
       envName: prod
     secrets:
