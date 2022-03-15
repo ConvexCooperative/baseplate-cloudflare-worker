@@ -33,9 +33,9 @@ FOUNDRY_ENV = "test"
 # TODO: swap this to be a bucket/server that's actually for foundry. This is just a placeholder
 FOUNDRY_MFE_HOST = "https://react.microfrontends.app/"
 
-[env.prod]
+[env.production]
 kv_namespaces = [ 
   { binding = "MAIN_KV", preview_id = "44604b1242bb4fb3ab5bd7805bd37da1", id= "2ff77f2cdf2348049659b8e8084773cf" },
 ]
-[env.prod.vars]
+[env.production.vars]
 FOUNDRY_ENV = "prod"

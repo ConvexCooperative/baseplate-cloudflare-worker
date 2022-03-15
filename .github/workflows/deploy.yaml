@@ -15,8 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Publish
-        uses: cloudflare/wrangler-action@1.3.0
+      - uses: actions/setup-node@v2
         with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          environment: ${{ inputs.envName }}
+          node-version: "16"
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.32.2
+      - run: pnpm install --frozen-lockfile
+      - name: Deploy to Cloudflare
+        run: pnpm exec wrangler publish --env ${{ inputs.envName }}

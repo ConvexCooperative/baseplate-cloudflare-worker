@@ -6,7 +6,7 @@
   "main": "src/single-spa-foundry-worker.js",
   "scripts": {
     "start": "wrangler dev --env dev",
-    "start:prod": "wrangler dev --env prod",
+    "start:prod": "wrangler dev --env production",
     "start:test": "wrangler dev --env test",
     "prepare": "husky install",
     "lint": "eslint \"src/**/*\"",
