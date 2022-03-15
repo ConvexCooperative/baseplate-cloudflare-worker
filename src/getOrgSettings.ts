@@ -1,23 +1,7 @@
-import { merge } from "lodash-es";
-
-const defaultSettings: OrgSettings = {
-  staticFiles: {
-    microfrontendProxy: {
-      environments: {},
-    },
-  },
-  importMapCacheControl: "public, must-revalidate, max-age=60",
-  cors: {
-    allowOrigins: ["*"],
-    exposeHeaders: [],
-    // 1 day in seconds
-    maxAge: 86400,
-    allowCredentials: true,
-    allowHeaders: [],
-    allowMethods: ["GET", "HEAD", "OPTIONS"],
-  },
-  orgExists: false,
-};
+import {
+  mergeDefaultOrgSettings,
+  OrgSettings,
+} from "@single-spa-foundry/utils";
 
 export async function getOrgSettings(orgKey: string): Promise<OrgSettings> {
   let orgSettings: Partial<OrgSettings>;
@@ -39,36 +23,7 @@ export async function getOrgSettings(orgKey: string): Promise<OrgSettings> {
     orgSettings = {};
   }
 
-  const finalSettings: OrgSettings = merge({}, defaultSettings, orgSettings);
+  const finalSettings: OrgSettings = mergeDefaultOrgSettings(orgSettings);
 
   return finalSettings;
-}
-
-interface StaticFileSettings {
-  microfrontendProxy: {
-    environments: {
-      [key: string]: StaticFileProxySettings;
-    };
-  };
-}
-
-export interface StaticFileProxySettings {
-  useFoundryHosting: boolean;
-  customHost: string;
-}
-
-export interface OrgSettings {
-  staticFiles: StaticFileSettings;
-  importMapCacheControl: string;
-  cors: CORSSettings;
-  orgExists: boolean;
-}
-
-export interface CORSSettings {
-  allowOrigins: string[];
-  exposeHeaders: string[];
-  maxAge: number;
-  allowCredentials: boolean;
-  allowMethods: string[];
-  allowHeaders: string[];
 }

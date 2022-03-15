@@ -52,6 +52,7 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
+    "@single-spa-foundry/utils": "^1.0.2",
     "path-to-regexp": "^6.2.0"
   }
 }

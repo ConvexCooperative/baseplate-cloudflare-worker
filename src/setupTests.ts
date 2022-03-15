@@ -31,6 +31,13 @@ beforeEach(() => {
     if (key.startsWith("org-settings-")) {
       const orgSettings: Partial<OrgSettings> = {
         orgExists: true,
+        staticFiles: {
+          microfrontendProxy: {
+            environments: {
+              __main__: "https://example.com/",
+            },
+          },
+        },
       };
 
       return orgSettings;

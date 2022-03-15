@@ -1,5 +1,5 @@
 import { corsHeaders } from "./cors";
-import { OrgSettings } from "./getOrgSettings";
+import { OrgSettings } from "@single-spa-foundry/utils";
 
 export function notFoundResponse(
   request: Request,

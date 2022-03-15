@@ -1,5 +1,5 @@
 import { jest } from "@jest/globals";
-import { OrgSettings } from "./getOrgSettings";
+import { OrgSettings } from "@single-spa-foundry/utils";
 import { handleApps } from "./handleApps";
 import { MockCloudflareKV } from "./setupTests";
 
@@ -28,6 +28,7 @@ describe(`handleApps`, () => {
       ),
       {
         orgKey: "walmart",
+        customerEnv: "__main__",
         pathParts: [
           "navbar",
           "c1a777c770ee187cebedd0724653c771495f2af9",
@@ -38,8 +39,7 @@ describe(`handleApps`, () => {
 
     expect(mockFetch).toHaveBeenCalledTimes(1);
     expect((mockFetch.mock.calls[0][0] as Request).url).toBe(
-      global.FOUNDRY_MFE_HOST +
-        "navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
+      "undefinednavbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
     );
   });
 
@@ -49,7 +49,7 @@ describe(`handleApps`, () => {
       staticFiles: {
         microfrontendProxy: {
           environments: {
-            default: {
+            __main__: {
               useFoundryHosting: false,
               customHost: "https://cdn.walmart.com/",
             },
@@ -73,6 +73,7 @@ describe(`handleApps`, () => {
       ),
       {
         orgKey: "walmart",
+        customerEnv: "__main__",
         pathParts: [
           "navbar",
           "c1a777c770ee187cebedd0724653c771495f2af9",
@@ -81,6 +82,7 @@ describe(`handleApps`, () => {
       }
     );
 
+    expect(response.status).toBe(200);
     expect(mockFetch).toHaveBeenCalledTimes(1);
     expect((mockFetch.mock.calls[0][0] as Request).url).toBe(
       "https://cdn.walmart.com/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
@@ -106,6 +108,7 @@ describe(`handleApps`, () => {
       ),
       {
         orgKey: "walmart",
+        customerEnv: "__main__",
         pathParts: [
           "navbar",
           "c1a777c770ee187cebedd0724653c771495f2af9",
