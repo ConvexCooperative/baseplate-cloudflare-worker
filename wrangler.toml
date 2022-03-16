@@ -16,6 +16,7 @@ FOUNDRY_ENV = "prod"
 FOUNDRY_MFE_HOST = "https://react.microfrontends.app/"
 
 [env.dev]
+name = "dev"
 kv_namespaces = [ 
   { binding = "MAIN_KV", preview_id = "f94ad3b9def34b51bd20677f6264c6d3", id= "a048040130494df881efc89784aa3d69" },
 ]
@@ -25,6 +26,7 @@ FOUNDRY_ENV = "dev"
 FOUNDRY_MFE_HOST = "https://react.microfrontends.app/"
 
 [env.test]
+name = "test"
 kv_namespaces = [ 
   { binding = "MAIN_KV", preview_id = "0094ff00faf944b29ea2285756dca341", id= "3843295ae4004f2db131aa7ecda3d005" },
 ]
@@ -34,6 +36,7 @@ FOUNDRY_ENV = "test"
 FOUNDRY_MFE_HOST = "https://react.microfrontends.app/"
 
 [env.production]
+name = "production"
 kv_namespaces = [ 
   { binding = "MAIN_KV", preview_id = "44604b1242bb4fb3ab5bd7805bd37da1", id= "2ff77f2cdf2348049659b8e8084773cf" },
 ]
