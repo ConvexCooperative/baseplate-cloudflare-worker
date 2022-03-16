@@ -24,3 +24,5 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Deploy to Cloudflare
         run: pnpm exec wrangler publish --env ${{ inputs.envName }}
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
