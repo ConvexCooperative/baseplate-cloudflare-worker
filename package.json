@@ -6,14 +6,14 @@
   "main": "src/single-spa-foundry-worker.js",
   "scripts": {
     "start": "wrangler dev --env dev",
-    "start:prod": "wrangler dev",
+    "start:prod": "wrangler dev --env production",
     "start:test": "wrangler dev --env test",
     "prepare": "husky install",
     "lint": "eslint \"src/**/*\"",
     "format": "prettier --write .",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
     "check-format": "prettier --check .",
-    "build": "webpack --config webpack.config.cjs --mode=production"
+    "build": "wrangler build"
   },
   "repository": {
     "type": "git",
@@ -47,9 +47,7 @@
     "lodash-es": "^4.17.21",
     "prettier": "^2.4.1",
     "pretty-quick": "^3.1.1",
-    "typescript": "^4.4.4",
-    "webpack": "^5.64.0",
-    "webpack-cli": "^4.9.1"
+    "typescript": "^4.4.4"
   },
   "dependencies": {
     "@single-spa-foundry/utils": "^1.0.2",
