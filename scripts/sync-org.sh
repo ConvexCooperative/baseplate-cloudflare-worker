@@ -8,7 +8,7 @@ fi
 
 sync_env () {
   echo "Syncing ${@:2}"
-  pnpm exec wrangler kv:key put org-settings-$1 '{"orgExists": true}' --binding MAIN_KV ${@:2}
+  pnpm exec wrangler kv:key put org-settings-$1 '{"orgExists": true, "staticFiles": {"microfrontendProxy": {"environments": {"__main__": {"customHost": "https://react.microfrontends.app/", "useFoundryHosting": true}}}}}' --binding MAIN_KV ${@:2}
   pnpm exec wrangler kv:key put import-map-$1-__main__-systemjs '{"imports": {"react": "https://cdn.single-spa-foundry.com/react.js"}, "scopes": {}}' --binding MAIN_KV ${@:2}
 }
 
