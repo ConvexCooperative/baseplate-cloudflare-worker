@@ -10,20 +10,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v2
         with:
           node-version: "16"
       - uses: pnpm/action-setup@v2.0.1
         with:
           version: 6.32.2
+      - run: git checkout main && git checkout $GITHUB_SHA
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
       - run: pnpm test
       - run: pnpm run check-format
       - run: pnpm run lint
+      - run: pnpm exec changeset status
 
   deploy-dev:
     needs: test
+    if: github.ref == 'refs/heads/main'
     uses: JustUtahCoders/single-spa-foundry-worker/.github/workflows/deploy.yaml@main
     with:
       envName: dev
@@ -32,6 +37,7 @@ jobs:
 
   deploy-test:
     needs: deploy-dev
+    if: github.ref == 'refs/heads/main'
     uses: JustUtahCoders/single-spa-foundry-worker/.github/workflows/deploy.yaml@main
     with:
       envName: test
@@ -40,6 +46,7 @@ jobs:
 
   deploy-prod:
     needs: deploy-test
+    if: github.ref == 'refs/heads/main'
     uses: JustUtahCoders/single-spa-foundry-worker/.github/workflows/deploy.yaml@main
     with:
       envName: prod
