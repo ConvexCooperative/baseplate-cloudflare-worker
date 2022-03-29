@@ -21,6 +21,7 @@ jobs:
       - run: pnpm test
       - run: pnpm run check-format
       - run: pnpm run lint
+      - run: pnpm exec changeset status
 
   deploy-dev:
     needs: test
