@@ -2,6 +2,7 @@ import { getOrgSettings } from "./getOrgSettings";
 import { internalErrorResponse, notFoundResponse } from "./responseUtils";
 import { isPlainObject } from "lodash-es";
 import { corsHeaders } from "./cors";
+import { foundryVersion } from "./foundryVersion";
 
 const emptyImportMap: ImportMap = {
   imports: {},
@@ -36,6 +37,7 @@ export async function handleImportMap(
           "content-type": "application/importmap+json; charset=UTF-8",
           "cache-control": orgSettings.importMapCacheControl,
           ...corsHeaders(request, orgSettings),
+          ...foundryVersion(),
         },
       });
     }
