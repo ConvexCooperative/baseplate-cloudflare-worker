@@ -1,4 +1,5 @@
 import { corsHeaders } from "./cors";
+import { foundryVersion } from "./foundryVersion";
 import {
   OrgSettings,
   StaticFileProxySettings,
@@ -45,7 +46,10 @@ export async function handleApps(
   const proxyResponse = await fetch(proxyRequest);
 
   const finalResponse = new Response(proxyResponse.body, proxyResponse);
-  const additionalHeaders = corsHeaders(request, orgSettings);
+  const additionalHeaders = {
+    ...corsHeaders(request, orgSettings),
+    ...foundryVersion(),
+  };
   for (let additionalHeader in additionalHeaders) {
     finalResponse.headers.append(
       additionalHeader,
