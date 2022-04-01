@@ -146,6 +146,34 @@ describe(`handleApps`, () => {
     expect(response.status).toBe(200);
     expect(response.headers.get("foundry-version")).toBeTruthy();
   });
+
+  it(`sets cache-control header for apps`, async () => {
+    mockFetch.mockReturnValueOnce(
+      new Response("console.log('hi');", {
+        status: 200,
+      })
+    );
+
+    response = await handleApps(
+      new Request(
+        "https://cdn.single-spa-foundry.com/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
+      ),
+      {
+        orgKey: "walmart",
+        customerEnv: "__main__",
+        pathParts: [
+          "navbar",
+          "c1a777c770ee187cebedd0724653c771495f2af9",
+          "react-mf-navbar.js",
+        ],
+      }
+    );
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("cache-control")).toBe(
+      "public, max-age=31536000, immutable"
+    );
+  });
 });
 
 // https://stackoverflow.com/questions/41980195/recursive-partialt-in-typescript
