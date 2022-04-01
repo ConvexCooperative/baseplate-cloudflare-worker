@@ -1,5 +1,5 @@
 ---
-"single-spa-foundry-worker": patch
+"single-spa-foundry-worker": minor
 ---
 
 Added cache control for static files
