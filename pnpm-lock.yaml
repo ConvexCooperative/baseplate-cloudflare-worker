@@ -29,7 +29,7 @@ specifiers:
   typescript: ^4.4.4
 
 dependencies:
-  '@single-spa-foundry/utils': link:../single-spa-foundry-utils
+  '@single-spa-foundry/utils': 1.0.2
   path-to-regexp: 6.2.0
 
 devDependencies:
@@ -977,6 +977,12 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
     dev: true
+
+  /@single-spa-foundry/utils/1.0.2:
+    resolution: {integrity: sha512-8L6MLva1jCoq6VjA3fxBnF06xluKYKY4svzOfABOCQzQWZ1YQKMiwMk3G/VgusOpqui7lFCS0eeTsiHrmo5WPQ==}
+    dependencies:
+      lodash-es: 4.17.21
+    dev: false
 
   /@sinonjs/commons/1.8.3:
     resolution: {integrity: sha512-xkNcLAn/wZaX14RPlwizcKicDk9G3F8m2nU3L7Ukm5zBgTwiT0wsoFAHx9Jq56fJA1z/7uKGtCRu16sOUCLIHQ==}
@@ -3443,7 +3449,6 @@ packages:
 
   /lodash-es/4.17.21:
     resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
-    dev: true
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
