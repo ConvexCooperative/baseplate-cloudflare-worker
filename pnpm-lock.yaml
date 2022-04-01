@@ -9,7 +9,7 @@ specifiers:
   '@cloudflare/workers-types': ^3.1.1
   '@cloudflare/wrangler': ^1.19.8
   '@jest/globals': ^27.3.1
-  '@single-spa-foundry/utils': ^1.0.2
+  '@single-spa-foundry/utils': ^1.0.3
   '@types/babel__core': ^7.1.16
   '@types/jest': ^27.0.2
   '@types/webpack': ^5.28.0
@@ -29,7 +29,7 @@ specifiers:
   typescript: ^4.4.4
 
 dependencies:
-  '@single-spa-foundry/utils': 1.0.2
+  '@single-spa-foundry/utils': 1.0.3
   path-to-regexp: 6.2.0
 
 devDependencies:
@@ -978,8 +978,8 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@single-spa-foundry/utils/1.0.2:
-    resolution: {integrity: sha512-8L6MLva1jCoq6VjA3fxBnF06xluKYKY4svzOfABOCQzQWZ1YQKMiwMk3G/VgusOpqui7lFCS0eeTsiHrmo5WPQ==}
+  /@single-spa-foundry/utils/1.0.3:
+    resolution: {integrity: sha512-+Ia3hvoiHobjv904X7cZNaDcDUqxa7GH7n0Ur/5tp9z+HPnNSqIxRVvLeZcuM1gU5+Qqcm6D6IFa0F8cu23ruQ==}
     dependencies:
       lodash-es: 4.17.21
     dev: false

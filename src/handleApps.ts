@@ -47,11 +47,12 @@ export async function handleApps(
 
   const finalResponse = new Response(proxyResponse.body, proxyResponse);
   const additionalHeaders = {
+    "cache-control": orgSettings.staticFiles.cacheControl,
     ...corsHeaders(request, orgSettings),
     ...foundryVersion(),
   };
   for (let additionalHeader in additionalHeaders) {
-    finalResponse.headers.append(
+    finalResponse.headers.set(
       additionalHeader,
       additionalHeaders[additionalHeader]
     );
