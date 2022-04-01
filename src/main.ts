@@ -16,6 +16,7 @@ const prodRouteHandlers: RouteHandlers = {
 
 const testRouteHandlers: RouteHandlers = {
   "/:orgKey/:customerEnv/:importMapName.importmap": handleImportMap,
+  "/:orgKey/:customerEnv/apps/:pathParts*": handleApps,
 };
 
 const devRouteHandlers: RouteHandlers = {

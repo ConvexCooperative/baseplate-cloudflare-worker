@@ -179,4 +179,29 @@ describe(`handleImportMap`, () => {
     expect(response.status).toBe(200);
     expect(response.headers.get("access-control-allow-origin")).toBe("*");
   });
+
+  it(`appends foundry-version header to import maps`, async () => {
+    const importMap: ImportMap = {
+      imports: {
+        react: "https://cdn.single-spa-foundry.com/react.js",
+      },
+      scopes: {},
+    };
+
+    (global.MAIN_KV as MockCloudflareKV).mockKv({
+      "import-map-juc-__main__-system": importMap,
+    });
+
+    const request = new Request(
+      "https://cdn.example.com/juc/__main__/systemjs.importmap"
+    );
+    const response: Response = await handleImportMap(request, {
+      importMapName: "system",
+      orgKey: "juc",
+      customerEnv: "__main__",
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("foundry-version")).toBeTruthy();
+  });
 });

@@ -1,4 +1,5 @@
 import { corsHeaders } from "./cors";
+import { foundryVersion } from "./foundryVersion";
 import {
   OrgSettings,
   StaticFileProxySettings,
@@ -48,6 +49,7 @@ export async function handleApps(
   const additionalHeaders = {
     "cache-control": orgSettings.staticFiles.cacheControl,
     ...corsHeaders(request, orgSettings),
+    ...foundryVersion(),
   };
   for (let additionalHeader in additionalHeaders) {
     finalResponse.headers.set(
