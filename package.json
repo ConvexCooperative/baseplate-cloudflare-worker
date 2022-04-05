@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "@single-spa-foundry/utils": "^1.0.3",
+    "aws-sdk": "^2.1107.0",
     "path-to-regexp": "^6.2.0"
   }
 }
