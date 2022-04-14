@@ -1,4 +1,4 @@
-# Foundry KV Keys
+# Baseplate KV Keys
 
 Below is the list of keys that is expected in any environment.
 
@@ -22,7 +22,7 @@ This is required.
 
 ```json
 {
-  "imports": { "react": "https://cdn.single-spa-foundry.com/react.js" },
+  "imports": { "react": "https://cdn.baseplate.cloud/react.js" },
   "scopes": {}
 }
 ```

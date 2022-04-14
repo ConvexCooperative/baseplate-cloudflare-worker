@@ -1,9 +1,9 @@
 {
-  "name": "single-spa-foundry-worker",
+  "name": "baseplate-cloudflare-worker",
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "src/single-spa-foundry-worker.js",
+  "main": "src/baseplate-cloudflare-worker.js",
   "scripts": {
     "start": "wrangler dev --env dev",
     "start:prod": "wrangler dev --env production",
@@ -17,14 +17,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JustUtahCoders/single-spa-foundry-worker.git"
+    "url": "git+https://github.com/JustUtahCoders/baseplate-cloudflare-worker.git"
   },
   "author": "",
-  "license": "MIT",
+  "license": "See LICENSE file",
   "bugs": {
-    "url": "https://github.com/JustUtahCoders/single-spa-foundry-worker/issues"
+    "url": "https://github.com/JustUtahCoders/baseplate-cloudflare-worker/issues"
   },
-  "homepage": "https://github.com/JustUtahCoders/single-spa-foundry-worker#readme",
+  "homepage": "https://github.com/JustUtahCoders/baseplate-cloudflare-worker#readme",
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/eslint-parser": "^7.16.3",
@@ -52,7 +52,7 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
-    "@single-spa-foundry/utils": "^1.0.3",
+    "@baseplate-sdk/utils": "^2.0.0",
     "path-to-regexp": "^6.2.0"
   }
 }

@@ -3,8 +3,8 @@ import { MockCloudflareKV } from "./setupTests";
 import { ImportMap } from "./handleImportMap";
 
 describe("main handle request", () => {
-  it("has correct route handlers for prod FOUNDRY_ENV", async () => {
-    global.FOUNDRY_ENV = "prod";
+  it("has correct route handlers for prod BASEPLATE_ENV", async () => {
+    global.BASEPLATE_ENV = "prod";
     updateRouteMatchers();
 
     const importMap: ImportMap = {
@@ -17,9 +17,7 @@ describe("main handle request", () => {
     });
 
     let response = await handleRequest(
-      new Request(
-        "https://cdn.single-spa-foundry.com/walmart/systemjs.importmap"
-      )
+      new Request("https://cdn.baseplate.cloud/walmart/systemjs.importmap")
     );
 
     expect(response.status).toBe(200);
@@ -27,15 +25,15 @@ describe("main handle request", () => {
 
     response = await handleRequest(
       new Request(
-        "https://cdn.single-spa-foundry.com/walmart/__main__/systemjs.importmap"
+        "https://cdn.baseplate.cloud/walmart/__main__/systemjs.importmap"
       )
     );
 
     expect(response.status).toBe(404);
   });
 
-  it("has correct route handlers for test FOUNDRY_ENV", async () => {
-    global.FOUNDRY_ENV = "test";
+  it("has correct route handlers for test BASEPLATE_ENV", async () => {
+    global.BASEPLATE_ENV = "test";
     updateRouteMatchers();
 
     const importMap: ImportMap = {
@@ -48,16 +46,14 @@ describe("main handle request", () => {
     });
 
     let response = await handleRequest(
-      new Request(
-        "https://cdn.single-spa-foundry.com/walmart/systemjs.importmap"
-      )
+      new Request("https://cdn.baseplate.cloud/walmart/systemjs.importmap")
     );
 
     expect(response.status).toBe(404);
 
     response = await handleRequest(
       new Request(
-        "https://cdn.single-spa-foundry.com/walmart/__main__/systemjs.importmap"
+        "https://cdn.baseplate.cloud/walmart/__main__/systemjs.importmap"
       )
     );
 
@@ -65,8 +61,8 @@ describe("main handle request", () => {
     expect(await response.json()).toEqual(importMap);
   });
 
-  it("has correct route handlers for dev FOUNDRY_ENV", async () => {
-    global.FOUNDRY_ENV = "dev";
+  it("has correct route handlers for dev BASEPLATE_ENV", async () => {
+    global.BASEPLATE_ENV = "dev";
     updateRouteMatchers();
 
     const importMap: ImportMap = {
@@ -79,9 +75,7 @@ describe("main handle request", () => {
     });
 
     let response = await handleRequest(
-      new Request(
-        "https://cdn.single-spa-foundry.com/walmart/systemjs.importmap"
-      )
+      new Request("https://cdn.baseplate.cloud/walmart/systemjs.importmap")
     );
 
     expect(response.status).toBe(200);
@@ -89,7 +83,7 @@ describe("main handle request", () => {
 
     response = await handleRequest(
       new Request(
-        "https://cdn.single-spa-foundry.com/walmart/__main__/systemjs.importmap"
+        "https://cdn.baseplate.cloud/walmart/__main__/systemjs.importmap"
       )
     );
 

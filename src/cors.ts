@@ -1,5 +1,5 @@
 import { getOrgSettings } from "./getOrgSettings";
-import { OrgSettings } from "@single-spa-foundry/utils";
+import { OrgSettings } from "@baseplate-sdk/utils";
 import { pathToRegexp } from "path-to-regexp";
 import { isUndefined } from "lodash-es";
 

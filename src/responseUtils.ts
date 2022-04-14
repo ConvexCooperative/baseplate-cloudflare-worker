@@ -1,5 +1,5 @@
 import { corsHeaders } from "./cors";
-import { OrgSettings } from "@single-spa-foundry/utils";
+import { OrgSettings } from "@baseplate-sdk/utils";
 
 export function notFoundResponse(
   request: Request,
@@ -25,7 +25,7 @@ export function internalErrorResponse(
   orgSettings?: OrgSettings
 ): Response {
   return new Response(
-    "single-spa foundry Cloudflare worker failed. Check with customer support for assistance.",
+    "Baseplate Cloudflare worker failed. Check with customer support for assistance.",
     {
       status: 500,
       headers: {

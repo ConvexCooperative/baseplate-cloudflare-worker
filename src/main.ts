@@ -30,9 +30,9 @@ updateRouteMatchers();
 export function updateRouteMatchers() {
   let routeHandlers: RouteHandlers;
 
-  if (FOUNDRY_ENV === "dev") {
+  if (BASEPLATE_ENV === "dev") {
     routeHandlers = devRouteHandlers;
-  } else if (FOUNDRY_ENV === "test") {
+  } else if (BASEPLATE_ENV === "test") {
     routeHandlers = testRouteHandlers;
   } else {
     routeHandlers = prodRouteHandlers;
