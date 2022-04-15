@@ -1,5 +1,5 @@
 import { jest } from "@jest/globals";
-import { OrgSettings } from "@single-spa-foundry/utils";
+import { OrgSettings } from "@baseplate-sdk/utils";
 import { handleApps } from "./handleApps";
 import { MockCloudflareKV } from "./setupTests";
 
@@ -15,7 +15,7 @@ describe(`handleApps`, () => {
     response = null;
   });
 
-  it(`determines correct proxy url when using foundry hosting`, async () => {
+  it(`determines correct proxy url when using Baseplate hosting`, async () => {
     mockFetch.mockReturnValueOnce(
       new Response("console.log('hi');", {
         status: 200,
@@ -24,7 +24,7 @@ describe(`handleApps`, () => {
 
     response = await handleApps(
       new Request(
-        "https://cdn.single-spa-foundry.com/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
+        "https://cdn.single-spa-baseplate.com/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
       ),
       {
         orgKey: "walmart",
@@ -50,7 +50,7 @@ describe(`handleApps`, () => {
         microfrontendProxy: {
           environments: {
             __main__: {
-              useFoundryHosting: false,
+              useBaseplateHosting: false,
               customHost: "https://cdn.walmart.com/",
             },
           },
@@ -69,7 +69,7 @@ describe(`handleApps`, () => {
 
     response = await handleApps(
       new Request(
-        "https://cdn.single-spa-foundry.com/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
+        "https://cdn.baseplate.cloud/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
       ),
       {
         orgKey: "walmart",
@@ -98,7 +98,7 @@ describe(`handleApps`, () => {
 
     response = await handleApps(
       new Request(
-        "https://cdn.single-spa-foundry.com/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js",
+        "https://cdn.baseplate.cloud/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js",
         {
           headers: {
             // this makes it a cross-origin request
@@ -121,7 +121,7 @@ describe(`handleApps`, () => {
     expect(response.headers.get("access-control-allow-origin")).toBeTruthy();
   });
 
-  it(`appends foundry-version header to apps`, async () => {
+  it(`appends baseplate-version header to apps`, async () => {
     mockFetch.mockReturnValueOnce(
       new Response("console.log('hi');", {
         status: 200,
@@ -130,7 +130,7 @@ describe(`handleApps`, () => {
 
     response = await handleApps(
       new Request(
-        "https://cdn.single-spa-foundry.com/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
+        "https://cdn.baseplate.cloud/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
       ),
       {
         orgKey: "walmart",
@@ -144,7 +144,7 @@ describe(`handleApps`, () => {
     );
 
     expect(response.status).toBe(200);
-    expect(response.headers.get("foundry-version")).toBeTruthy();
+    expect(response.headers.get("baseplate-version")).toBeTruthy();
   });
 
   it(`sets cache-control header for apps`, async () => {
@@ -156,7 +156,7 @@ describe(`handleApps`, () => {
 
     response = await handleApps(
       new Request(
-        "https://cdn.single-spa-foundry.com/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
+        "https://cdn.baseplate.cloud/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
       ),
       {
         orgKey: "walmart",

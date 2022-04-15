@@ -4,12 +4,12 @@ specifiers:
   '@babel/core': ^7.16.0
   '@babel/eslint-parser': ^7.16.3
   '@babel/preset-typescript': ^7.16.0
+  '@baseplate-sdk/utils': ^2.0.0
   '@changesets/changelog-github': ^0.4.4
   '@changesets/cli': ^2.22.0
   '@cloudflare/workers-types': ^3.1.1
   '@cloudflare/wrangler': ^1.19.8
   '@jest/globals': ^27.3.1
-  '@single-spa-foundry/utils': ^1.0.3
   '@types/babel__core': ^7.1.16
   '@types/jest': ^27.0.2
   '@types/webpack': ^5.28.0
@@ -29,7 +29,7 @@ specifiers:
   typescript: ^4.4.4
 
 dependencies:
-  '@single-spa-foundry/utils': 1.0.3
+  '@baseplate-sdk/utils': 2.0.0
   path-to-regexp: 6.2.0
 
 devDependencies:
@@ -469,6 +469,12 @@ packages:
       '@babel/helper-validator-identifier': 7.15.7
       to-fast-properties: 2.0.0
     dev: true
+
+  /@baseplate-sdk/utils/2.0.0:
+    resolution: {integrity: sha512-pw7XU7jmGOwNvwL8kxKgA7WFY56by05f7Hc9Hkr/mY2oMFV0c4T9rKb42pmr8ffqcJDNWY/MQD54oNP7dB4Bfw==}
+    dependencies:
+      lodash-es: 4.17.21
+    dev: false
 
   /@bcoe/v8-coverage/0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
@@ -977,12 +983,6 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
     dev: true
-
-  /@single-spa-foundry/utils/1.0.3:
-    resolution: {integrity: sha512-+Ia3hvoiHobjv904X7cZNaDcDUqxa7GH7n0Ur/5tp9z+HPnNSqIxRVvLeZcuM1gU5+Qqcm6D6IFa0F8cu23ruQ==}
-    dependencies:
-      lodash-es: 4.17.21
-    dev: false
 
   /@sinonjs/commons/1.8.3:
     resolution: {integrity: sha512-xkNcLAn/wZaX14RPlwizcKicDk9G3F8m2nU3L7Ukm5zBgTwiT0wsoFAHx9Jq56fJA1z/7uKGtCRu16sOUCLIHQ==}

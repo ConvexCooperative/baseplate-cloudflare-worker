@@ -1,7 +1,4 @@
-import {
-  mergeDefaultOrgSettings,
-  OrgSettings,
-} from "@single-spa-foundry/utils";
+import { mergeDefaultOrgSettings, OrgSettings } from "@baseplate-sdk/utils";
 
 export async function getOrgSettings(orgKey: string): Promise<OrgSettings> {
   let orgSettings: Partial<OrgSettings>;

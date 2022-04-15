@@ -5,8 +5,8 @@ describe(`handleImportMap`, () => {
   it(`returns a valid import map`, async () => {
     const importMap: ImportMap = {
       imports: {
-        react: "https://cdn.single-spa-foundry.com/react.js",
-        "react/": "https://cdn.single-spa-foundry.com/",
+        react: "https://cdn.baseplate.cloud/react.js",
+        "react/": "https://cdn.baseplate.cloud/",
       },
       scopes: {},
     };
@@ -29,15 +29,15 @@ describe(`handleImportMap`, () => {
   it(`returns a valid import map, with packages via trailing slashes`, async () => {
     const importMap: ImportMap = {
       imports: {
-        react: "https://cdn.single-spa-foundry.com/react.js",
+        react: "https://cdn.baseplate.cloud/react.js",
       },
       scopes: {},
     };
 
     const importMapPackagesViaTrailingSlashes: ImportMap = {
       imports: {
-        react: "https://cdn.single-spa-foundry.com/react.js",
-        "react/": "https://cdn.single-spa-foundry.com/",
+        react: "https://cdn.baseplate.cloud/react.js",
+        "react/": "https://cdn.baseplate.cloud/",
       },
       scopes: {},
     };
@@ -117,7 +117,7 @@ describe(`handleImportMap`, () => {
     (global.MAIN_KV as MockCloudflareKV).mockKv({
       "import-map-juc-__main__-system": {
         imports: {
-          react: "https://cdn.single-spa-foundry.com/react.js",
+          react: "https://cdn.baseplate.cloud/react.js",
         },
         // strings are invalid values for "scopes"
         scopes: "asdfsafd",
@@ -139,7 +139,7 @@ describe(`handleImportMap`, () => {
     (global.MAIN_KV as MockCloudflareKV).mockKv({
       "import-map-juc-__main__-system": {
         imports: {
-          react: "https://cdn.single-spa-foundry.com/react.js",
+          react: "https://cdn.baseplate.cloud/react.js",
         },
         scopes: {
           "/hi/": {
@@ -160,7 +160,7 @@ describe(`handleImportMap`, () => {
   it(`returns valid cors headers for cross origin response`, async () => {
     const importMap: ImportMap = {
       imports: {
-        react: "https://cdn.single-spa-foundry.com/react.js",
+        react: "https://cdn.baseplate.cloud/react.js",
       },
       scopes: {},
     };
@@ -180,10 +180,10 @@ describe(`handleImportMap`, () => {
     expect(response.headers.get("access-control-allow-origin")).toBe("*");
   });
 
-  it(`appends foundry-version header to import maps`, async () => {
+  it(`appends baseplate-version header to import maps`, async () => {
     const importMap: ImportMap = {
       imports: {
-        react: "https://cdn.single-spa-foundry.com/react.js",
+        react: "https://cdn.baseplate.cloud/react.js",
       },
       scopes: {},
     };
@@ -202,6 +202,6 @@ describe(`handleImportMap`, () => {
     });
 
     expect(response.status).toBe(200);
-    expect(response.headers.get("foundry-version")).toBeTruthy();
+    expect(response.headers.get("baseplate-version")).toBeTruthy();
   });
 });

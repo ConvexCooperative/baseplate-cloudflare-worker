@@ -6,12 +6,9 @@ import { merge } from "lodash-es";
 
 let mocks = {};
 
-global.FOUNDRY_ENV = "prod";
-global.FOUNDRY_MFE_HOST = "https://example.com/";
+global.BASEPLATE_ENV = "prod";
 
 beforeEach(() => {
-  global.FOUNDRY_MFE_HOST = "https://cdn.single-spa-foundry.com/apps/";
-
   mocks = {};
 
   const mainKv: MockCloudflareKV = {
@@ -47,8 +44,7 @@ beforeEach(() => {
   });
 
   global.MAIN_KV = mainKv;
-  global.FOUNDRY_ENV = "prod";
-  global.FOUNDRY_MFE_HOST = "https://example.com/";
+  global.BASEPLATE_ENV = "prod";
 });
 
 export interface MockCloudflareKV {
