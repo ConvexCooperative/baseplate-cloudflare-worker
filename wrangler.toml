@@ -13,6 +13,10 @@ kv_namespaces = [
 workers_dev = true
 [vars]
 FOUNDRY_ENV = "prod"
+# [secrets]
+# S3_PROXY_REGION
+# S3_PROXY_ACCESS_KEY_ID
+# S3_PROXY_SECRET_ACCESS_KEY
 
 [env.dev]
 workers_dev = true
