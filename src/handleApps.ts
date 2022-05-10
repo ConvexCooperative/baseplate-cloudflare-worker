@@ -1,16 +1,9 @@
 import { corsHeaders } from "./cors";
-import { foundryVersion } from "./foundryVersion";
-import {
-  OrgSettings,
-  StaticFileProxySettings,
-} from "@single-spa-foundry/utils";
+import { baseplateVersion } from "./baseplateVersion";
+import { OrgSettings, StaticFileProxySettings } from "@baseplate-sdk/utils";
 import { getOrgSettings } from "./getOrgSettings";
 import { notFoundResponse, internalErrorResponse } from "./responseUtils";
-import {
-  S3Client,
-  GetObjectCommand,
-  HeadObjectCommand,
-} from "@aws-sdk/client-s3";
+import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 
 export async function handleApps(
   request: Request,
@@ -107,7 +100,7 @@ export async function handleApps(
   const additionalHeaders = {
     "cache-control": orgSettings.staticFiles.cacheControl,
     ...corsHeaders(request, orgSettings),
-    ...foundryVersion(),
+    ...baseplateVersion(),
   };
   for (let additionalHeader in additionalHeaders) {
     finalResponse.headers.set(

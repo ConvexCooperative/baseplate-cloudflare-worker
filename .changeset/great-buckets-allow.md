@@ -1,5 +1,5 @@
 ---
-"single-spa-foundry-worker": patch
+"baseplate-cloudflare-worker": patch
 ---
 
-added foundry-version header to all HTTP responses
+added baseplate-version header to all HTTP responses

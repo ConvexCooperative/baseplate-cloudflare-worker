@@ -29,7 +29,7 @@ jobs:
   deploy-dev:
     needs: test
     if: github.ref == 'refs/heads/main'
-    uses: JustUtahCoders/single-spa-foundry-worker/.github/workflows/deploy.yaml@main
+    uses: JustUtahCoders/baseplate-cloudflare-worker/.github/workflows/deploy.yaml@main
     with:
       envName: dev
     secrets:
@@ -38,7 +38,7 @@ jobs:
   deploy-test:
     needs: deploy-dev
     if: github.ref == 'refs/heads/main'
-    uses: JustUtahCoders/single-spa-foundry-worker/.github/workflows/deploy.yaml@main
+    uses: JustUtahCoders/baseplate-cloudflare-worker/.github/workflows/deploy.yaml@main
     with:
       envName: test
     secrets:
@@ -47,7 +47,7 @@ jobs:
   deploy-prod:
     needs: deploy-test
     if: github.ref == 'refs/heads/main'
-    uses: JustUtahCoders/single-spa-foundry-worker/.github/workflows/deploy.yaml@main
+    uses: JustUtahCoders/baseplate-cloudflare-worker/.github/workflows/deploy.yaml@main
     with:
       envName: prod
     secrets:

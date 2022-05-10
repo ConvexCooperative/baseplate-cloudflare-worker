@@ -1,5 +1,5 @@
 name = "cdn"
-account_id = '4e3c47217c0159e8dfb0da2f736bf59f'
+account_id = '2ebd873bcedc1f859e972e90f72ed22b'
 type = "webpack"
 route = ''
 zone_id = ''
@@ -8,11 +8,11 @@ compatibility_flags = []
 compatibility_date = "2022-03-15"
 webpack_config = "webpack.config.cjs"
 kv_namespaces = [ 
-  { binding = "MAIN_KV", preview_id = "44604b1242bb4fb3ab5bd7805bd37da1", id= "2ff77f2cdf2348049659b8e8084773cf" },
+  { binding = "MAIN_KV", preview_id = "0242d53e756f415a8d66466ceda8279d", id= "746fa4dc493f4cd8b8a96b851ab6ab05" },
 ]
 workers_dev = true
 [vars]
-FOUNDRY_ENV = "prod"
+BASEPLATE_ENV = "prod"
 # [secrets]
 # S3_PROXY_REGION
 # S3_PROXY_ACCESS_KEY_ID
@@ -21,15 +21,15 @@ FOUNDRY_ENV = "prod"
 [env.dev]
 workers_dev = true
 kv_namespaces = [ 
-  { binding = "MAIN_KV", preview_id = "f94ad3b9def34b51bd20677f6264c6d3", id= "a048040130494df881efc89784aa3d69" },
+  { binding = "MAIN_KV", preview_id = "b5dc1ec8cc594add87b651639a11c23c", id= "fa293f82dee74c298e6156f9eb6ce15e" },
 ]
 [env.dev.vars]
-FOUNDRY_ENV = "dev"
+BASEPLATE_ENV = "dev"
 
 [env.test]
 workers_dev = true
 kv_namespaces = [ 
-  { binding = "MAIN_KV", preview_id = "0094ff00faf944b29ea2285756dca341", id= "3843295ae4004f2db131aa7ecda3d005" },
+  { binding = "MAIN_KV", preview_id = "7b65b182bacd458e8a0f76aad7dd064d", id= "fb6b711cd9bf403a9db725c4a0fceb5b" },
 ]
 [env.test.vars]
-FOUNDRY_ENV = "test"
+BASEPLATE_ENV = "test"

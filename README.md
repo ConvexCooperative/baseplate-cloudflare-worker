@@ -1,10 +1,10 @@
-# single-spa-foundry-worker
+# baseplate-cloudflare-worker
 
 ## Local Development
 
 ### One-time setup
 
-1. Ask for an invite to the Foundry cloudflare worker. Accept the invite, create a Cloudflare account.
+1. Ask for an invite to the Baseplate cloudflare worker. Accept the invite, create a Cloudflare account.
 1. Install [Wrangler CLI](https://developers.cloudflare.com/workers/cli-wrangler/install-update) globally `npm i @cloudflare/wrangler -g`
 1. `wrangler login`
 1. Clone the github repo

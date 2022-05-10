@@ -6,15 +6,12 @@ import { merge } from "lodash-es";
 
 let mocks = {};
 
-global.FOUNDRY_ENV = "prod";
-global.FOUNDRY_MFE_HOST = "https://example.com/";
+global.BASEPLATE_ENV = "prod";
 global.S3_PROXY_REGION = "us-west-2";
 global.S3_PROXY_ACCESS_KEY_ID = "sdflsadfa";
 global.S3_PROXY_SECRET_ACCESS_KEY = "fasouwqeor";
 
 beforeEach(() => {
-  global.FOUNDRY_MFE_HOST = "https://cdn.single-spa-foundry.com/apps/";
-
   mocks = {};
 
   const mainKv: MockCloudflareKV = {
@@ -53,8 +50,7 @@ beforeEach(() => {
   });
 
   global.MAIN_KV = mainKv;
-  global.FOUNDRY_ENV = "prod";
-  global.FOUNDRY_MFE_HOST = "https://example.com/";
+  global.BASEPLATE_ENV = "prod";
 });
 
 export interface MockCloudflareKV {

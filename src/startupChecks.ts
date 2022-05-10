@@ -1,4 +1,4 @@
-const requiredEnvVariables = ["FOUNDRY_ENV"];
+const requiredEnvVariables = ["BASEPLATE_ENV"];
 
 export function startupChecks() {
   requiredEnvVariables.forEach((envVarName) => {
