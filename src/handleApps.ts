@@ -28,7 +28,7 @@ export async function handleApps(
     return internalErrorResponse(request, orgSettings);
   }
 
-  const proxyHost = getMicrofrontendProxyHost(proxySettings);
+  const proxyHost = proxySettings.host;
 
   if (!proxyHost) {
     console.error(
@@ -117,12 +117,6 @@ function getMicrofrontendProxySettings(
   customerEnv: string
 ): StaticFileProxySettings {
   return orgSettings.staticFiles.microfrontendProxy.environments[customerEnv];
-}
-
-function getMicrofrontendProxyHost(
-  envSettings: StaticFileProxySettings
-): string {
-  return envSettings.customHost;
 }
 
 interface Params {

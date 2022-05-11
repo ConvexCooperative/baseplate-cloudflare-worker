@@ -1,7 +1,7 @@
 import "isomorphic-fetch";
 import { jest } from "@jest/globals";
 import { MockInstance } from "jest-mock";
-import { OrgSettings } from "./getOrgSettings";
+import { OrgSettings } from "@baseplate-sdk/utils";
 import { merge } from "lodash-es";
 
 let mocks = {};
@@ -35,8 +35,8 @@ beforeEach(() => {
           microfrontendProxy: {
             environments: {
               __main__: {
-                useFoundryHosting: false,
-                customHost: "https://cdn.baseplate.cloud/",
+                useBaseplateHosting: false,
+                host: "https://cdn.baseplate.cloud/",
               },
             },
           },

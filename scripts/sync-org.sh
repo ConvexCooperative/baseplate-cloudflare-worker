@@ -8,7 +8,7 @@ fi
 
 sync_env () {
   echo "Syncing ${@:2}"
-  pnpm exec wrangler kv:key put org-settings-$1 '{"orgExists": true, "staticFiles": {"microfrontendProxy": {"environments": {"__main__": {"customHost": "s3://public-web-files-juc/", "useBaseplateHosting": true}}}}}' --binding MAIN_KV ${@:2}
+  pnpm exec wrangler kv:key put org-settings-$1 '{"orgExists": true, "staticFiles": {"microfrontendProxy": {"environments": {"__main__": {"host": "s3://public-web-files-juc/", "useBaseplateHosting": true}}}}}' --binding MAIN_KV ${@:2}
   pnpm exec wrangler kv:key put import-map-$1-__main__-systemjs '{"imports": {"react": "https://cdn.baseplate.cloud/react.js"}, "scopes": {}}' --binding MAIN_KV ${@:2}
 }
 

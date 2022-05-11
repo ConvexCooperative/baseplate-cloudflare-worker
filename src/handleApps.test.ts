@@ -52,7 +52,7 @@ describe(`handleApps`, () => {
           environments: {
             __main__: {
               useBaseplateHosting: false,
-              customHost: "https://cdn.walmart.com/",
+              host: "https://cdn.walmart.com/",
             },
           },
         },
@@ -183,8 +183,8 @@ describe(`handleApps`, () => {
         microfrontendProxy: {
           environments: {
             __main__: {
-              useFoundryHosting: false,
-              customHost: "s3://example",
+              useBaseplateHosting: false,
+              host: "s3://example",
             },
           },
         },
