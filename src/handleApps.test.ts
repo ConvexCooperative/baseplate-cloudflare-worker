@@ -51,7 +51,7 @@ describe(`handleApps`, () => {
           environments: {
             __main__: {
               useBaseplateHosting: false,
-              customHost: "https://cdn.walmart.com/",
+              host: "https://cdn.walmart.com/",
             },
           },
         },
