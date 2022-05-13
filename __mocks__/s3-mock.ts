@@ -5,4 +5,9 @@ export class S3Client {
     this.send = sendMock;
   }
 }
-export class GetObjectCommand {}
+export class GetObjectCommand {
+  constructor(opts) {
+    this.Bucket = opts.Bucket;
+    this.Key = opts.Key;
+  }
+}

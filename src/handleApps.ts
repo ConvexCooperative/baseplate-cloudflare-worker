@@ -42,7 +42,7 @@ export async function handleApps(
   let finalResponse;
 
   if (proxyUrl.protocol === "s3:") {
-    const Bucket = proxyHost.replace("s3://", "").slice(0, -1);
+    const Bucket = proxyHost.replace("s3://", "");
     const Key = params.pathParts.join("/");
 
     const s3Client = new S3Client({
