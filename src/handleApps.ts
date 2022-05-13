@@ -31,10 +31,10 @@ export async function handleApps(
   let s3ClientOptions;
   if (proxySettings.useBaseplateHosting) {
     s3ClientOptions = {
-      region: proxySettings.aws.region,
+      region: proxySettings.aws?.region,
       credentials: {
-        accessKeyId: proxySettings.aws.accessKeyId,
-        secretAccessKey: proxySettings.aws.secretAccessKey,
+        accessKeyId: proxySettings.aws?.accessKeyId,
+        secretAccessKey: proxySettings.aws?.secretAccessKey,
       },
     };
   } else {
