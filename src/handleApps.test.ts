@@ -1,7 +1,8 @@
-import { jest } from "@jest/globals";
+import { expect, jest } from "@jest/globals";
 import { OrgSettings } from "@baseplate-sdk/utils";
 import { handleApps } from "./handleApps";
 import { MockCloudflareKV } from "./setupTests";
+import { sendMock } from "@aws-sdk/client-s3";
 
 describe(`handleApps`, () => {
   let response: Response,
@@ -39,7 +40,7 @@ describe(`handleApps`, () => {
 
     expect(mockFetch).toHaveBeenCalledTimes(1);
     expect((mockFetch.mock.calls[0][0] as Request).url).toBe(
-      "undefinednavbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
+      "https://cdn.baseplate.cloud/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
     );
   });
 
@@ -173,6 +174,89 @@ describe(`handleApps`, () => {
     expect(response.headers.get("cache-control")).toBe(
       "public, max-age=31536000, immutable"
     );
+  });
+
+  it(`can retrieve a file from s3`, async () => {
+    const orgSettings: RecursivePartial<OrgSettings> = {
+      orgExists: true,
+      staticFiles: {
+        microfrontendProxy: {
+          environments: {
+            __main__: {
+              useBaseplateHosting: false,
+              host: "s3://example",
+            },
+          },
+        },
+      },
+    };
+
+    (global.MAIN_KV as MockCloudflareKV).mockKv({
+      "org-settings-walmart": orgSettings,
+    });
+
+    sendMock.mockReturnValueOnce(
+      Promise.resolve({
+        Body: "var a = 1",
+        ContentType: "application/javascript",
+      })
+    );
+
+    response = await handleApps(
+      new Request("https://cdn.baseplate.cloud/walmart/apps/example.js"),
+      {
+        orgKey: "walmart",
+        customerEnv: "__main__",
+        pathParts: ["example.js"],
+      }
+    );
+    let responseBody = await response.text();
+
+    expect(response.ok).toBe(true);
+    expect(response.headers.get("content-type")).toEqual(
+      "application/javascript"
+    );
+    expect(responseBody).toEqual("var a = 1");
+    expect(sendMock).toHaveBeenCalled();
+    expect(sendMock.mock.calls[0][0].Bucket).toEqual("example");
+    expect(sendMock.mock.calls[0][0].Key).toEqual("example.js");
+  });
+
+  it(`receives the correct 404 response if a file is not found in s3`, async () => {
+    const orgSettings: RecursivePartial<OrgSettings> = {
+      orgExists: true,
+      staticFiles: {
+        microfrontendProxy: {
+          environments: {
+            __main__: {
+              useBaseplateHosting: false,
+              host: "s3://example",
+            },
+          },
+        },
+      },
+    };
+
+    (global.MAIN_KV as MockCloudflareKV).mockKv({
+      "org-settings-walmart": orgSettings,
+    });
+
+    sendMock.mockImplementationOnce(() => {
+      const err = Error();
+      err.Code = "NoSuchKey";
+      throw err;
+    });
+
+    response = await handleApps(
+      new Request("https://cdn.baseplate.cloud/walmart/apps/example.js"),
+      {
+        orgKey: "walmart",
+        customerEnv: "__main__",
+        pathParts: ["example.js"],
+      }
+    );
+
+    expect(response.status).toBe(404);
   });
 });
 
