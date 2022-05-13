@@ -222,7 +222,7 @@ describe(`handleApps`, () => {
     expect(sendMock.mock.calls[0][0].Key).toEqual("example.js");
   });
 
-  it(`recieves the correct 404 response if a file is not found in s3`, async () => {
+  it(`receives the correct 404 response if a file is not found in s3`, async () => {
     const orgSettings: RecursivePartial<OrgSettings> = {
       orgExists: true,
       staticFiles: {
