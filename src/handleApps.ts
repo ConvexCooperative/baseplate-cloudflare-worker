@@ -38,11 +38,17 @@ export async function handleApps(
       },
     };
   } else {
+    if (!proxySettings.aws) {
+      console.error(
+        `Org ${params.orgKey} doesn't have custom AWS credentials set in KV org settings, but is using custom s3 hosting`
+      );
+      return internalErrorResponse(request, orgSettings);
+    }
     s3ClientOptions = {
-      region: proxySettings.aws?.region,
+      region: proxySettings.aws.region,
       credentials: {
-        accessKeyId: proxySettings.aws?.accessKeyId,
-        secretAccessKey: proxySettings.aws?.secretAccessKey,
+        accessKeyId: proxySettings.aws.accessKeyId,
+        secretAccessKey: proxySettings.aws.secretAccessKey,
       },
     };
   }
