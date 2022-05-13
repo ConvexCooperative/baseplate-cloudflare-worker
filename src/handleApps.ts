@@ -61,10 +61,16 @@ export async function handleApps(
   let finalResponse;
 
   if (proxyUrl.protocol === "s3:") {
-    const Bucket = proxyHost.replace("s3://", "").slice(0, -1);
+    const Bucket = proxyHost.replace("s3://", "");
     const Key = params.pathParts.join("/");
 
-    const s3Client = new S3Client(s3ClientOptions);
+    const s3Client = new S3Client({
+      region: S3_PROXY_REGION,
+      credentials: {
+        accessKeyId: S3_PROXY_ACCESS_KEY_ID,
+        secretAccessKey: S3_PROXY_SECRET_ACCESS_KEY,
+      },
+    });
     let s3Response;
     try {
       s3Response = await s3Client.send(

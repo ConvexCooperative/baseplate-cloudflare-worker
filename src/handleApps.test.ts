@@ -217,6 +217,46 @@ describe(`handleApps`, () => {
       "application/javascript"
     );
     expect(responseBody).toEqual("var a = 1");
+    expect(sendMock).toHaveBeenCalled();
+    expect(sendMock.mock.calls[0][0].Bucket).toEqual("example");
+    expect(sendMock.mock.calls[0][0].Key).toEqual("example.js");
+  });
+
+  it(`receives the correct 404 response if a file is not found in s3`, async () => {
+    const orgSettings: RecursivePartial<OrgSettings> = {
+      orgExists: true,
+      staticFiles: {
+        microfrontendProxy: {
+          environments: {
+            __main__: {
+              useBaseplateHosting: false,
+              host: "s3://example",
+            },
+          },
+        },
+      },
+    };
+
+    (global.MAIN_KV as MockCloudflareKV).mockKv({
+      "org-settings-walmart": orgSettings,
+    });
+
+    sendMock.mockImplementationOnce(() => {
+      const err = Error();
+      err.Code = "NoSuchKey";
+      throw err;
+    });
+
+    response = await handleApps(
+      new Request("https://cdn.baseplate.cloud/walmart/apps/example.js"),
+      {
+        orgKey: "walmart",
+        customerEnv: "__main__",
+        pathParts: ["example.js"],
+      }
+    );
+
+    expect(response.status).toBe(404);
   });
 });
 
