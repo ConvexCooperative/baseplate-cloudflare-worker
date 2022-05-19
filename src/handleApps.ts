@@ -3,6 +3,7 @@ import { baseplateVersion } from "./baseplateVersion";
 import { OrgSettings, StaticFileProxySettings } from "@baseplate-sdk/utils";
 import { getOrgSettings } from "./getOrgSettings";
 import { notFoundResponse, internalErrorResponse } from "./responseUtils";
+import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 
 export async function handleApps(
   request: Request,
@@ -35,14 +36,67 @@ export async function handleApps(
     );
   }
 
-  const proxyUrl = proxyHost + params.pathParts.join("/") + requestUrl.search;
+  const proxyUrlStr =
+    proxyHost + params.pathParts.join("/") + requestUrl.search;
+  const proxyUrl = new URL(proxyUrlStr);
+  let finalResponse;
 
-  const proxyRequest = new Request(proxyUrl, request);
-  proxyRequest.headers.set("Origin", requestUrl.origin);
+  if (proxyUrl.protocol === "s3:") {
+    const Bucket = proxyHost.replace("s3://", "");
+    const Key = params.pathParts.join("/");
 
-  const proxyResponse = await fetch(proxyRequest);
+    const s3Client = new S3Client({
+      region: S3_PROXY_REGION,
+      credentials: {
+        accessKeyId: S3_PROXY_ACCESS_KEY_ID,
+        secretAccessKey: S3_PROXY_SECRET_ACCESS_KEY,
+      },
+    });
+    let s3Response;
+    try {
+      s3Response = await s3Client.send(
+        new GetObjectCommand({
+          Bucket,
+          Key,
+        })
+      );
+    } catch (e) {
+      if (e.Code === "NoSuchKey") {
+        return notFoundResponse(request, orgSettings);
+      } else {
+        console.error(e);
+        console.error(e.message);
+        console.error(e.stack);
+        return internalErrorResponse(request, orgSettings);
+      }
+    }
 
-  const finalResponse = new Response(proxyResponse.body, proxyResponse);
+    const finalHeaders = {
+      "content-type": s3Response.ContentType,
+      etag: s3Response.ETag,
+      "content-disposition": s3Response.ContentDisposition,
+      "cache-control": s3Response.CacheControl,
+      "content-encoding": s3Response.ContentEncoding,
+      expires: s3Response.Expires,
+      "last-modified": s3Response.LastModified,
+    };
+    // Not all s3 objects have every header
+    // so we need to delete the ones that don't apply to this object
+    for (let headerName in finalHeaders) {
+      if (!finalHeaders[headerName]) {
+        delete finalHeaders[headerName];
+      }
+    }
+
+    finalResponse = new Response(s3Response.Body, { headers: finalHeaders });
+  } else {
+    const proxyRequest = new Request(proxyUrlStr, request);
+    proxyRequest.headers.set("Origin", requestUrl.origin);
+    const proxyResponse = await fetch(proxyRequest);
+
+    finalResponse = new Response(proxyResponse.body, proxyResponse);
+  }
+
   const additionalHeaders = {
     "cache-control": orgSettings.staticFiles.cacheControl,
     ...corsHeaders(request, orgSettings),

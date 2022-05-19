@@ -1,12 +1,15 @@
 import "isomorphic-fetch";
 import { jest } from "@jest/globals";
 import { MockInstance } from "jest-mock";
-import { OrgSettings } from "./getOrgSettings";
+import { OrgSettings } from "@baseplate-sdk/utils";
 import { merge } from "lodash-es";
 
 let mocks = {};
 
 global.BASEPLATE_ENV = "prod";
+global.S3_PROXY_REGION = "us-west-2";
+global.S3_PROXY_ACCESS_KEY_ID = "sdflsadfa";
+global.S3_PROXY_SECRET_ACCESS_KEY = "fasouwqeor";
 
 beforeEach(() => {
   mocks = {};
@@ -29,9 +32,13 @@ beforeEach(() => {
       const orgSettings: Partial<OrgSettings> = {
         orgExists: true,
         staticFiles: {
+          cacheControl: "public, max-age 50000",
           microfrontendProxy: {
             environments: {
-              prod: "https://example.com/",
+              prod: {
+                useBaseplateHosting: false,
+                host: "https://cdn.baseplate.cloud/",
+              },
             },
           },
         },
