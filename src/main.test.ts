@@ -13,7 +13,7 @@ describe("main handle request", () => {
     };
 
     (global.MAIN_KV as MockCloudflareKV).mockKv({
-      "import-map-walmart-__main__-systemjs": importMap,
+      "import-map-walmart-prod-systemjs": importMap,
     });
 
     let response = await handleRequest(
@@ -24,9 +24,7 @@ describe("main handle request", () => {
     expect(await response.json()).toEqual(importMap);
 
     response = await handleRequest(
-      new Request(
-        "https://cdn.baseplate.cloud/walmart/__main__/systemjs.importmap"
-      )
+      new Request("https://cdn.baseplate.cloud/walmart/prod/systemjs.importmap")
     );
 
     expect(response.status).toBe(404);
@@ -42,7 +40,7 @@ describe("main handle request", () => {
     };
 
     (global.MAIN_KV as MockCloudflareKV).mockKv({
-      "import-map-walmart-__main__-systemjs": importMap,
+      "import-map-walmart-prod-systemjs": importMap,
     });
 
     let response = await handleRequest(
@@ -52,9 +50,7 @@ describe("main handle request", () => {
     expect(response.status).toBe(404);
 
     response = await handleRequest(
-      new Request(
-        "https://cdn.baseplate.cloud/walmart/__main__/systemjs.importmap"
-      )
+      new Request("https://cdn.baseplate.cloud/walmart/prod/systemjs.importmap")
     );
 
     expect(response.status).toBe(200);
@@ -71,7 +67,7 @@ describe("main handle request", () => {
     };
 
     (global.MAIN_KV as MockCloudflareKV).mockKv({
-      "import-map-walmart-__main__-systemjs": importMap,
+      "import-map-walmart-prod-systemjs": importMap,
     });
 
     let response = await handleRequest(
@@ -82,9 +78,7 @@ describe("main handle request", () => {
     expect(await response.json()).toEqual(importMap);
 
     response = await handleRequest(
-      new Request(
-        "https://cdn.baseplate.cloud/walmart/__main__/systemjs.importmap"
-      )
+      new Request("https://cdn.baseplate.cloud/walmart/prod/systemjs.importmap")
     );
 
     expect(response.status).toBe(200);

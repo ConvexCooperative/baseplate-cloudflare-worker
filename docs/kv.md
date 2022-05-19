@@ -18,7 +18,7 @@ This is required.
 
 This is required.
 
-`customerEnv` defaults to `__main__`.
+`customerEnv` defaults to `prod`.
 
 ```json
 {

@@ -74,7 +74,7 @@ export async function handleRequest(request: Request) {
 
   if (routeHandler && matchResult) {
     const params = {
-      customerEnv: "__main__",
+      customerEnv: "prod",
       ...matchResult.params,
     };
     return routeHandler(request, params);

@@ -31,7 +31,7 @@ beforeEach(() => {
         staticFiles: {
           microfrontendProxy: {
             environments: {
-              __main__: "https://example.com/",
+              prod: "https://example.com/",
             },
           },
         },

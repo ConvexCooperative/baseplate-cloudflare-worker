@@ -28,7 +28,7 @@ describe(`handleApps`, () => {
       ),
       {
         orgKey: "walmart",
-        customerEnv: "__main__",
+        customerEnv: "prod",
         pathParts: [
           "navbar",
           "c1a777c770ee187cebedd0724653c771495f2af9",
@@ -49,7 +49,7 @@ describe(`handleApps`, () => {
       staticFiles: {
         microfrontendProxy: {
           environments: {
-            __main__: {
+            prod: {
               useBaseplateHosting: false,
               host: "https://cdn.walmart.com/",
             },
@@ -73,7 +73,7 @@ describe(`handleApps`, () => {
       ),
       {
         orgKey: "walmart",
-        customerEnv: "__main__",
+        customerEnv: "prod",
         pathParts: [
           "navbar",
           "c1a777c770ee187cebedd0724653c771495f2af9",
@@ -108,7 +108,7 @@ describe(`handleApps`, () => {
       ),
       {
         orgKey: "walmart",
-        customerEnv: "__main__",
+        customerEnv: "prod",
         pathParts: [
           "navbar",
           "c1a777c770ee187cebedd0724653c771495f2af9",
@@ -134,7 +134,7 @@ describe(`handleApps`, () => {
       ),
       {
         orgKey: "walmart",
-        customerEnv: "__main__",
+        customerEnv: "prod",
         pathParts: [
           "navbar",
           "c1a777c770ee187cebedd0724653c771495f2af9",
@@ -160,7 +160,7 @@ describe(`handleApps`, () => {
       ),
       {
         orgKey: "walmart",
-        customerEnv: "__main__",
+        customerEnv: "prod",
         pathParts: [
           "navbar",
           "c1a777c770ee187cebedd0724653c771495f2af9",
