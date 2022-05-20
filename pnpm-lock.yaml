@@ -1,11 +1,11 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 specifiers:
   '@aws-sdk/client-s3': ^3.88.0
   '@babel/core': ^7.17.10
   '@babel/eslint-parser': ^7.17.0
   '@babel/preset-typescript': ^7.16.7
-  '@baseplate-sdk/utils': ^3.0.0
+  '@baseplate-sdk/utils': ^3.1.2
   '@changesets/changelog-github': ^0.4.4
   '@changesets/cli': ^2.22.0
   '@cloudflare/workers-types': ^3.10.0
@@ -32,12 +32,12 @@ specifiers:
 
 dependencies:
   '@aws-sdk/client-s3': 3.88.0
-  '@baseplate-sdk/utils': 3.0.0
+  '@baseplate-sdk/utils': 3.1.2
   path-to-regexp: 6.2.1
 
 devDependencies:
   '@babel/core': 7.17.10
-  '@babel/eslint-parser': 7.17.0_035b3d23fd8620ffc8b252e0ab28a400
+  '@babel/eslint-parser': 7.17.0_annt2i75qyqp7sfsklqkwkfeaa
   '@babel/preset-typescript': 7.16.7_@babel+core@7.17.10
   '@changesets/changelog-github': 0.4.4
   '@changesets/cli': 2.22.0
@@ -51,7 +51,7 @@ devDependencies:
   cross-env: 7.0.3
   eslint: 8.15.0
   eslint-config-ts-important-stuff: 1.1.0
-  fork-ts-checker-webpack-plugin: 6.4.0_eslint@8.15.0+typescript@4.6.4
+  fork-ts-checker-webpack-plugin: 6.4.0_hcfsmds2fshutdssjqluwm76uu
   husky: 8.0.1
   isomorphic-fetch: 3.0.0
   jest: 28.1.0
@@ -967,7 +967,7 @@ packages:
       - supports-color
     dev: true
 
-  /@babel/eslint-parser/7.17.0_035b3d23fd8620ffc8b252e0ab28a400:
+  /@babel/eslint-parser/7.17.0_annt2i75qyqp7sfsklqkwkfeaa:
     resolution: {integrity: sha512-PUEJ7ZBXbRkbq3qqM/jZ2nIuakUBqCYc7Qf52Lj7dlZ6zERnqisdHioL0l4wwQZnmskMeasqUNzLBFKs3nylXA==}
     engines: {node: ^10.13.0 || ^12.13.0 || >=14.0.0}
     peerDependencies:
@@ -1360,8 +1360,8 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
-  /@baseplate-sdk/utils/3.0.0:
-    resolution: {integrity: sha512-vUMB7dfZw7ZimD4KEsvFjSlBoGfbyYdQ5k73RAXU8X3jgxRXolGGGBvgSRYkIpLgVF74Id4LCbGsa0kpft8MBQ==}
+  /@baseplate-sdk/utils/3.1.2:
+    resolution: {integrity: sha512-NX7s37lAiEn4fQAAnVHNKBB7LI1IBRfvbETHkqkTVbNOFNj0MEJSE7+33NtTkOyzYfdbeJjNqR2Av1Tn11QGXg==}
     dependencies:
       lodash-es: 4.17.21
     dev: false
@@ -3313,7 +3313,7 @@ packages:
         optional: true
     dev: true
 
-  /fork-ts-checker-webpack-plugin/6.4.0_eslint@8.15.0+typescript@4.6.4:
+  /fork-ts-checker-webpack-plugin/6.4.0_hcfsmds2fshutdssjqluwm76uu:
     resolution: {integrity: sha512-3I3wFkc4DbzaUDPWEi96wdYGu4EKtxBafhZYm0o4mX51d9bphAY4P3mBl8K5mFXFJqVzHfmdbm9kLGnm7vwwBg==}
     engines: {node: '>=10', yarn: '>=1.0.0'}
     peerDependencies:
@@ -4371,7 +4371,7 @@ packages:
   /jsonfile/4.0.0:
     resolution: {integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=}
     optionalDependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.8
     dev: true
 
   /jsonfile/6.1.0:
@@ -4379,7 +4379,7 @@ packages:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.9
     dev: true
 
   /kind-of/6.0.3:

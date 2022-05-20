@@ -29,7 +29,7 @@ describe(`handleApps`, () => {
       ),
       {
         orgKey: "walmart",
-        customerEnv: "__main__",
+        customerEnv: "prod",
         pathParts: [
           "navbar",
           "c1a777c770ee187cebedd0724653c771495f2af9",
@@ -50,7 +50,7 @@ describe(`handleApps`, () => {
       staticFiles: {
         microfrontendProxy: {
           environments: {
-            __main__: {
+            prod: {
               useBaseplateHosting: false,
               host: "https://cdn.walmart.com/",
             },
@@ -74,7 +74,7 @@ describe(`handleApps`, () => {
       ),
       {
         orgKey: "walmart",
-        customerEnv: "__main__",
+        customerEnv: "prod",
         pathParts: [
           "navbar",
           "c1a777c770ee187cebedd0724653c771495f2af9",
@@ -109,7 +109,7 @@ describe(`handleApps`, () => {
       ),
       {
         orgKey: "walmart",
-        customerEnv: "__main__",
+        customerEnv: "prod",
         pathParts: [
           "navbar",
           "c1a777c770ee187cebedd0724653c771495f2af9",
@@ -135,7 +135,7 @@ describe(`handleApps`, () => {
       ),
       {
         orgKey: "walmart",
-        customerEnv: "__main__",
+        customerEnv: "prod",
         pathParts: [
           "navbar",
           "c1a777c770ee187cebedd0724653c771495f2af9",
@@ -161,7 +161,7 @@ describe(`handleApps`, () => {
       ),
       {
         orgKey: "walmart",
-        customerEnv: "__main__",
+        customerEnv: "prod",
         pathParts: [
           "navbar",
           "c1a777c770ee187cebedd0724653c771495f2af9",
@@ -171,9 +171,7 @@ describe(`handleApps`, () => {
     );
 
     expect(response.status).toBe(200);
-    expect(response.headers.get("cache-control")).toBe(
-      "public, max-age=31536000, immutable"
-    );
+    expect(response.headers.get("cache-control")).toBe("public, max-age=50000");
   });
 
   it(`can retrieve a file from s3`, async () => {
