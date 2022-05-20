@@ -171,9 +171,7 @@ describe(`handleApps`, () => {
     );
 
     expect(response.status).toBe(200);
-    expect(response.headers.get("cache-control")).toBe(
-      "public, max-age=31536000, immutable"
-    );
+    expect(response.headers.get("cache-control")).toBe("public, max-age=50000");
   });
 
   it(`can retrieve a file from s3`, async () => {

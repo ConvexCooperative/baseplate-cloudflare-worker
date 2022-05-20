@@ -32,7 +32,7 @@ beforeEach(() => {
       const orgSettings: Partial<OrgSettings> = {
         orgExists: true,
         staticFiles: {
-          cacheControl: "public, max-age 50000",
+          cacheControl: "public, max-age=50000",
           microfrontendProxy: {
             environments: {
               prod: {
