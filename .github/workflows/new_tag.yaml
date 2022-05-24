@@ -4,7 +4,6 @@ on:
     types: [published]
 jobs:
   deploy-test:
-    needs: deploy-dev
     uses: JustUtahCoders/baseplate-cloudflare-worker/.github/workflows/deploy.yaml@main
     with:
       envName: test
