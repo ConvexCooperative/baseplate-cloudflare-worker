@@ -1,5 +1,11 @@
 # baseplate-cloudflare-worker
 
+## 2.0.1
+
+### Patch Changes
+
+- [#41](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/41) [`13e044a`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/13e044a1787910710ca25303176beb280ada778a) Thanks [@joeldenning](https://github.com/joeldenning)! - Sample release to test Github workflow
+
 ## 2.0.0
 
 ### Major Changes
