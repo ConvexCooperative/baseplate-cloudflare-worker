@@ -34,21 +34,3 @@ jobs:
       envName: dev
     secrets:
       CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-
-  deploy-test:
-    needs: deploy-dev
-    if: github.ref == 'refs/heads/main'
-    uses: JustUtahCoders/baseplate-cloudflare-worker/.github/workflows/deploy.yaml@main
-    with:
-      envName: test
-    secrets:
-      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-
-  deploy-prod:
-    needs: deploy-test
-    if: github.ref == 'refs/heads/main'
-    uses: JustUtahCoders/baseplate-cloudflare-worker/.github/workflows/deploy.yaml@main
-    with:
-      envName: prod
-    secrets:
-      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
