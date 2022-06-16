@@ -4,11 +4,15 @@ import { OrgSettings, StaticFileProxySettings } from "@baseplate-sdk/utils";
 import { getOrgSettings } from "./getOrgSettings";
 import { notFoundResponse, internalErrorResponse } from "./responseUtils";
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+import { RequestLog } from "./logRequests";
 
 export async function handleApps(
   request: Request,
-  params: Params
+  params: Params,
+  requestLog: RequestLog
 ): Promise<Response> {
+  requestLog.microfrontendName = params.pathParts[0];
+
   const orgSettings = await getOrgSettings(params.orgKey);
 
   if (!orgSettings.orgExists) {

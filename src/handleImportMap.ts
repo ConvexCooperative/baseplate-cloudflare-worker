@@ -3,16 +3,15 @@ import { internalErrorResponse, notFoundResponse } from "./responseUtils";
 import { isPlainObject } from "lodash-es";
 import { corsHeaders } from "./cors";
 import { baseplateVersion } from "./baseplateVersion";
-
-const emptyImportMap: ImportMap = {
-  imports: {},
-  scopes: {},
-};
+import { RequestLog } from "./logRequests";
 
 export async function handleImportMap(
   request: Request,
-  params: Params
+  params: Params,
+  requestLog: RequestLog
 ): Promise<Response> {
+  requestLog.isImportMap = true;
+
   const [orgSettings, importMap] = await Promise.all([
     getOrgSettings(params.orgKey),
     readImportMap(params),

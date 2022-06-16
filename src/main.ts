@@ -4,9 +4,10 @@ import { notFoundResponse } from "./responseUtils";
 import { handleApps } from "./handleApps";
 import { startupChecks } from "./startupChecks";
 import { handleOptions } from "./cors";
+import { logRequest, RequestLog } from "./logRequests";
 
 addEventListener("fetch", (evt: FetchEvent) => {
-  evt.respondWith(handleRequest(evt.request));
+  evt.respondWith(handleRequest(evt));
 });
 
 const prodRouteHandlers: RouteHandlers = {
@@ -48,7 +49,9 @@ startupChecks();
 
 const allowedMethods = ["GET", "HEAD", "OPTIONS"];
 
-export async function handleRequest(request: Request) {
+export async function handleRequest(evt: FetchEvent) {
+  const request = evt.request;
+
   if (request.method === "OPTIONS") {
     return handleOptions(request);
   } else if (!allowedMethods.includes(request.method)) {
@@ -72,15 +75,32 @@ export async function handleRequest(request: Request) {
     }
   }
 
+  let response: Response,
+    requestLog: RequestLog = {
+      customerEnv: "unknown",
+      requestPath: requestUrl.pathname,
+      timestamp: Date.now(),
+      userAgent: request.headers.get("user-agent"),
+      httpStatus: 0,
+    };
+
   if (routeHandler && matchResult) {
     const params = {
       customerEnv: "prod",
+      orgKey: undefined,
       ...matchResult.params,
     };
-    return routeHandler(request, params);
+    requestLog.customerEnv = params.customerEnv;
+    requestLog.orgKey = params.orgKey;
+    response = await routeHandler(request, params, requestLog);
   } else {
-    return notFoundResponse(request);
+    response = await notFoundResponse(request);
   }
+
+  requestLog.httpStatus = response.status;
+
+  evt.waitUntil(logRequest(requestLog));
+  return response;
 }
 
 type RouteMatchers = RouteMatcher[];
@@ -91,4 +111,8 @@ interface RouteHandlers {
   [path: string]: RouteHandler;
 }
 
-type RouteHandler = (request: Request, params: object) => Promise<Response>;
+type RouteHandler = (
+  request: Request,
+  params: object,
+  requestLog: RequestLog
+) => Promise<Response>;
