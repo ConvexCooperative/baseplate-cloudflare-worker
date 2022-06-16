@@ -3,6 +3,7 @@ import { OrgSettings } from "@baseplate-sdk/utils";
 import { handleApps } from "./handleApps";
 import { MockCloudflareKV } from "./setupTests";
 import { sendMock } from "@aws-sdk/client-s3";
+import { sampleLog } from "./testUtils";
 
 describe(`handleApps`, () => {
   let response: Response,
@@ -35,7 +36,8 @@ describe(`handleApps`, () => {
           "c1a777c770ee187cebedd0724653c771495f2af9",
           "react-mf-navbar.js",
         ],
-      }
+      },
+      sampleLog()
     );
 
     expect(mockFetch).toHaveBeenCalledTimes(1);
@@ -80,7 +82,8 @@ describe(`handleApps`, () => {
           "c1a777c770ee187cebedd0724653c771495f2af9",
           "react-mf-navbar.js",
         ],
-      }
+      },
+      sampleLog()
     );
 
     expect(response.status).toBe(200);
@@ -115,7 +118,8 @@ describe(`handleApps`, () => {
           "c1a777c770ee187cebedd0724653c771495f2af9",
           "react-mf-navbar.js",
         ],
-      }
+      },
+      sampleLog()
     );
 
     expect(response.status).toBe(200);
@@ -141,7 +145,8 @@ describe(`handleApps`, () => {
           "c1a777c770ee187cebedd0724653c771495f2af9",
           "react-mf-navbar.js",
         ],
-      }
+      },
+      sampleLog()
     );
 
     expect(response.status).toBe(200);
@@ -167,7 +172,8 @@ describe(`handleApps`, () => {
           "c1a777c770ee187cebedd0724653c771495f2af9",
           "react-mf-navbar.js",
         ],
-      }
+      },
+      sampleLog()
     );
 
     expect(response.status).toBe(200);
@@ -206,7 +212,8 @@ describe(`handleApps`, () => {
         orgKey: "walmart",
         customerEnv: "__main__",
         pathParts: ["example.js"],
-      }
+      },
+      sampleLog()
     );
     let responseBody = await response.text();
 
@@ -251,7 +258,8 @@ describe(`handleApps`, () => {
         orgKey: "walmart",
         customerEnv: "__main__",
         pathParts: ["example.js"],
-      }
+      },
+      sampleLog()
     );
 
     expect(response.status).toBe(404);

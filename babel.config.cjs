@@ -1,9 +1,16 @@
 /** @type {import('@types/babel__core').TransformOptions} */
 const config = {
-  presets: ["@babel/preset-typescript", "@babel/preset-env"],
+  presets: ["@babel/preset-typescript", ["@babel/preset-env"]],
   env: {
     test: {
-      presets: ["@babel/preset-typescript"],
+      presets: [
+        [
+          "@babel/preset-typescript",
+          {
+            modules: false,
+          },
+        ],
+      ],
     },
   },
 };

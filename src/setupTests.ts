@@ -10,6 +10,11 @@ global.BASEPLATE_ENV = "prod";
 global.S3_PROXY_REGION = "us-west-2";
 global.S3_PROXY_ACCESS_KEY_ID = "sdflsadfa";
 global.S3_PROXY_SECRET_ACCESS_KEY = "fasouwqeor";
+global.TIMESTREAM_REGION = "us-east-1";
+global.TIMESTREAM_ACCESS_KEY_ID = "asdfsdf";
+global.TIMESTREAM_SECRET_ACCESS_KEY = "asdfdsa";
+global.TIMESTREAM_DATABASE = "test";
+global.TIMESTREAM_TABLE = "test";
 
 beforeEach(() => {
   mocks = {};
