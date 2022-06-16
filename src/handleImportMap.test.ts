@@ -1,5 +1,6 @@
 import { handleImportMap, ImportMap } from "./handleImportMap";
 import { MockCloudflareKV } from "./setupTests";
+import { sampleLog } from "./testUtils";
 
 describe(`handleImportMap`, () => {
   it(`returns a valid import map`, async () => {
@@ -17,11 +18,15 @@ describe(`handleImportMap`, () => {
     const request = new Request(
       "https://cdn.example.com/walmart/systemjs.importmap"
     );
-    const response: Response = await handleImportMap(request, {
-      importMapName: "system",
-      orgKey: "juc",
-      customerEnv: "prod",
-    });
+    const response: Response = await handleImportMap(
+      request,
+      {
+        importMapName: "system",
+        orgKey: "juc",
+        customerEnv: "prod",
+      },
+      sampleLog()
+    );
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual(importMap);
   });
@@ -46,11 +51,15 @@ describe(`handleImportMap`, () => {
       "import-map-juc-prod-system": importMap,
     });
     const request = new Request("https://cdn.example.com/systemjs.importmap");
-    const response: Response = await handleImportMap(request, {
-      importMapName: "system",
-      orgKey: "juc",
-      customerEnv: "prod",
-    });
+    const response: Response = await handleImportMap(
+      request,
+      {
+        importMapName: "system",
+        orgKey: "juc",
+        customerEnv: "prod",
+      },
+      sampleLog()
+    );
 
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual(importMapPackagesViaTrailingSlashes);
@@ -62,11 +71,15 @@ describe(`handleImportMap`, () => {
     const request = new Request(
       "https://cdn.example.com/walmart/systemjs.importmap"
     );
-    const response: Response = await handleImportMap(request, {
-      importMapName: "system",
-      orgKey: "juc",
-      customerEnv: "prod",
-    });
+    const response: Response = await handleImportMap(
+      request,
+      {
+        importMapName: "system",
+        orgKey: "juc",
+        customerEnv: "prod",
+      },
+      sampleLog()
+    );
     expect(response.status).toBe(404);
   });
 
@@ -81,11 +94,15 @@ describe(`handleImportMap`, () => {
       },
     });
 
-    const response: Response = await handleImportMap(request, {
-      importMapName: "system",
-      orgKey: "juc",
-      customerEnv: "prod",
-    });
+    const response: Response = await handleImportMap(
+      request,
+      {
+        importMapName: "system",
+        orgKey: "juc",
+        customerEnv: "prod",
+      },
+      sampleLog()
+    );
     expect(response.status).toBe(500);
   });
 
@@ -102,11 +119,15 @@ describe(`handleImportMap`, () => {
       },
     });
 
-    const response: Response = await handleImportMap(request, {
-      importMapName: "system",
-      orgKey: "juc",
-      customerEnv: "prod",
-    });
+    const response: Response = await handleImportMap(
+      request,
+      {
+        importMapName: "system",
+        orgKey: "juc",
+        customerEnv: "prod",
+      },
+      sampleLog()
+    );
     expect(response.status).toBe(500);
   });
 
@@ -124,11 +145,15 @@ describe(`handleImportMap`, () => {
       },
     });
 
-    const response: Response = await handleImportMap(request, {
-      importMapName: "system",
-      orgKey: "juc",
-      customerEnv: "prod",
-    });
+    const response: Response = await handleImportMap(
+      request,
+      {
+        importMapName: "system",
+        orgKey: "juc",
+        customerEnv: "prod",
+      },
+      sampleLog()
+    );
     expect(response.status).toBe(500);
   });
 
@@ -149,11 +174,15 @@ describe(`handleImportMap`, () => {
       },
     });
 
-    const response: Response = await handleImportMap(request, {
-      importMapName: "system",
-      orgKey: "juc",
-      customerEnv: "prod",
-    });
+    const response: Response = await handleImportMap(
+      request,
+      {
+        importMapName: "system",
+        orgKey: "juc",
+        customerEnv: "prod",
+      },
+      sampleLog()
+    );
     expect(response.status).toBe(500);
   });
 
@@ -171,11 +200,15 @@ describe(`handleImportMap`, () => {
     const request = new Request(
       "https://cdn.example.com/walmart/systemjs.importmap"
     );
-    const response: Response = await handleImportMap(request, {
-      importMapName: "system",
-      orgKey: "juc",
-      customerEnv: "prod",
-    });
+    const response: Response = await handleImportMap(
+      request,
+      {
+        importMapName: "system",
+        orgKey: "juc",
+        customerEnv: "prod",
+      },
+      sampleLog()
+    );
     expect(response.status).toBe(200);
     expect(response.headers.get("access-control-allow-origin")).toBe("*");
   });
@@ -195,11 +228,15 @@ describe(`handleImportMap`, () => {
     const request = new Request(
       "https://cdn.example.com/juc/prod/systemjs.importmap"
     );
-    const response: Response = await handleImportMap(request, {
-      importMapName: "system",
-      orgKey: "juc",
-      customerEnv: "prod",
-    });
+    const response: Response = await handleImportMap(
+      request,
+      {
+        importMapName: "system",
+        orgKey: "juc",
+        customerEnv: "prod",
+      },
+      sampleLog()
+    );
 
     expect(response.status).toBe(200);
     expect(response.headers.get("baseplate-version")).toBeTruthy();
