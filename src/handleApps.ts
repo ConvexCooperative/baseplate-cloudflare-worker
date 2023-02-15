@@ -49,11 +49,22 @@ export async function handleApps(
     const Bucket = proxyHost.replace("s3://", "");
     const Key = params.pathParts.join("/");
 
+    const proxySettings =
+      orgSettings.staticFiles.microfrontendProxy.environments[
+        params.customerEnv
+      ];
+
     const s3Client = new S3Client({
-      region: S3_PROXY_REGION,
+      region: proxySettings.useBaseplateHosting
+        ? S3_PROXY_REGION
+        : proxySettings.aws!.region,
       credentials: {
-        accessKeyId: S3_PROXY_ACCESS_KEY_ID,
-        secretAccessKey: S3_PROXY_SECRET_ACCESS_KEY,
+        accessKeyId: proxySettings.useBaseplateHosting
+          ? S3_PROXY_ACCESS_KEY_ID
+          : proxySettings.aws!.accessKeyId,
+        secretAccessKey: proxySettings.useBaseplateHosting
+          ? S3_PROXY_SECRET_ACCESS_KEY
+          : proxySettings.aws!.secretAccessKey,
       },
     });
     let s3Response;
