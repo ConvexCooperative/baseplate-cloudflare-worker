@@ -2,13 +2,14 @@ import { match, MatchFunction, MatchResult } from "path-to-regexp";
 import { handleImportMap } from "./handleImportMap";
 import { notFoundResponse } from "./responseUtils";
 import { handleApps } from "./handleApps";
-import { startupChecks } from "./startupChecks";
 import { handleOptions } from "./cors";
 import { logRequest, RequestLog } from "./logRequests";
 
-addEventListener("fetch", (evt: FetchEvent) => {
-  evt.respondWith(handleRequest(evt));
-});
+const workerHandler: ExportedHandler<EnvVars> = {
+  fetch: handleRequest,
+};
+
+export default workerHandler;
 
 const prodRouteHandlers: RouteHandlers = {
   "/:orgKey/:importMapName.importmap": handleImportMap,
@@ -25,33 +26,30 @@ const devRouteHandlers: RouteHandlers = {
   ...testRouteHandlers,
 };
 
-let routeMatchers: RouteMatchers;
-updateRouteMatchers();
-
-export function updateRouteMatchers() {
+export function getRouteMatchers(env: EnvVars): RouteMatchers {
   let routeHandlers: RouteHandlers;
 
-  if (BASEPLATE_ENV === "dev") {
+  if (env.BASEPLATE_ENV === "dev") {
     routeHandlers = devRouteHandlers;
-  } else if (BASEPLATE_ENV === "test") {
+  } else if (env.BASEPLATE_ENV === "test") {
     routeHandlers = testRouteHandlers;
   } else {
     routeHandlers = prodRouteHandlers;
   }
 
-  routeMatchers = Object.entries(routeHandlers).map(([path, handler]) => [
+  return Object.entries(routeHandlers).map(([path, handler]) => [
     match(path),
     handler,
   ]);
 }
 
-startupChecks();
-
 const allowedMethods = ["GET", "HEAD", "OPTIONS"];
 
-export async function handleRequest(evt: FetchEvent) {
-  const request = evt.request;
-
+export async function handleRequest(
+  request: Request,
+  env: EnvVars,
+  context: ExecutionContext
+) {
   if (request.method === "OPTIONS") {
     return handleOptions(request);
   } else if (!allowedMethods.includes(request.method)) {
@@ -63,6 +61,7 @@ export async function handleRequest(evt: FetchEvent) {
   let routeHandler: RouteHandler | undefined,
     matchResult: MatchResult | false = false;
 
+  const routeMatchers = getRouteMatchers(env);
   // Find which route handler to call for this request
   // We don't have express to do this automatically for us, but are
   // using path-to-regexp which is what express uses under the hood
@@ -92,14 +91,14 @@ export async function handleRequest(evt: FetchEvent) {
     };
     requestLog.customerEnv = params.customerEnv;
     requestLog.orgKey = params.orgKey;
-    response = await routeHandler(request, params, requestLog);
+    response = await routeHandler(request, params, requestLog, env);
   } else {
     response = await notFoundResponse(request);
   }
 
   requestLog.httpStatus = response.status;
 
-  evt.waitUntil(logRequest(requestLog));
+  context.waitUntil(logRequest(requestLog, env));
   return response;
 }
 
@@ -114,5 +113,16 @@ interface RouteHandlers {
 type RouteHandler = (
   request: Request,
   params: object,
-  requestLog: RequestLog
+  requestLog: RequestLog,
+  env: EnvVars
 ) => Promise<Response>;
+
+export interface EnvVars {
+  BASEPLATE_ENV: "dev" | "test" | "prod";
+  AWS_REGION: string;
+  AWS_ACCESS_KEY_ID: string;
+  AWS_SECRET_ACCESS_KEY: string;
+  TIMESTREAM_DATABASE: string;
+  TIMESTREAM_TABLE: string;
+  MAIN_KV: KVNamespace;
+}

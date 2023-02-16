@@ -5,15 +5,17 @@ import { getOrgSettings } from "./getOrgSettings";
 import { notFoundResponse, internalErrorResponse } from "./responseUtils";
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 import { RequestLog } from "./logRequests";
+import { EnvVars } from "./main";
 
 export async function handleApps(
   request: Request,
   params: Params,
-  requestLog: RequestLog
+  requestLog: RequestLog,
+  env: EnvVars
 ): Promise<Response> {
   requestLog.microfrontendName = params.pathParts[0];
 
-  const orgSettings = await getOrgSettings(params.orgKey);
+  const orgSettings = await getOrgSettings(params.orgKey, env);
 
   if (!orgSettings.orgExists) {
     return notFoundResponse(request, orgSettings);
@@ -56,14 +58,14 @@ export async function handleApps(
 
     const s3Client = new S3Client({
       region: proxySettings.useBaseplateHosting
-        ? S3_PROXY_REGION
+        ? env.AWS_REGION
         : proxySettings.aws!.region,
       credentials: {
         accessKeyId: proxySettings.useBaseplateHosting
-          ? S3_PROXY_ACCESS_KEY_ID
+          ? env.AWS_ACCESS_KEY_ID
           : proxySettings.aws!.accessKeyId,
         secretAccessKey: proxySettings.useBaseplateHosting
-          ? S3_PROXY_SECRET_ACCESS_KEY
+          ? env.AWS_SECRET_ACCESS_KEY
           : proxySettings.aws!.secretAccessKey,
       },
     });

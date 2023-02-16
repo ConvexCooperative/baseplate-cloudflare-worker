@@ -1,10 +1,14 @@
 import { mergeDefaultOrgSettings, OrgSettings } from "@baseplate-sdk/utils";
+import { EnvVars } from "./main";
 
-export async function getOrgSettings(orgKey: string): Promise<OrgSettings> {
+export async function getOrgSettings(
+  orgKey: string,
+  env: EnvVars
+): Promise<OrgSettings> {
   let orgSettings: Partial<OrgSettings>;
 
   try {
-    const maybeSettings = await MAIN_KV.get(`org-settings-${orgKey}`, {
+    const maybeSettings = await env.MAIN_KV.get(`org-settings-${orgKey}`, {
       type: "json",
     });
     if (maybeSettings) {

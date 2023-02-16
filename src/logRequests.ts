@@ -3,19 +3,20 @@ import {
   WriteRecordsCommand,
   _Record,
 } from "@aws-sdk/client-timestream-write";
+import { EnvVars } from "./main";
 
-const timestreamClient = new TimestreamWriteClient({
-  region: TIMESTREAM_REGION,
-  credentials: {
-    accessKeyId: TIMESTREAM_ACCESS_KEY_ID,
-    secretAccessKey: TIMESTREAM_SECRET_ACCESS_KEY,
-  },
-});
-
-export async function logRequest(log: RequestLog): Promise<void> {
+export async function logRequest(log: RequestLog, env: EnvVars): Promise<void> {
   if (log.skipLog) {
     return;
   }
+
+  const timestreamClient = new TimestreamWriteClient({
+    region: env.AWS_REGION,
+    credentials: {
+      accessKeyId: env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+    },
+  });
 
   const Dimensions: _Record["Dimensions"] = [
     {
@@ -60,8 +61,8 @@ export async function logRequest(log: RequestLog): Promise<void> {
   try {
     await timestreamClient.send(
       new WriteRecordsCommand({
-        DatabaseName: TIMESTREAM_DATABASE,
-        TableName: TIMESTREAM_TABLE,
+        DatabaseName: env.TIMESTREAM_DATABASE,
+        TableName: env.TIMESTREAM_TABLE,
         Records,
       })
     );
