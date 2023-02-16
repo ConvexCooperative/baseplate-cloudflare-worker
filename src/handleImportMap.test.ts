@@ -1,8 +1,15 @@
 import { handleImportMap, ImportMap } from "./handleImportMap";
-import { MockCloudflareKV } from "./setupTests";
+import { EnvVars } from "./main";
+import { createTestEnv, MockCloudflareKV } from "./setupTests";
 import { sampleLog } from "./testUtils";
 
 describe(`handleImportMap`, () => {
+  let env: EnvVars;
+
+  beforeEach(() => {
+    env = createTestEnv();
+  });
+
   it(`returns a valid import map`, async () => {
     const importMap: ImportMap = {
       imports: {
@@ -12,7 +19,7 @@ describe(`handleImportMap`, () => {
       scopes: {},
     };
 
-    (global.MAIN_KV as MockCloudflareKV).mockKv({
+    env.MAIN_KV.mockKv({
       "import-map-juc-prod-system": importMap,
     });
     const request = new Request(
@@ -25,7 +32,8 @@ describe(`handleImportMap`, () => {
         orgKey: "juc",
         customerEnv: "prod",
       },
-      sampleLog()
+      sampleLog(),
+      env
     );
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual(importMap);
@@ -47,7 +55,7 @@ describe(`handleImportMap`, () => {
       scopes: {},
     };
 
-    (global.MAIN_KV as MockCloudflareKV).mockKv({
+    env.MAIN_KV.mockKv({
       "import-map-juc-prod-system": importMap,
     });
     const request = new Request("https://cdn.example.com/systemjs.importmap");
@@ -58,7 +66,8 @@ describe(`handleImportMap`, () => {
         orgKey: "juc",
         customerEnv: "prod",
       },
-      sampleLog()
+      sampleLog(),
+      env
     );
 
     expect(response.status).toBe(200);
@@ -66,7 +75,7 @@ describe(`handleImportMap`, () => {
   });
 
   it(`returns a 404 Not Found if the map isn't in KV`, async () => {
-    (global.MAIN_KV as MockCloudflareKV).mockKv({});
+    env.MAIN_KV.mockKv({});
 
     const request = new Request(
       "https://cdn.example.com/walmart/systemjs.importmap"
@@ -78,7 +87,8 @@ describe(`handleImportMap`, () => {
         orgKey: "juc",
         customerEnv: "prod",
       },
-      sampleLog()
+      sampleLog(),
+      env
     );
     expect(response.status).toBe(404);
   });
@@ -87,7 +97,7 @@ describe(`handleImportMap`, () => {
     const request = new Request(
       "https://cdn.example.com/walmart/systemjs.importmap"
     );
-    (global.MAIN_KV as MockCloudflareKV).mockKv({
+    env.MAIN_KV.mockKv({
       "import-map-juc-prod-system": {
         // strings are invalid values for "imports"
         imports: "asdfsadf",
@@ -101,7 +111,8 @@ describe(`handleImportMap`, () => {
         orgKey: "juc",
         customerEnv: "prod",
       },
-      sampleLog()
+      sampleLog(),
+      env
     );
     expect(response.status).toBe(500);
   });
@@ -110,7 +121,7 @@ describe(`handleImportMap`, () => {
     const request = new Request(
       "https://cdn.example.com/walmart/systemjs.importmap"
     );
-    (global.MAIN_KV as MockCloudflareKV).mockKv({
+    env.MAIN_KV.mockKv({
       "import-map-juc-prod-system": {
         imports: {
           // object is invalid here
@@ -126,7 +137,8 @@ describe(`handleImportMap`, () => {
         orgKey: "juc",
         customerEnv: "prod",
       },
-      sampleLog()
+      sampleLog(),
+      env
     );
     expect(response.status).toBe(500);
   });
@@ -135,7 +147,7 @@ describe(`handleImportMap`, () => {
     const request = new Request(
       "https://cdn.example.com/walmart/systemjs.importmap"
     );
-    (global.MAIN_KV as MockCloudflareKV).mockKv({
+    env.MAIN_KV.mockKv({
       "import-map-juc-prod-system": {
         imports: {
           react: "https://cdn.baseplate.cloud/react.js",
@@ -152,7 +164,8 @@ describe(`handleImportMap`, () => {
         orgKey: "juc",
         customerEnv: "prod",
       },
-      sampleLog()
+      sampleLog(),
+      env
     );
     expect(response.status).toBe(500);
   });
@@ -161,7 +174,7 @@ describe(`handleImportMap`, () => {
     const request = new Request(
       "https://cdn.example.com/walmart/systemjs.importmap"
     );
-    (global.MAIN_KV as MockCloudflareKV).mockKv({
+    env.MAIN_KV.mockKv({
       "import-map-juc-prod-system": {
         imports: {
           react: "https://cdn.baseplate.cloud/react.js",
@@ -181,7 +194,8 @@ describe(`handleImportMap`, () => {
         orgKey: "juc",
         customerEnv: "prod",
       },
-      sampleLog()
+      sampleLog(),
+      env
     );
     expect(response.status).toBe(500);
   });
@@ -194,7 +208,7 @@ describe(`handleImportMap`, () => {
       scopes: {},
     };
 
-    (global.MAIN_KV as MockCloudflareKV).mockKv({
+    env.MAIN_KV.mockKv({
       "import-map-juc-prod-system": importMap,
     });
     const request = new Request(
@@ -207,7 +221,8 @@ describe(`handleImportMap`, () => {
         orgKey: "juc",
         customerEnv: "prod",
       },
-      sampleLog()
+      sampleLog(),
+      env
     );
     expect(response.status).toBe(200);
     expect(response.headers.get("access-control-allow-origin")).toBe("*");
@@ -221,7 +236,7 @@ describe(`handleImportMap`, () => {
       scopes: {},
     };
 
-    (global.MAIN_KV as MockCloudflareKV).mockKv({
+    env.MAIN_KV.mockKv({
       "import-map-juc-prod-system": importMap,
     });
 
@@ -235,7 +250,8 @@ describe(`handleImportMap`, () => {
         orgKey: "juc",
         customerEnv: "prod",
       },
-      sampleLog()
+      sampleLog(),
+      env
     );
 
     expect(response.status).toBe(200);

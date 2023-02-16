@@ -4,17 +4,19 @@ import { isPlainObject } from "lodash-es";
 import { corsHeaders } from "./cors";
 import { baseplateVersion } from "./baseplateVersion";
 import { RequestLog } from "./logRequests";
+import { EnvVars } from "./main";
 
 export async function handleImportMap(
   request: Request,
   params: Params,
-  requestLog: RequestLog
+  requestLog: RequestLog,
+  env: EnvVars
 ): Promise<Response> {
   requestLog.isImportMap = true;
 
   const [orgSettings, importMap] = await Promise.all([
-    getOrgSettings(params.orgKey),
-    readImportMap(params),
+    getOrgSettings(params.orgKey, env),
+    readImportMap(params, env),
   ]);
 
   if (orgSettings.orgExists && importMap) {
@@ -45,15 +47,14 @@ export async function handleImportMap(
   }
 }
 
-async function readImportMap({
-  orgKey,
-  importMapName,
-  customerEnv,
-}: Params): Promise<ImportMap | null> {
+async function readImportMap(
+  { orgKey, importMapName, customerEnv }: Params,
+  env: EnvVars
+): Promise<ImportMap | null> {
   const kvKey = `import-map-${orgKey}-${customerEnv}-${importMapName}`;
 
   try {
-    return (await MAIN_KV.get(kvKey, {
+    return (await env.MAIN_KV.get(kvKey, {
       type: "json",
     })) as ImportMap | null;
   } catch (err) {

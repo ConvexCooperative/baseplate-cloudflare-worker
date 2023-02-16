@@ -1,18 +1,21 @@
 import { expect, jest } from "@jest/globals";
 import { OrgSettings } from "@baseplate-sdk/utils";
 import { handleApps } from "./handleApps";
-import { MockCloudflareKV } from "./setupTests";
+import { createTestEnv } from "./setupTests";
 import { sendMock } from "@aws-sdk/client-s3";
 import { sampleLog } from "./testUtils";
+import { EnvVars } from "./main";
 
 describe(`handleApps`, () => {
-  let response: Response,
-    mockFetch = jest.fn();
+  let response: Response | null,
+    mockFetch = jest.fn(),
+    env: EnvVars;
 
   beforeEach(() => {
     mockFetch = jest.fn();
     // @ts-ignore
     global.fetch = mockFetch;
+    env = createTestEnv();
 
     response = null;
   });
@@ -37,7 +40,8 @@ describe(`handleApps`, () => {
           "react-mf-navbar.js",
         ],
       },
-      sampleLog()
+      sampleLog(),
+      env
     );
 
     expect(mockFetch).toHaveBeenCalledTimes(1);
@@ -61,7 +65,7 @@ describe(`handleApps`, () => {
       },
     };
 
-    (global.MAIN_KV as MockCloudflareKV).mockKv({
+    env.MAIN_KV.mockKv({
       "org-settings-walmart": orgSettings,
     });
     mockFetch.mockReturnValueOnce(
@@ -83,7 +87,8 @@ describe(`handleApps`, () => {
           "react-mf-navbar.js",
         ],
       },
-      sampleLog()
+      sampleLog(),
+      env
     );
 
     expect(response.status).toBe(200);
@@ -119,7 +124,8 @@ describe(`handleApps`, () => {
           "react-mf-navbar.js",
         ],
       },
-      sampleLog()
+      sampleLog(),
+      env
     );
 
     expect(response.status).toBe(200);
@@ -146,7 +152,8 @@ describe(`handleApps`, () => {
           "react-mf-navbar.js",
         ],
       },
-      sampleLog()
+      sampleLog(),
+      env
     );
 
     expect(response.status).toBe(200);
@@ -173,7 +180,8 @@ describe(`handleApps`, () => {
           "react-mf-navbar.js",
         ],
       },
-      sampleLog()
+      sampleLog(),
+      env
     );
 
     expect(response.status).toBe(200);
@@ -189,13 +197,18 @@ describe(`handleApps`, () => {
             __main__: {
               useBaseplateHosting: false,
               host: "s3://example",
+              aws: {
+                region: "us-east-1",
+                accessKeyId: "1",
+                secretAccessKey: "2",
+              },
             },
           },
         },
       },
     };
 
-    (global.MAIN_KV as MockCloudflareKV).mockKv({
+    env.MAIN_KV.mockKv({
       "org-settings-walmart": orgSettings,
     });
 
@@ -213,7 +226,8 @@ describe(`handleApps`, () => {
         customerEnv: "__main__",
         pathParts: ["example.js"],
       },
-      sampleLog()
+      sampleLog(),
+      env
     );
     let responseBody = await response.text();
 
@@ -236,13 +250,18 @@ describe(`handleApps`, () => {
             __main__: {
               useBaseplateHosting: false,
               host: "s3://example",
+              aws: {
+                region: "us-east-1",
+                accessKeyId: "1",
+                secretAccessKey: "2",
+              },
             },
           },
         },
       },
     };
 
-    (global.MAIN_KV as MockCloudflareKV).mockKv({
+    env.MAIN_KV.mockKv({
       "org-settings-walmart": orgSettings,
     });
 
@@ -259,7 +278,8 @@ describe(`handleApps`, () => {
         customerEnv: "__main__",
         pathParts: ["example.js"],
       },
-      sampleLog()
+      sampleLog(),
+      env
     );
 
     expect(response.status).toBe(404);

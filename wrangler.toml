@@ -1,12 +1,8 @@
-name = "cdn"
+name = "cdn-tf-worker"
+main = "src/main.ts"
 account_id = '2ebd873bcedc1f859e972e90f72ed22b'
-type = "webpack"
-route = ''
-zone_id = ''
-usage_model = ''
 compatibility_flags = []
 compatibility_date = "2022-03-15"
-webpack_config = "webpack.config.cjs"
 kv_namespaces = [ 
   { binding = "MAIN_KV", preview_id = "0242d53e756f415a8d66466ceda8279d", id= "746fa4dc493f4cd8b8a96b851ab6ab05" },
 ]
@@ -14,14 +10,16 @@ workers_dev = true
 [vars]
 BASEPLATE_ENV = "prod"
 # [secrets]
-# S3_PROXY_REGION
-# S3_PROXY_ACCESS_KEY_ID
-# S3_PROXY_SECRET_ACCESS_KEY
+# AWS_REGION
+# AWS_ACCESS_KEY_ID
+# AWS_SECRET_ACCESS_KEY
+# TIMESTREAM_DATABASE
+# TIMESTREAM_TABLE
 
 [env.dev]
 workers_dev = true
 kv_namespaces = [ 
-  { binding = "MAIN_KV", preview_id = "b5dc1ec8cc594add87b651639a11c23c", id= "fa293f82dee74c298e6156f9eb6ce15e" },
+  { binding = "MAIN_KV", preview_id = "7106ba150d064133b762c66b692366c2", id= "8bb8422a55f9400392b030c15c87d534" },
 ]
 [env.dev.vars]
 BASEPLATE_ENV = "dev"

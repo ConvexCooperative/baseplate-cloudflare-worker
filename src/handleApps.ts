@@ -5,15 +5,17 @@ import { getOrgSettings } from "./getOrgSettings";
 import { notFoundResponse, internalErrorResponse } from "./responseUtils";
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 import { RequestLog } from "./logRequests";
+import { EnvVars } from "./main";
 
 export async function handleApps(
   request: Request,
   params: Params,
-  requestLog: RequestLog
+  requestLog: RequestLog,
+  env: EnvVars
 ): Promise<Response> {
   requestLog.microfrontendName = params.pathParts[0];
 
-  const orgSettings = await getOrgSettings(params.orgKey);
+  const orgSettings = await getOrgSettings(params.orgKey, env);
 
   if (!orgSettings.orgExists) {
     return notFoundResponse(request, orgSettings);
@@ -49,11 +51,22 @@ export async function handleApps(
     const Bucket = proxyHost.replace("s3://", "");
     const Key = params.pathParts.join("/");
 
+    const proxySettings =
+      orgSettings.staticFiles.microfrontendProxy.environments[
+        params.customerEnv
+      ];
+
     const s3Client = new S3Client({
-      region: S3_PROXY_REGION,
+      region: proxySettings.useBaseplateHosting
+        ? env.AWS_REGION
+        : proxySettings.aws!.region,
       credentials: {
-        accessKeyId: S3_PROXY_ACCESS_KEY_ID,
-        secretAccessKey: S3_PROXY_SECRET_ACCESS_KEY,
+        accessKeyId: proxySettings.useBaseplateHosting
+          ? env.AWS_ACCESS_KEY_ID
+          : proxySettings.aws!.accessKeyId,
+        secretAccessKey: proxySettings.useBaseplateHosting
+          ? env.AWS_SECRET_ACCESS_KEY
+          : proxySettings.aws!.secretAccessKey,
       },
     });
     let s3Response;
