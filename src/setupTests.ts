@@ -3,18 +3,30 @@ import { jest } from "@jest/globals";
 import { MockInstance } from "jest-mock";
 import { OrgSettings } from "@baseplate-sdk/utils";
 import { merge } from "lodash-es";
+import { EnvVars } from "./main";
 
 let mocks = {};
 
-global.BASEPLATE_ENV = "prod";
-global.AWS_ACCESS_KEY_ID = "sdflsadfa";
-global.AWS_SECRET_ACCESS_KEY = "fasouwqeor";
-global.TIMESTREAM_DATABASE = "test";
-global.TIMESTREAM_TABLE = "test";
+export function createTestEnv(): EnvVars {
+  return {
+    AWS_ACCESS_KEY_ID: "1",
+    AWS_REGION: "us-east-1",
+    AWS_SECRET_ACCESS_KEY: "2",
+    BASEPLATE_ENV: "dev",
+    MAIN_KV: createMainKv(),
+    TIMESTREAM_DATABASE: "db",
+    TIMESTREAM_TABLE: "table",
+  };
+}
 
-beforeEach(() => {
-  mocks = {};
+export function createTestContext(): ExecutionContext {
+  return {
+    waitUntil(promise: Promise) {},
+    passThroughOnExecption() {},
+  };
+}
 
+function createMainKv(): MockCloudflareKV {
   const mainKv: MockCloudflareKV = {
     get: jest.fn(),
     mockKv(newMocks: KvMocks) {
@@ -51,8 +63,11 @@ beforeEach(() => {
     return false;
   });
 
-  global.MAIN_KV = mainKv;
-  global.BASEPLATE_ENV = "prod";
+  return mainKv;
+}
+
+beforeEach(() => {
+  mocks = {};
 });
 
 export interface MockCloudflareKV {

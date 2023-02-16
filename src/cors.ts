@@ -2,6 +2,7 @@ import { getOrgSettings } from "./getOrgSettings";
 import { OrgSettings } from "@baseplate-sdk/utils";
 import { pathToRegexp } from "path-to-regexp";
 import { isUndefined } from "lodash-es";
+import { EnvVars } from "./main";
 
 const orgKeyRegex = pathToRegexp("/:orgKey/(.*)");
 const invalidOrgKeys = ["npm"];
@@ -10,14 +11,17 @@ const invalidOrgKeys = ["npm"];
 // See https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#preflighted_requests
 // Based on https://developers.cloudflare.com/workers/examples/cors-header-proxy,
 // but rewritten for our specific needs
-export async function handleOptions(request: Request): Promise<Response> {
+export async function handleOptions(
+  request: Request,
+  env: EnvVars
+): Promise<Response> {
   const match = orgKeyRegex.exec(new URL(request.url).pathname);
   const orgKey = match && match[1];
   const body = null;
   let orgSettings;
 
   if (orgKey && !invalidOrgKeys.includes(orgKey)) {
-    orgSettings = await getOrgSettings(orgKey);
+    orgSettings = await getOrgSettings(orgKey, env);
   }
 
   return new Response(body, {

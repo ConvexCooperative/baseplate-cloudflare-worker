@@ -1,61 +1,70 @@
-import { handleRequest, updateRouteMatchers } from "./main";
-import { MockCloudflareKV } from "./setupTests";
+import { handleRequest } from "./main";
+import { createTestContext, createTestEnv } from "./setupTests";
 import { ImportMap } from "./handleImportMap";
-import { jest } from "@jest/globals";
 
 describe("main handle request", () => {
   it("has correct route handlers for prod BASEPLATE_ENV", async () => {
-    global.BASEPLATE_ENV = "prod";
-    updateRouteMatchers();
+    const env = createTestEnv();
+    env.BASEPLATE_ENV = "prod";
+    const context = createTestContext();
 
     const importMap: ImportMap = {
       imports: {},
       scopes: {},
     };
 
-    (global.MAIN_KV as MockCloudflareKV).mockKv({
+    env.MAIN_KV.mockKv({
       "import-map-walmart-prod-systemjs": importMap,
     });
 
     let response = await handleRequest(
-      createFetchEvent("https://cdn.baseplate.cloud/walmart/systemjs.importmap")
+      new Request("https://cdn.baseplate.cloud/walmart/systemjs.importmap"),
+      env,
+      context
     );
 
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual(importMap);
 
     response = await handleRequest(
-      createFetchEvent(
+      new Request(
         "https://cdn.baseplate.cloud/walmart/prod/systemjs.importmap"
-      )
+      ),
+      env,
+      context
     );
 
     expect(response.status).toBe(404);
   });
 
   it("has correct route handlers for test BASEPLATE_ENV", async () => {
-    global.BASEPLATE_ENV = "test";
-    updateRouteMatchers();
+    const env = createTestEnv();
+    env.BASEPLATE_ENV = "test";
+    const context = createTestContext();
 
     const importMap: ImportMap = {
       imports: {},
       scopes: {},
     };
 
-    (global.MAIN_KV as MockCloudflareKV).mockKv({
+    env.MAIN_KV.mockKv({
       "import-map-walmart-prod-systemjs": importMap,
     });
 
     let response = await handleRequest(
-      createFetchEvent("https://cdn.baseplate.cloud/walmart/systemjs.importmap")
+      new Request("https://cdn.baseplate.cloud/walmart/systemjs.importmap"),
+      env,
+      context
     );
 
     expect(response.status).toBe(404);
 
     response = await handleRequest(
-      createFetchEvent(
+      new Request(
         "https://cdn.baseplate.cloud/walmart/prod/systemjs.importmap"
-      )
+      ),
+      env,
+      context
     );
 
     expect(response.status).toBe(200);
@@ -63,41 +72,37 @@ describe("main handle request", () => {
   });
 
   it("has correct route handlers for dev BASEPLATE_ENV", async () => {
-    global.BASEPLATE_ENV = "dev";
-    updateRouteMatchers();
+    const env = createTestEnv();
+    const context = createTestContext();
+    env.BASEPLATE_ENV = "dev";
 
     const importMap: ImportMap = {
       imports: {},
       scopes: {},
     };
 
-    (global.MAIN_KV as MockCloudflareKV).mockKv({
+    env.MAIN_KV.mockKv({
       "import-map-walmart-prod-systemjs": importMap,
     });
 
     let response = await handleRequest(
-      createFetchEvent("https://cdn.baseplate.cloud/walmart/systemjs.importmap")
+      new Request("https://cdn.baseplate.cloud/walmart/systemjs.importmap"),
+      env,
+      context
     );
 
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual(importMap);
 
     response = await handleRequest(
-      createFetchEvent(
+      new Request(
         "https://cdn.baseplate.cloud/walmart/prod/systemjs.importmap"
-      )
+      ),
+      env,
+      context
     );
 
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual(importMap);
   });
 });
-
-function createFetchEvent(url: string): FetchEvent {
-  const evt: FetchEvent = new Event("fetch") as FetchEvent;
-  evt.waitUntil = jest.fn();
-  // @ts-ignore
-  evt.request = new Request(url);
-
-  return evt;
-}

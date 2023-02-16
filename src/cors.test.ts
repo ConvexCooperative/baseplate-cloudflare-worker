@@ -1,8 +1,15 @@
 import { handleOptions } from "./cors";
-import { CORSSettings, getOrgSettings, OrgSettings } from "./getOrgSettings";
-import { MockCloudflareKV } from "./setupTests";
+import { CORSSettings } from "./getOrgSettings";
+import { EnvVars } from "./main";
+import { createTestEnv } from "./setupTests";
 
 describe("CORS", () => {
+  let env: EnvVars;
+
+  beforeEach(() => {
+    env = createTestEnv();
+  });
+
   describe("cross origin requests", () => {
     it("responds with default headers when request does not have an orgKey", async () => {
       const request = new Request("https://cdn.example.com/", {
@@ -11,7 +18,7 @@ describe("CORS", () => {
           Origin: "walmart.com",
         },
       });
-      const response: Response = await handleOptions(request);
+      const response: Response = await handleOptions(request, env);
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe(null);
     });
@@ -26,7 +33,7 @@ describe("CORS", () => {
           },
         }
       );
-      const response: Response = await handleOptions(request);
+      const response: Response = await handleOptions(request, env);
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
     });
@@ -38,7 +45,8 @@ describe("CORS", () => {
           headers: {
             Origin: "walmart.com",
           },
-        })
+        }),
+        env
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -48,7 +56,7 @@ describe("CORS", () => {
         exposeHeaders: ["X-Special-Header", "X-Another-Special-Header"],
       };
 
-      (global.MAIN_KV as MockCloudflareKV).mockKv({
+      env.MAIN_KV.mockKv({
         "org-settings-walmart": { cors: corsSettings, orgExists: true },
       });
 
@@ -58,7 +66,8 @@ describe("CORS", () => {
           headers: {
             Origin: "walmart.com",
           },
-        })
+        }),
+        env
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -74,7 +83,8 @@ describe("CORS", () => {
           headers: {
             Origin: "walmart.com",
           },
-        })
+        }),
+        env
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -85,7 +95,7 @@ describe("CORS", () => {
         maxAge: 10,
       };
 
-      (global.MAIN_KV as MockCloudflareKV).mockKv({
+      env.MAIN_KV.mockKv({
         "org-settings-walmart": { cors: corsSettings, orgExists: true },
       });
 
@@ -95,7 +105,8 @@ describe("CORS", () => {
           headers: {
             Origin: "walmart.com",
           },
-        })
+        }),
+        env
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -109,7 +120,8 @@ describe("CORS", () => {
           headers: {
             Origin: "walmart.com",
           },
-        })
+        }),
+        env
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -121,7 +133,7 @@ describe("CORS", () => {
         allowCredentials: false,
       };
 
-      (global.MAIN_KV as MockCloudflareKV).mockKv({
+      env.MAIN_KV.mockKv({
         "org-settings-walmart": { cors: corsSettings, orgExists: true },
       });
 
@@ -131,7 +143,8 @@ describe("CORS", () => {
           headers: {
             Origin: "walmart.com",
           },
-        })
+        }),
+        env
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -147,7 +160,8 @@ describe("CORS", () => {
           headers: {
             Origin: "walmart.com",
           },
-        })
+        }),
+        env
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -161,7 +175,7 @@ describe("CORS", () => {
         allowMethods: ["GET", "HEAD", "OPTIONS", "POST"],
       };
 
-      (global.MAIN_KV as MockCloudflareKV).mockKv({
+      env.MAIN_KV.mockKv({
         "org-settings-walmart": { cors: corsSettings, orgExists: true },
       });
 
@@ -171,7 +185,8 @@ describe("CORS", () => {
           headers: {
             Origin: "walmart.com",
           },
-        })
+        }),
+        env
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -187,7 +202,8 @@ describe("CORS", () => {
           headers: {
             Origin: "walmart.com",
           },
-        })
+        }),
+        env
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -197,7 +213,7 @@ describe("CORS", () => {
         allowHeaders: ["X-Special-Header", "X-Another-Special-Header"],
       };
 
-      (global.MAIN_KV as MockCloudflareKV).mockKv({
+      env.MAIN_KV.mockKv({
         "org-settings-walmart": { cors: corsSettings, orgExists: true },
       });
 
@@ -207,7 +223,8 @@ describe("CORS", () => {
           headers: {
             Origin: "walmart.com",
           },
-        })
+        }),
+        env
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -228,7 +245,7 @@ describe("CORS", () => {
           },
         }
       );
-      const response: Response = await handleOptions(request);
+      const response: Response = await handleOptions(request, env);
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe(null);
     });

@@ -51,7 +51,7 @@ export async function handleRequest(
   context: ExecutionContext
 ) {
   if (request.method === "OPTIONS") {
-    return handleOptions(request);
+    return handleOptions(request, env);
   } else if (!allowedMethods.includes(request.method)) {
     return notFoundResponse(request);
   }
