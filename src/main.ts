@@ -1,6 +1,6 @@
 import { match, MatchFunction, MatchResult } from "path-to-regexp";
 import { handleImportMap } from "./handleImportMap";
-import { notFoundResponse } from "./responseUtils";
+import { notFoundResponse, internalErrorResponse } from "./responseUtils";
 import { handleApps } from "./handleApps";
 import { handleOptions } from "./cors";
 import { logRequest, RequestLog } from "./logRequests";
@@ -45,11 +45,32 @@ export function getRouteMatchers(env: EnvVars): RouteMatchers {
 
 const allowedMethods = ["GET", "HEAD", "OPTIONS"];
 
+const requiredEnvironmentVariables: string[] = [
+  "BASEPLATE_ENV",
+  "AWS_REGION",
+  "AWS_ACCESS_KEY_ID",
+  "AWS_SECRET_ACCESS_KEY",
+  "TIMESTREAM_DATABASE",
+  "TIMESTREAM_TABLE",
+  "MAIN_KV",
+];
+
 export async function handleRequest(
   request: Request,
   env: EnvVars,
   context: ExecutionContext
 ) {
+  const missingEnvVars = requiredEnvironmentVariables.filter(
+    (requiredVar) => !env[requiredVar]
+  );
+
+  if (missingEnvVars.length > 0) {
+    console.error(
+      `Missing environment variables '${missingEnvVars.join(", ")}'`
+    );
+    return internalErrorResponse(request);
+  }
+
   if (request.method === "OPTIONS") {
     return handleOptions(request, env);
   } else if (!allowedMethods.includes(request.method)) {
