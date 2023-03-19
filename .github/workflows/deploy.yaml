@@ -26,9 +26,11 @@ jobs:
         run: |
           if [[ ${{ inputs.envName }} -eq "prod" ]]
           then
+            echo "Deploying prod"
             pnpm exec wrangler publish
           else
+            echo "Deploying ${{ inputs.envName }}"
             pnpm exec wrangler publish --env ${{ inputs.envName }}
           fi
         env:
-          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
