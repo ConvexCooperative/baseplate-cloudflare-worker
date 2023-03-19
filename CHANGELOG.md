@@ -1,5 +1,19 @@
 # baseplate-cloudflare-worker
 
+## 2.1.0
+
+### Minor Changes
+
+- [#44](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/44) [`7140a7d`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/7140a7d50d15e13ac4d5d2a8608dbd2a87ec7052) Thanks [@joeldenning](https://github.com/joeldenning)! - Check that all necessary env variables are present
+
+* [#42](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/42) [`707fb85`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/707fb85802015f26bb6e6d7ba6c41aee7f263e94) Thanks [@joeldenning](https://github.com/joeldenning)! - Log requests to AWS Timestream. Upgrade dependencies
+
+### Patch Changes
+
+- [#45](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/45) [`af64941`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/af6494107e70356fced666138dcf0e56b011cfa5) Thanks [@joeldenning](https://github.com/joeldenning)! - Set up deploys to test and prod cdns
+
+* [#43](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/43) [`9dc8703`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/9dc870307f537c392c08869d742feb10e0a0af0b) Thanks [@joeldenning](https://github.com/joeldenning)! - Work on releasing to prod. Also support for custom s3 buckets
+
 ## 2.0.1
 
 ### Patch Changes
