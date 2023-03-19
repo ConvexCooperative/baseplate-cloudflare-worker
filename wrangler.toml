@@ -4,7 +4,7 @@ account_id = '2ebd873bcedc1f859e972e90f72ed22b'
 compatibility_flags = []
 compatibility_date = "2022-03-15"
 kv_namespaces = [ 
-  { binding = "MAIN_KV", preview_id = "0242d53e756f415a8d66466ceda8279d", id= "746fa4dc493f4cd8b8a96b851ab6ab05" },
+  { binding = "MAIN_KV", preview_id = "c85c67a045a7494ca6e1660d0a07a1f5", id = "c85c67a045a7494ca6e1660d0a07a1f5" },
 ]
 workers_dev = true
 [vars]
@@ -19,7 +19,7 @@ BASEPLATE_ENV = "prod"
 [env.dev]
 workers_dev = true
 kv_namespaces = [ 
-  { binding = "MAIN_KV", preview_id = "7106ba150d064133b762c66b692366c2", id= "8bb8422a55f9400392b030c15c87d534" },
+  { binding = "MAIN_KV", preview_id = "8bb8422a55f9400392b030c15c87d534", id = "8bb8422a55f9400392b030c15c87d534" },
 ]
 [env.dev.vars]
 BASEPLATE_ENV = "dev"
@@ -27,7 +27,7 @@ BASEPLATE_ENV = "dev"
 [env.test]
 workers_dev = true
 kv_namespaces = [ 
-  { binding = "MAIN_KV", preview_id = "7b65b182bacd458e8a0f76aad7dd064d", id= "fb6b711cd9bf403a9db725c4a0fceb5b" },
+  { binding = "MAIN_KV", preview_id = "2a5cc6c2ae8d46eeb0f728f091410a54", id = "2a5cc6c2ae8d46eeb0f728f091410a54" },
 ]
 [env.test.vars]
 BASEPLATE_ENV = "test"
