@@ -24,7 +24,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Deploy to Cloudflare
         run: |
-          if [[ ${{ inputs.envName }} -eq "prod" ]]
+          if [[ "${{ inputs.envName }}" == "prod" ]]
           then
             echo "Deploying prod"
             pnpm exec wrangler publish
