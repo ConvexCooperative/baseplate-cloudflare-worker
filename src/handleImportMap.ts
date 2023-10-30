@@ -10,13 +10,21 @@ export async function handleImportMap(
   request: Request,
   params: Params,
   requestLog: RequestLog,
-  env: EnvVars
+  env: EnvVars,
+  orgKey?: string
 ): Promise<Response> {
   requestLog.isImportMap = true;
 
+  if (!orgKey) {
+    console.error(
+      `No orgKey passed to handleImportMap function. Returning HTTP 500.`
+    );
+    return internalErrorResponse(request);
+  }
+
   const [orgSettings, importMap] = await Promise.all([
-    getOrgSettings(params.orgKey, env),
-    readImportMap(params, env),
+    getOrgSettings(orgKey, env),
+    readImportMap(params, env, orgKey),
   ]);
 
   if (orgSettings.orgExists && importMap) {
@@ -24,7 +32,7 @@ export async function handleImportMap(
 
     if (importMapErrors.length > 0) {
       console.error(
-        `Import Map Invalid for org ${params.orgKey} and request URL ${request.url}!`
+        `Import Map Invalid for org ${orgKey} and request URL ${request.url}!`
       );
       console.error(importMapErrors);
       return internalErrorResponse(request, orgSettings);
@@ -48,8 +56,9 @@ export async function handleImportMap(
 }
 
 async function readImportMap(
-  { orgKey, importMapName, customerEnv }: Params,
-  env: EnvVars
+  { importMapName, customerEnv }: Params,
+  env: EnvVars,
+  orgKey: string
 ): Promise<ImportMap | null> {
   const kvKey = `import-map-${orgKey}-${customerEnv}-${importMapName}`;
 
@@ -126,7 +135,6 @@ function addPackagesViaTrailingSlashes(importMap: ImportMap) {
 }
 
 interface Params {
-  orgKey: string;
   importMapName: string;
   customerEnv: string;
 }

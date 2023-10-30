@@ -1,6 +1,15 @@
-import { match, MatchFunction, MatchResult } from "path-to-regexp";
+import {
+  match,
+  MatchFunction,
+  MatchResult,
+  pathToRegexp,
+} from "path-to-regexp";
 import { handleImportMap } from "./handleImportMap";
-import { notFoundResponse, internalErrorResponse } from "./responseUtils";
+import {
+  notFoundResponse,
+  internalErrorResponse,
+  isCustomDomain,
+} from "./responseUtils";
 import { handleApps } from "./handleApps";
 import { handleOptions } from "./cors";
 import { logRequest, RequestLog } from "./logRequests";
@@ -11,20 +20,30 @@ const workerHandler: ExportedHandler<EnvVars> = {
 
 export default workerHandler;
 
-const prodRouteHandlers: RouteHandlers = {
-  "/:orgKey/:importMapName.importmap": handleImportMap,
-  "/:orgKey/apps/:pathParts*": handleApps,
-};
+const prodRouteHandlers: RouteHandlers = withOptionalOrgKey({
+  "/:importMapName.importmap": handleImportMap,
+  "/apps/:pathParts*": handleApps,
+});
 
-const testRouteHandlers: RouteHandlers = {
-  "/:orgKey/:customerEnv/:importMapName.importmap": handleImportMap,
-  "/:orgKey/:customerEnv/apps/:pathParts*": handleApps,
-};
+const testRouteHandlers: RouteHandlers = withOptionalOrgKey({
+  "/:customerEnv/:importMapName.importmap": handleImportMap,
+  "/:customerEnv/apps/:pathParts*": handleApps,
+});
 
 const devRouteHandlers: RouteHandlers = {
   ...prodRouteHandlers,
   ...testRouteHandlers,
 };
+
+function withOptionalOrgKey(routeHandlers: RouteHandlers) {
+  const result = {};
+  for (const routeHandler in routeHandlers) {
+    result[routeHandler] = routeHandlers[routeHandler];
+    result["/:orgKey" + routeHandler] = routeHandlers[routeHandler];
+  }
+
+  return result;
+}
 
 export function getRouteMatchers(env: EnvVars): RouteMatchers {
   let routeHandlers: RouteHandlers;
@@ -55,6 +74,8 @@ const requiredEnvironmentVariables: string[] = [
   "MAIN_KV",
 ];
 
+const orgKeyRegex = pathToRegexp("/:orgKey/(.*)");
+
 export async function handleRequest(
   request: Request,
   env: EnvVars,
@@ -71,13 +92,24 @@ export async function handleRequest(
     return internalErrorResponse(request);
   }
 
+  const requestUrl = new URL(request.url);
+  let orgKey: string | undefined;
+  if (isCustomDomain(requestUrl.hostname)) {
+    const kvKey = `custom-domain-${requestUrl.hostname}`;
+    orgKey =
+      (await env.MAIN_KV.get(kvKey, {
+        type: "text",
+      })) ?? undefined;
+  } else {
+    const match = orgKeyRegex.exec(requestUrl.pathname);
+    orgKey = match && match[1] ? match[1] : undefined;
+  }
+
   if (request.method === "OPTIONS") {
-    return handleOptions(request, env);
+    return handleOptions(request, env, orgKey);
   } else if (!allowedMethods.includes(request.method)) {
     return notFoundResponse(request);
   }
-
-  const requestUrl = new URL(request.url);
 
   let routeHandler: RouteHandler | undefined,
     matchResult: MatchResult | false = false;
@@ -112,7 +144,7 @@ export async function handleRequest(
     };
     requestLog.customerEnv = params.customerEnv;
     requestLog.orgKey = params.orgKey;
-    response = await routeHandler(request, params, requestLog, env);
+    response = await routeHandler(request, params, requestLog, env, orgKey);
   } else {
     response = await notFoundResponse(request);
   }
@@ -135,7 +167,8 @@ type RouteHandler = (
   request: Request,
   params: object,
   requestLog: RequestLog,
-  env: EnvVars
+  env: EnvVars,
+  orgKey?: string
 ) => Promise<Response>;
 
 export interface EnvVars {

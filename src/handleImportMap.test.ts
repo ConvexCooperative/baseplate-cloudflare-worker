@@ -4,10 +4,11 @@ import { createTestEnv, MockCloudflareKV } from "./setupTests";
 import { sampleLog } from "./testUtils";
 
 describe(`handleImportMap`, () => {
-  let env: EnvVars;
+  let env: EnvVars, orgKey: string | undefined;
 
   beforeEach(() => {
     env = createTestEnv();
+    orgKey = "juc";
   });
 
   it(`returns a valid import map`, async () => {
@@ -29,11 +30,11 @@ describe(`handleImportMap`, () => {
       request,
       {
         importMapName: "system",
-        orgKey: "juc",
         customerEnv: "prod",
       },
       sampleLog(),
-      env
+      env,
+      orgKey
     );
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual(importMap);
@@ -63,11 +64,11 @@ describe(`handleImportMap`, () => {
       request,
       {
         importMapName: "system",
-        orgKey: "juc",
         customerEnv: "prod",
       },
       sampleLog(),
-      env
+      env,
+      orgKey
     );
 
     expect(response.status).toBe(200);
@@ -84,11 +85,11 @@ describe(`handleImportMap`, () => {
       request,
       {
         importMapName: "system",
-        orgKey: "juc",
         customerEnv: "prod",
       },
       sampleLog(),
-      env
+      env,
+      orgKey
     );
     expect(response.status).toBe(404);
   });
@@ -108,11 +109,11 @@ describe(`handleImportMap`, () => {
       request,
       {
         importMapName: "system",
-        orgKey: "juc",
         customerEnv: "prod",
       },
       sampleLog(),
-      env
+      env,
+      orgKey
     );
     expect(response.status).toBe(500);
   });
@@ -134,11 +135,11 @@ describe(`handleImportMap`, () => {
       request,
       {
         importMapName: "system",
-        orgKey: "juc",
         customerEnv: "prod",
       },
       sampleLog(),
-      env
+      env,
+      orgKey
     );
     expect(response.status).toBe(500);
   });
@@ -161,11 +162,11 @@ describe(`handleImportMap`, () => {
       request,
       {
         importMapName: "system",
-        orgKey: "juc",
         customerEnv: "prod",
       },
       sampleLog(),
-      env
+      env,
+      orgKey
     );
     expect(response.status).toBe(500);
   });
@@ -191,11 +192,11 @@ describe(`handleImportMap`, () => {
       request,
       {
         importMapName: "system",
-        orgKey: "juc",
         customerEnv: "prod",
       },
       sampleLog(),
-      env
+      env,
+      orgKey
     );
     expect(response.status).toBe(500);
   });
@@ -218,11 +219,11 @@ describe(`handleImportMap`, () => {
       request,
       {
         importMapName: "system",
-        orgKey: "juc",
         customerEnv: "prod",
       },
       sampleLog(),
-      env
+      env,
+      orgKey
     );
     expect(response.status).toBe(200);
     expect(response.headers.get("access-control-allow-origin")).toBe("*");
@@ -247,11 +248,11 @@ describe(`handleImportMap`, () => {
       request,
       {
         importMapName: "system",
-        orgKey: "juc",
         customerEnv: "prod",
       },
       sampleLog(),
-      env
+      env,
+      orgKey
     );
 
     expect(response.status).toBe(200);

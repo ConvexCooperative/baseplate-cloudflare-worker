@@ -11,11 +11,19 @@ export async function handleApps(
   request: Request,
   params: Params,
   requestLog: RequestLog,
-  env: EnvVars
+  env: EnvVars,
+  orgKey?: string
 ): Promise<Response> {
   requestLog.microfrontendName = params.pathParts[0];
 
-  const orgSettings = await getOrgSettings(params.orgKey, env);
+  if (!orgKey) {
+    console.error(
+      `No orgKey passed to handleApps function. Returning HTTP 500.`
+    );
+    return internalErrorResponse(request);
+  }
+
+  const orgSettings = await getOrgSettings(orgKey, env);
 
   if (!orgSettings.orgExists) {
     return notFoundResponse(request, orgSettings);
@@ -29,7 +37,7 @@ export async function handleApps(
   );
   if (!proxySettings) {
     console.error(
-      `No proxy settings found for org ${params.orgKey} and customerEnv ${params.customerEnv}`
+      `No proxy settings found for org ${orgKey} and customerEnv ${params.customerEnv}`
     );
     return internalErrorResponse(request, orgSettings);
   }
@@ -38,7 +46,7 @@ export async function handleApps(
 
   if (!proxyHost) {
     console.error(
-      `No proxy host found for org ${params.orgKey} and customerEnv ${params.customerEnv}`
+      `No proxy host found for org ${orgKey} and customerEnv ${params.customerEnv}`
     );
   }
 
@@ -137,7 +145,6 @@ function getMicrofrontendProxySettings(
 }
 
 interface Params {
-  orgKey: string;
   pathParts: string[];
   customerEnv: string;
 }
