@@ -8,6 +8,7 @@
 1. Install [Wrangler CLI](https://developers.cloudflare.com/workers/cli-wrangler/install-update) globally `npm i @cloudflare/wrangler -g`
 1. `wrangler login`
 1. Clone the github repo
+1. Set up [Local env vars](#local-env-vars)
 
 ### Each time
 
@@ -15,6 +16,16 @@
 1. `pnpm start`
 
 Now you can go to http://localhost:8787/walmart/systemjs.importmap and see an import map in the browser
+
+### Local env vars
+
+Copy the `.dev.vars.example` file to `.dev.vars`, then fill in the environment variable values. Some of the values can be retrieved by running `terraform output -json` and looking for the following values:
+
+- `AWS_REGION`
+- `dev_cf_AWS_ACCESS_KEY_ID`
+- `dev_cf_AWS_SECRET_ACCESS_KEY`
+- `dev_cf_TIMESTREAM_DATABASE`
+- `dev_cf_TIMESTREAM_TABLE`
 
 ### Database / KV Storage
 
