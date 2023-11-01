@@ -1,7 +1,7 @@
 import { EnvVars } from "./main";
 
-export async function getOrgKey(origin: string, env: EnvVars) {
-  return env.MAIN_KV.get(`custom-domain-${origin}`, {
+export async function getOrgKeyFromHostname(hostname: string, env: EnvVars) {
+  return env.MAIN_KV.get(`custom-domain-${hostname}`, {
     type: "text",
   });
 }

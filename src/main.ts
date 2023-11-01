@@ -20,20 +20,15 @@ const workerHandler: ExportedHandler<EnvVars> = {
 
 export default workerHandler;
 
-const prodRouteHandlers: RouteHandlers = withOptionalOrgKey({
-  "/:importMapName.importmap": handleImportMap,
-  "/apps/:pathParts*": handleApps,
-});
-
-const testRouteHandlers: RouteHandlers = withOptionalOrgKey({
+const routeHandlers: RouteHandlers = withOptionalOrgKey({
   "/:customerEnv/:importMapName.importmap": handleImportMap,
   "/:customerEnv/apps/:pathParts*": handleApps,
 });
 
-const devRouteHandlers: RouteHandlers = {
-  ...prodRouteHandlers,
-  ...testRouteHandlers,
-};
+const routeMatchers = Object.entries(routeHandlers).map(([path, handler]) => [
+  match(path),
+  handler,
+]);
 
 function withOptionalOrgKey(routeHandlers: RouteHandlers) {
   const result = {};
@@ -43,23 +38,6 @@ function withOptionalOrgKey(routeHandlers: RouteHandlers) {
   }
 
   return result;
-}
-
-export function getRouteMatchers(env: EnvVars): RouteMatchers {
-  let routeHandlers: RouteHandlers;
-
-  if (env.BASEPLATE_ENV === "dev") {
-    routeHandlers = devRouteHandlers;
-  } else if (env.BASEPLATE_ENV === "test") {
-    routeHandlers = testRouteHandlers;
-  } else {
-    routeHandlers = prodRouteHandlers;
-  }
-
-  return Object.entries(routeHandlers).map(([path, handler]) => [
-    match(path),
-    handler,
-  ]);
 }
 
 const allowedMethods = ["GET", "HEAD", "OPTIONS"];
@@ -114,7 +92,6 @@ export async function handleRequest(
   let routeHandler: RouteHandler | undefined,
     matchResult: MatchResult | false = false;
 
-  const routeMatchers = getRouteMatchers(env);
   // Find which route handler to call for this request
   // We don't have express to do this automatically for us, but are
   // using path-to-regexp which is what express uses under the hood
