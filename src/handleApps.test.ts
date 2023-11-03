@@ -9,13 +9,15 @@ import { EnvVars } from "./main";
 describe(`handleApps`, () => {
   let response: Response | null,
     mockFetch = jest.fn(),
-    env: EnvVars;
+    env: EnvVars,
+    orgKey: string | undefined;
 
   beforeEach(() => {
     mockFetch = jest.fn();
     // @ts-ignore
     global.fetch = mockFetch;
     env = createTestEnv();
+    orgKey = "walmart";
 
     response = null;
   });
@@ -32,7 +34,6 @@ describe(`handleApps`, () => {
         "https://cdn.single-spa-baseplate.com/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
       ),
       {
-        orgKey: "walmart",
         customerEnv: "prod",
         pathParts: [
           "navbar",
@@ -41,7 +42,8 @@ describe(`handleApps`, () => {
         ],
       },
       sampleLog(),
-      env
+      env,
+      orgKey
     );
 
     expect(mockFetch).toHaveBeenCalledTimes(1);
@@ -79,7 +81,6 @@ describe(`handleApps`, () => {
         "https://cdn.baseplate.cloud/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
       ),
       {
-        orgKey: "walmart",
         customerEnv: "prod",
         pathParts: [
           "navbar",
@@ -88,7 +89,8 @@ describe(`handleApps`, () => {
         ],
       },
       sampleLog(),
-      env
+      env,
+      orgKey
     );
 
     expect(response.status).toBe(200);
@@ -116,7 +118,6 @@ describe(`handleApps`, () => {
         }
       ),
       {
-        orgKey: "walmart",
         customerEnv: "prod",
         pathParts: [
           "navbar",
@@ -125,7 +126,8 @@ describe(`handleApps`, () => {
         ],
       },
       sampleLog(),
-      env
+      env,
+      orgKey
     );
 
     expect(response.status).toBe(200);
@@ -144,7 +146,6 @@ describe(`handleApps`, () => {
         "https://cdn.baseplate.cloud/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
       ),
       {
-        orgKey: "walmart",
         customerEnv: "prod",
         pathParts: [
           "navbar",
@@ -153,7 +154,8 @@ describe(`handleApps`, () => {
         ],
       },
       sampleLog(),
-      env
+      env,
+      orgKey
     );
 
     expect(response.status).toBe(200);
@@ -172,7 +174,6 @@ describe(`handleApps`, () => {
         "https://cdn.baseplate.cloud/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
       ),
       {
-        orgKey: "walmart",
         customerEnv: "prod",
         pathParts: [
           "navbar",
@@ -181,7 +182,8 @@ describe(`handleApps`, () => {
         ],
       },
       sampleLog(),
-      env
+      env,
+      orgKey
     );
 
     expect(response.status).toBe(200);
@@ -222,12 +224,12 @@ describe(`handleApps`, () => {
     response = await handleApps(
       new Request("https://cdn.baseplate.cloud/walmart/apps/example.js"),
       {
-        orgKey: "walmart",
         customerEnv: "__main__",
         pathParts: ["example.js"],
       },
       sampleLog(),
-      env
+      env,
+      orgKey
     );
     let responseBody = await response.text();
 
@@ -274,12 +276,12 @@ describe(`handleApps`, () => {
     response = await handleApps(
       new Request("https://cdn.baseplate.cloud/walmart/apps/example.js"),
       {
-        orgKey: "walmart",
         customerEnv: "__main__",
         pathParts: ["example.js"],
       },
       sampleLog(),
-      env
+      env,
+      orgKey
     );
 
     expect(response.status).toBe(404);

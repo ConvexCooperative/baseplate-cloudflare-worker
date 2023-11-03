@@ -107,3 +107,4 @@ dist
 worker
 
 .dev.vars
+.wrangler

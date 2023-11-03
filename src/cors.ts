@@ -1,10 +1,8 @@
 import { getOrgSettings } from "./getOrgSettings";
 import { OrgSettings } from "@baseplate-sdk/utils";
-import { pathToRegexp } from "path-to-regexp";
 import { isUndefined } from "lodash-es";
 import { EnvVars } from "./main";
 
-const orgKeyRegex = pathToRegexp("/:orgKey/(.*)");
 const invalidOrgKeys = ["npm"];
 
 // OPTIONS HTTP requests are CORS preflight requests
@@ -13,10 +11,9 @@ const invalidOrgKeys = ["npm"];
 // but rewritten for our specific needs
 export async function handleOptions(
   request: Request,
-  env: EnvVars
+  env: EnvVars,
+  orgKey?: string
 ): Promise<Response> {
-  const match = orgKeyRegex.exec(new URL(request.url).pathname);
-  const orgKey = match && match[1];
   const body = null;
   let orgSettings;
 

@@ -1,13 +1,15 @@
 import { handleOptions } from "./cors";
-import { CORSSettings } from "./getOrgSettings";
+import { CORSSettings } from "@baseplate-sdk/utils";
 import { EnvVars } from "./main";
 import { createTestEnv } from "./setupTests";
 
 describe("CORS", () => {
   let env: EnvVars;
+  let orgKey: string | undefined;
 
   beforeEach(() => {
     env = createTestEnv();
+    orgKey = "walmart";
   });
 
   describe("cross origin requests", () => {
@@ -18,7 +20,8 @@ describe("CORS", () => {
           Origin: "walmart.com",
         },
       });
-      const response: Response = await handleOptions(request, env);
+      orgKey = undefined;
+      const response: Response = await handleOptions(request, env, orgKey);
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe(null);
     });
@@ -33,7 +36,7 @@ describe("CORS", () => {
           },
         }
       );
-      const response: Response = await handleOptions(request, env);
+      const response: Response = await handleOptions(request, env, orgKey);
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
     });
@@ -46,7 +49,8 @@ describe("CORS", () => {
             Origin: "walmart.com",
           },
         }),
-        env
+        env,
+        orgKey
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -67,7 +71,8 @@ describe("CORS", () => {
             Origin: "walmart.com",
           },
         }),
-        env
+        env,
+        orgKey
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -84,7 +89,8 @@ describe("CORS", () => {
             Origin: "walmart.com",
           },
         }),
-        env
+        env,
+        orgKey
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -106,7 +112,8 @@ describe("CORS", () => {
             Origin: "walmart.com",
           },
         }),
-        env
+        env,
+        orgKey
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -121,7 +128,8 @@ describe("CORS", () => {
             Origin: "walmart.com",
           },
         }),
-        env
+        env,
+        orgKey
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -144,7 +152,8 @@ describe("CORS", () => {
             Origin: "walmart.com",
           },
         }),
-        env
+        env,
+        orgKey
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -161,7 +170,8 @@ describe("CORS", () => {
             Origin: "walmart.com",
           },
         }),
-        env
+        env,
+        orgKey
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -186,7 +196,8 @@ describe("CORS", () => {
             Origin: "walmart.com",
           },
         }),
-        env
+        env,
+        orgKey
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -203,7 +214,8 @@ describe("CORS", () => {
             Origin: "walmart.com",
           },
         }),
-        env
+        env,
+        orgKey
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -224,7 +236,8 @@ describe("CORS", () => {
             Origin: "walmart.com",
           },
         }),
-        env
+        env,
+        orgKey
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -245,7 +258,7 @@ describe("CORS", () => {
           },
         }
       );
-      const response: Response = await handleOptions(request, env);
+      const response: Response = await handleOptions(request, env, orgKey);
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe(null);
     });

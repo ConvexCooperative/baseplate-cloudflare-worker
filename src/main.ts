@@ -1,6 +1,15 @@
-import { match, MatchFunction, MatchResult } from "path-to-regexp";
+import {
+  match,
+  MatchFunction,
+  MatchResult,
+  pathToRegexp,
+} from "path-to-regexp";
 import { handleImportMap } from "./handleImportMap";
-import { notFoundResponse, internalErrorResponse } from "./responseUtils";
+import {
+  notFoundResponse,
+  internalErrorResponse,
+  isCustomDomain,
+} from "./responseUtils";
 import { handleApps } from "./handleApps";
 import { handleOptions } from "./cors";
 import { logRequest, RequestLog } from "./logRequests";
@@ -11,36 +20,24 @@ const workerHandler: ExportedHandler<EnvVars> = {
 
 export default workerHandler;
 
-const prodRouteHandlers: RouteHandlers = {
-  "/:orgKey/:importMapName.importmap": handleImportMap,
-  "/:orgKey/apps/:pathParts*": handleApps,
-};
+const routeHandlers: RouteHandlers = withOptionalOrgKey({
+  "/:customerEnv/:importMapName.importmap": handleImportMap,
+  "/:customerEnv/apps/:pathParts*": handleApps,
+});
 
-const testRouteHandlers: RouteHandlers = {
-  "/:orgKey/:customerEnv/:importMapName.importmap": handleImportMap,
-  "/:orgKey/:customerEnv/apps/:pathParts*": handleApps,
-};
+const routeMatchers = Object.entries(routeHandlers).map(([path, handler]) => [
+  match(path),
+  handler,
+]);
 
-const devRouteHandlers: RouteHandlers = {
-  ...prodRouteHandlers,
-  ...testRouteHandlers,
-};
-
-export function getRouteMatchers(env: EnvVars): RouteMatchers {
-  let routeHandlers: RouteHandlers;
-
-  if (env.BASEPLATE_ENV === "dev") {
-    routeHandlers = devRouteHandlers;
-  } else if (env.BASEPLATE_ENV === "test") {
-    routeHandlers = testRouteHandlers;
-  } else {
-    routeHandlers = prodRouteHandlers;
+function withOptionalOrgKey(routeHandlers: RouteHandlers) {
+  const result = {};
+  for (const routeHandler in routeHandlers) {
+    result[routeHandler] = routeHandlers[routeHandler];
+    result["/:orgKey" + routeHandler] = routeHandlers[routeHandler];
   }
 
-  return Object.entries(routeHandlers).map(([path, handler]) => [
-    match(path),
-    handler,
-  ]);
+  return result;
 }
 
 const allowedMethods = ["GET", "HEAD", "OPTIONS"];
@@ -54,6 +51,8 @@ const requiredEnvironmentVariables: string[] = [
   "TIMESTREAM_TABLE",
   "MAIN_KV",
 ];
+
+const orgKeyRegex = pathToRegexp("/:orgKey/(.*)");
 
 export async function handleRequest(
   request: Request,
@@ -71,18 +70,28 @@ export async function handleRequest(
     return internalErrorResponse(request);
   }
 
+  const requestUrl = new URL(request.url);
+  let orgKey: string | undefined;
+  if (isCustomDomain(requestUrl.hostname)) {
+    const kvKey = `custom-domain-${requestUrl.hostname}`;
+    orgKey =
+      (await env.MAIN_KV.get(kvKey, {
+        type: "text",
+      })) ?? undefined;
+  } else {
+    const match = orgKeyRegex.exec(requestUrl.pathname);
+    orgKey = match && match[1] ? match[1] : undefined;
+  }
+
   if (request.method === "OPTIONS") {
-    return handleOptions(request, env);
+    return handleOptions(request, env, orgKey);
   } else if (!allowedMethods.includes(request.method)) {
     return notFoundResponse(request);
   }
 
-  const requestUrl = new URL(request.url);
-
   let routeHandler: RouteHandler | undefined,
     matchResult: MatchResult | false = false;
 
-  const routeMatchers = getRouteMatchers(env);
   // Find which route handler to call for this request
   // We don't have express to do this automatically for us, but are
   // using path-to-regexp which is what express uses under the hood
@@ -112,7 +121,7 @@ export async function handleRequest(
     };
     requestLog.customerEnv = params.customerEnv;
     requestLog.orgKey = params.orgKey;
-    response = await routeHandler(request, params, requestLog, env);
+    response = await routeHandler(request, params, requestLog, env, orgKey);
   } else {
     response = await notFoundResponse(request);
   }
@@ -135,7 +144,8 @@ type RouteHandler = (
   request: Request,
   params: object,
   requestLog: RequestLog,
-  env: EnvVars
+  env: EnvVars,
+  orgKey?: string
 ) => Promise<Response>;
 
 export interface EnvVars {
