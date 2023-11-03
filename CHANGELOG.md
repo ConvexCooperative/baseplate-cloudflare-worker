@@ -1,5 +1,15 @@
 # baseplate-cloudflare-worker
 
+## 3.0.0
+
+### Major Changes
+
+- [#53](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/53) [`d728ad0`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/d728ad0a6a42df4190e6670cf5fe4d2127d9a045) Thanks [@joeldenning](https://github.com/joeldenning)! - Eliminate all differences between dev, test, and prod environments
+
+### Minor Changes
+
+- [#53](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/53) [`d728ad0`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/d728ad0a6a42df4190e6670cf5fe4d2127d9a045) Thanks [@joeldenning](https://github.com/joeldenning)! - Support for custom domains
+
 ## 2.1.0
 
 ### Minor Changes
