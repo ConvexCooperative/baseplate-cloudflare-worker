@@ -68,6 +68,10 @@ export async function handleIndexHtml(
     request.url
   ).href;
 
+  // Preload JS files from the import map that are known to be needed
+  // Since browsers don't support import map specifiers in preload <link> elements,
+  // we tell the browser to preload the full URL for the module, as found in the
+  // import map
   for (let preload of finalParams.preloads) {
     if (preload.importSpecifier) {
       if (importMap?.imports[preload.importSpecifier]) {
