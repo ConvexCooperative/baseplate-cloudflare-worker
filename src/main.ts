@@ -13,7 +13,8 @@ import {
 import { handleApps } from "./handleApps";
 import { handleOptions } from "./cors";
 import { logRequest, RequestLog } from "./logRequests";
-import { handleIndexHtml } from "./handleIndexHtml";
+import { handleIndexHtml, HandleIndexHtmlParams } from "./handleIndexHtml";
+import { CustomDomain, CustomDomainPurpose } from "@baseplate-sdk/utils";
 
 const workerHandler: ExportedHandler<EnvVars> = {
   fetch: handleRequest,
@@ -73,13 +74,16 @@ export async function handleRequest(
   }
 
   const requestUrl = new URL(request.url);
+  let customDomain: CustomDomain | undefined;
   let orgKey: string | undefined;
   if (isCustomDomain(requestUrl.hostname)) {
     const kvKey = `custom-domain-${requestUrl.hostname}`;
-    orgKey =
-      (await env.MAIN_KV.get(kvKey, {
-        type: "text",
+    customDomain =
+      (await env.MAIN_KV.get<CustomDomain>(kvKey, {
+        type: "json",
       })) ?? undefined;
+
+    orgKey = customDomain?.orgKey;
   } else {
     const match = orgKeyRegex.exec(requestUrl.pathname);
     orgKey = match && match[1] ? match[1] : undefined;
@@ -91,21 +95,6 @@ export async function handleRequest(
     return notFoundResponse(request);
   }
 
-  let routeHandler: RouteHandler | undefined,
-    matchResult: MatchResult | false = false;
-
-  // Find which route handler to call for this request
-  // We don't have express to do this automatically for us, but are
-  // using path-to-regexp which is what express uses under the hood
-  for (let routeMatcher of routeMatchers) {
-    const [match, handler] = routeMatcher;
-    matchResult = match(requestUrl.pathname);
-    if (matchResult) {
-      routeHandler = handler;
-      break;
-    }
-  }
-
   let response: Response,
     requestLog: RequestLog = {
       customerEnv: "unknown",
@@ -115,17 +104,58 @@ export async function handleRequest(
       httpStatus: 0,
     };
 
-  if (routeHandler && matchResult) {
-    const params = {
-      customerEnv: "prod",
-      orgKey: undefined,
-      ...matchResult.params,
-    };
-    requestLog.customerEnv = params.customerEnv;
-    requestLog.orgKey = params.orgKey;
-    response = await routeHandler(request, params, requestLog, env, orgKey);
+  // Baseplate CDN supports hosting single-spa root configs on custom domains
+  // Normal Baseplate CDN route matching doesn't apply when on such a domain
+  if (customDomain?.purpose === CustomDomainPurpose.web_app) {
+    if (!customDomain.customerEnv) {
+      console.error(
+        `custom domain '${requestUrl.hostname}' does not have a customerEnv property in KV Storage`
+      );
+      return internalErrorResponse(request, undefined);
+    } else if (!customDomain.webAppHtmlFilename) {
+      console.error(
+        `custom domain '${requestUrl.hostname}' does not have a webAppHtmlFilename property in KV Storage`
+      );
+      return internalErrorResponse(request, undefined);
+    } else {
+      // When the custom domain acts as a web app, we always call the
+      // handleIndexHtml handler
+      const params: HandleIndexHtmlParams = {
+        customerEnv: customDomain.customerEnv,
+        htmlFileName: customDomain.webAppHtmlFilename!,
+      };
+
+      return handleIndexHtml(request, params, requestLog, env, orgKey);
+    }
   } else {
-    response = await notFoundResponse(request);
+    // Normal Baseplate CDN route handling
+    let routeHandler: RouteHandler | undefined,
+      matchResult: MatchResult | false = false;
+
+    // Find which route handler to call for this request
+    // We don't have express to do this automatically for us, but are
+    // using path-to-regexp which is what express uses under the hood
+    for (let routeMatcher of routeMatchers) {
+      const [match, handler] = routeMatcher;
+      matchResult = match(requestUrl.pathname);
+      if (matchResult) {
+        routeHandler = handler;
+        break;
+      }
+    }
+
+    if (routeHandler && matchResult) {
+      const params = {
+        customerEnv: "prod",
+        orgKey,
+        ...matchResult.params,
+      };
+      requestLog.customerEnv = params.customerEnv;
+      requestLog.orgKey = params.orgKey;
+      response = await routeHandler(request, params, requestLog, env, orgKey);
+    } else {
+      response = await notFoundResponse(request);
+    }
   }
 
   requestLog.httpStatus = response.status;
@@ -133,10 +163,6 @@ export async function handleRequest(
   context.waitUntil(logRequest(requestLog, env));
   return response;
 }
-
-type RouteMatchers = RouteMatcher[];
-
-type RouteMatcher = [MatchFunction, RouteHandler];
 
 interface RouteHandlers {
   [path: string]: RouteHandler;
