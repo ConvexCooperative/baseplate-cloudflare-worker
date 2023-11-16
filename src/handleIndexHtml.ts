@@ -12,6 +12,7 @@ import {
 } from "../../baseplate-utils/lib/htmlParams";
 import { readImportMap, verifyImportMap } from "./handleImportMap";
 
+// Renders an HTML file to be used as a single-spa root config
 export async function handleIndexHtml(
   request: Request,
   params: HandleIndexHtmlParams,
@@ -76,6 +77,8 @@ export async function handleIndexHtml(
     if (preload.importSpecifier) {
       if (importMap?.imports[preload.importSpecifier]) {
         preload.href = importMap.imports[preload.importSpecifier];
+        preload.as =
+          finalParams.importMap.type === "native" ? "modulepreload" : "script";
       } else {
         console.error(
           `import specifier '${preload.importSpecifier}' cannot be preloaded because it doesn't exist in the import map`
