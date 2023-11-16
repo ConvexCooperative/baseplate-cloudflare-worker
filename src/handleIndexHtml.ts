@@ -87,7 +87,9 @@ export async function handleIndexHtml(
     status: 200,
     headers: {
       "content-type": "text/html",
+      // TODO: make this configurable as part of org settings
       "cache-control": "public, max-age=3600",
+      // TODO: make this configurable as part of org settings or html params
       "content-security-policy":
         "default-src 'self' https: localhost:*; script-src 'unsafe-inline' 'unsafe-eval' https: localhost:*; connect-src https: localhost:* ws://localhost:*; style-src 'unsafe-inline' https:; object-src 'none';",
       ...corsHeaders(request, orgSettings),
