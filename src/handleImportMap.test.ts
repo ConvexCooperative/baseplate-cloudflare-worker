@@ -1,6 +1,6 @@
 import { handleImportMap, ImportMap } from "./handleImportMap";
 import { EnvVars } from "./main";
-import { createTestEnv, MockCloudflareKV } from "./setupTests";
+import { createTestEnv } from "./setupTests";
 import { sampleLog } from "./testUtils";
 
 describe(`handleImportMap`, () => {
