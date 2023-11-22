@@ -11,9 +11,10 @@ import {
   mergeDefaultHtmlParams,
 } from "@baseplate-sdk/utils";
 import { readImportMap, verifyImportMap } from "./handleImportMap";
-import singleSpa from "single-spa";
+import * as singleSpa from "single-spa";
 import { constructApplications, constructRoutes } from "single-spa-layout";
 import { isCustomDomain } from "./customDomains";
+import { parseFragment } from "parse5";
 
 // Renders an HTML file to be used as a single-spa root config
 export async function handleIndexHtml(
@@ -74,14 +75,30 @@ export async function handleIndexHtml(
       finalParams.pageInit.isSingleSpa = true;
       finalParams.pageInit.isEntryModule = false;
 
-      const routes = constructRoutes(finalParams.pageInit.layoutTemplate);
+      const parsedLayout = parseFragment(finalParams.pageInit.layoutTemplate);
+      const routes = constructRoutes(
+        parsedLayout.childNodes[0] as unknown as Element
+      );
       const applications = constructApplications({
         routes,
         async loadApp({ name }) {
           return { async bootstrap() {}, async mount() {}, async unmount() {} };
         },
       });
-      applications.forEach(singleSpa.registerApplication);
+      const registerApplication =
+        singleSpa["registerApplication"] ??
+        // @ts-ignore
+        singleSpa.default["registerApplication"];
+      const checkActivityFunctions =
+        singleSpa["checkActivityFunctions"] ??
+        // @ts-ignore
+        singleSpa.default["checkActivityFunctions"];
+      const unregisterApplication =
+        singleSpa["unregisterApplication"] ??
+        // @ts-ignore
+        singleSpa.default["unregisterApplication"];
+
+      applications.forEach(registerApplication);
       let activeApplicationNames: string[], singleSpaLocation: URL;
       const requestUrl = new URL(request.url);
       if (isCustomDomain(requestUrl.hostname)) {
@@ -90,10 +107,13 @@ export async function handleIndexHtml(
         const path = new URLSearchParams(requestUrl.search).get("path") ?? "/";
         singleSpaLocation = new URL(path, "https://example.com");
       }
-      activeApplicationNames = singleSpa.checkActivityFunctions(
+      activeApplicationNames = checkActivityFunctions(
         // URL and Location objects are similar enough for single-spa to work with either
         singleSpaLocation as unknown as Location
       );
+      applications.forEach((application) => {
+        unregisterApplication(application.name);
+      });
 
       for (let activeAppName of activeApplicationNames) {
         finalParams.preloads.push({
