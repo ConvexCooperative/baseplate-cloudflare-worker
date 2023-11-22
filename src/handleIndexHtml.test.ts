@@ -4,7 +4,8 @@ import { EnvVars } from "./main";
 import { createTestEnv } from "./setupTests";
 import { sampleLog } from "./testUtils";
 import { RecursivePartial } from "@baseplate-sdk/utils/lib/utils";
-import singleSpa from "single-spa";
+import { getAppNames, unregisterApplication } from "single-spa";
+import { load as cheerioLoad } from "cheerio";
 
 describe(`handleIndexHtml`, () => {
   let env: EnvVars,
@@ -26,8 +27,8 @@ describe(`handleIndexHtml`, () => {
       </route>
     </single-spa-router>`.trim();
 
-    singleSpa.getAppNames().forEach((appName) => {
-      singleSpa.unregisterApplication(appName);
+    getAppNames().forEach((appName) => {
+      unregisterApplication(appName);
     });
   });
 
@@ -320,11 +321,8 @@ describe(`handleIndexHtml`, () => {
     expect(response.status).toBe(200);
     const html = await response.text();
 
-    const domParser = new DOMParser();
-    const doc = domParser.parseFromString(html, "text/html");
-    const linkPreloadEl = doc.querySelector(
-      `link[rel=preload][href="${settingsMFEUrl}"]`
-    );
+    const $ = cheerioLoad(html);
+    const linkPreloadEl = $(`link[rel=preload][href="${settingsMFEUrl}"]`);
     expect(linkPreloadEl).toBeTruthy();
   });
 
@@ -362,11 +360,8 @@ describe(`handleIndexHtml`, () => {
     expect(response.status).toBe(200);
     const html = await response.text();
 
-    const domParser = new DOMParser();
-    const doc = domParser.parseFromString(html, "text/html");
-    const linkPreloadEl = doc.querySelector(
-      `link[rel=preload][href="${settingsMFEUrl}"]`
-    );
+    const $ = cheerioLoad(html);
+    const linkPreloadEl = $(`link[rel=preload][href="${settingsMFEUrl}"]`);
     expect(linkPreloadEl).toBeTruthy();
   });
 });

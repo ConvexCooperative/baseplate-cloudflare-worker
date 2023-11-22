@@ -1,6 +1,6 @@
 /**  @type {import('@jest/types').Config.ProjectConfig} */
 const config = {
-  testEnvironment: "jsdom",
+  testEnvironment: "node",
   extensionsToTreatAsEsm: [".ts"],
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
   moduleNameMapper: {
