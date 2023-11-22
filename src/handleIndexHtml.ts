@@ -11,6 +11,9 @@ import {
   mergeDefaultHtmlParams,
 } from "@baseplate-sdk/utils";
 import { readImportMap, verifyImportMap } from "./handleImportMap";
+import singleSpa from "single-spa";
+import { constructApplications, constructRoutes } from "single-spa-layout";
+import { isCustomDomain } from "./customDomains";
 
 // Renders an HTML file to be used as a single-spa root config
 export async function handleIndexHtml(
@@ -70,6 +73,37 @@ export async function handleIndexHtml(
     case "single-spa":
       finalParams.pageInit.isSingleSpa = true;
       finalParams.pageInit.isEntryModule = false;
+
+      const routes = constructRoutes(finalParams.pageInit.layoutTemplate);
+      const applications = constructApplications({
+        routes,
+        async loadApp({ name }) {
+          return { async bootstrap() {}, async mount() {}, async unmount() {} };
+        },
+      });
+      applications.forEach(singleSpa.registerApplication);
+      let activeApplicationNames: string[], singleSpaLocation: URL;
+      if (isCustomDomain(request.url)) {
+        const requestUrl = new URL(request.url);
+        const path = new URLSearchParams(requestUrl.search).get("path") ?? "/";
+        singleSpaLocation = new URL(path, "https://example.com");
+      } else {
+        singleSpaLocation = new URL(request.url);
+      }
+      // URL and Location objects are similar enough for single-spa to work with either
+      activeApplicationNames = singleSpa.checkActivityFunctions(
+        singleSpaLocation as unknown as Location
+      );
+
+      for (let activeAppName of activeApplicationNames) {
+        finalParams.preloads.push({
+          as:
+            finalParams.importMap.type === "native"
+              ? "modulepreload"
+              : "script",
+          importSpecifier: activeAppName,
+        });
+      }
       break;
     default:
       console.error(

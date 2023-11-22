@@ -5,15 +5,12 @@ import {
   pathToRegexp,
 } from "path-to-regexp";
 import { handleImportMap } from "./handleImportMap";
-import {
-  notFoundResponse,
-  internalErrorResponse,
-  isCustomDomain,
-} from "./responseUtils";
+import { notFoundResponse, internalErrorResponse } from "./responseUtils";
 import { handleApps } from "./handleApps";
 import { handleOptions } from "./cors";
 import { logRequest, RequestLog } from "./logRequests";
 import { handleIndexHtml } from "./handleIndexHtml";
+import { isCustomDomain } from "./customDomains";
 
 const workerHandler: ExportedHandler<EnvVars> = {
   fetch: handleRequest,

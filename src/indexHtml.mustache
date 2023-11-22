@@ -21,9 +21,9 @@
   {{/importMap.isSystemJS}}
   {{#preloads}}
   {{#importSpecifier}}
-  <!-- {{{importSpecifier}}} -->
+  <!-- Preload {{{importSpecifier}}} -->
   {{/importSpecifier}}
-  <link rel="preload" href="{{href}}" as="{{as}}">
+  <link rel="preload" href="{{{href}}}" as="{{as}}">
   {{/preloads}}
   {{#headScripts}}
   <script src="{{src}}"{{#async}} async{{/async}}{{#defer}} defer{{/defer}}></script>
