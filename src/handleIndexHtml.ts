@@ -9,7 +9,7 @@ import Mustache from "mustache";
 import {
   HTMLTemplateParams,
   mergeDefaultHtmlParams,
-} from "../../baseplate-utils";
+} from "@baseplate-sdk/utils";
 import { readImportMap, verifyImportMap } from "./handleImportMap";
 
 // Renders an HTML file to be used as a single-spa root config
