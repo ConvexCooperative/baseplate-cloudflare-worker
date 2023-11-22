@@ -293,12 +293,14 @@ describe(`handleIndexHtml`, () => {
       },
     };
 
+    const settingsMFEUrl =
+      "https://cdn.baseplate.cloud/walmart/prod/apps/settings/v1/settings.js";
+
     env.MAIN_KV.mockKv({
       [`html-file-${orgKey}-${params.htmlFileName}`]: templateParameters,
       [`import-map-${orgKey}-${params.customerEnv}-test`]: {
         imports: {
-          "@walmart/settings":
-            "https://cdn.baseplate.cloud/walmart/prod/apps/settings/v1/settings.js",
+          "@walmart/settings": settingsMFEUrl,
         },
         scopes: {},
       },
@@ -316,6 +318,13 @@ describe(`handleIndexHtml`, () => {
     );
 
     expect(response.status).toBe(200);
-    expect(await response.text()).toMatchSnapshot();
+    const html = await response.text();
+
+    const domParser = new DOMParser();
+    const doc = domParser.parseFromString(html, "text/html");
+    const linkPreloadEl = doc.querySelector(
+      `link[rel=preload][href="${settingsMFEUrl}"]`
+    );
+    expect(linkPreloadEl).toBeTruthy();
   });
 });

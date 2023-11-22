@@ -90,8 +90,8 @@ export async function handleIndexHtml(
       } else {
         singleSpaLocation = new URL(request.url);
       }
-      // URL and Location objects are similar enough for single-spa to work with either
       activeApplicationNames = singleSpa.checkActivityFunctions(
+        // URL and Location objects are similar enough for single-spa to work with either
         singleSpaLocation as unknown as Location
       );
 
