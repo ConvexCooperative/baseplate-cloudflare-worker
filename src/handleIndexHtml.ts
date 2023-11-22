@@ -72,8 +72,8 @@ export async function handleIndexHtml(
       finalParams.pageInit.isEntryModule = false;
       break;
     default:
-      // @ts-ignore
       console.error(
+        // @ts-ignore
         `handleIndexHtml: htmlTemplateParameters.pageInit.type '${finalParams.pageInit.type}' is not supported.`
       );
       return internalErrorResponse(request, orgSettings);
