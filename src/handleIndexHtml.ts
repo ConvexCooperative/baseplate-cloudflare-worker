@@ -60,9 +60,25 @@ export async function handleIndexHtml(
   }
 
   // Add derived properties used in MustacheJS template
-  if (finalParams.importMap.type === "systemjs") {
-    finalParams.importMap.isSystemJS = true;
+  finalParams.importMap.isSystemJS = finalParams.importMap.type === "systemjs";
+
+  switch (finalParams.pageInit.type) {
+    case "module":
+      finalParams.pageInit.isSingleSpa = false;
+      finalParams.pageInit.isEntryModule = true;
+      break;
+    case "single-spa":
+      finalParams.pageInit.isSingleSpa = true;
+      finalParams.pageInit.isEntryModule = false;
+      break;
+    default:
+      // @ts-ignore
+      console.error(
+        `handleIndexHtml: htmlTemplateParameters.pageInit.type '${finalParams.pageInit.type}' is not supported.`
+      );
+      return internalErrorResponse(request, orgSettings);
   }
+
   finalParams.importMap.json = JSON.stringify(importMap!, null, 2);
   finalParams.importMap.url = new URL(
     `./${finalParams.importMap.name}.importmap`,
@@ -115,5 +131,9 @@ type FinalHTMLTemplateParams = HTMLTemplateParams & {
     isSystemJS?: boolean;
     json?: string;
     url?: string;
+  };
+  pageInit: HTMLTemplateParams["pageInit"] & {
+    isSingleSpa: boolean;
+    isEntryModule: boolean;
   };
 };
