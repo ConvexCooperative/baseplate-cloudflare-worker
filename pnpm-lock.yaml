@@ -12,8 +12,8 @@ dependencies:
     specifier: ^3.272.0
     version: 3.272.0
   '@baseplate-sdk/utils':
-    specifier: ^3.1.2
-    version: link:../baseplate-utils
+    specifier: ^3.2.0
+    version: 3.2.0
   mustache:
     specifier: ^4.2.0
     version: 4.2.0
@@ -2937,6 +2937,12 @@ packages:
       '@babel/helper-validator-identifier': 7.16.7
       to-fast-properties: 2.0.0
     dev: true
+
+  /@baseplate-sdk/utils@3.2.0:
+    resolution: {integrity: sha512-zhhYc9CQ+31cPiZIUGi8xJDcYwJEr8TjG7xYbuk9RiCdmfUKBr8z+79IwFBQ4MNAMuf62WDMK5aetwyMqgQ8lQ==}
+    dependencies:
+      lodash-es: 4.17.21
+    dev: false
 
   /@bcoe/v8-coverage@0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
@@ -6811,7 +6817,6 @@ packages:
 
   /lodash-es@4.17.21:
     resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
-    dev: true
 
   /lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
