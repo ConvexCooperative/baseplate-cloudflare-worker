@@ -327,4 +327,46 @@ describe(`handleIndexHtml`, () => {
     );
     expect(linkPreloadEl).toBeTruthy();
   });
+
+  it(`renders preloads based on active route on custom domain`, async () => {
+    const templateParameters: RecursivePartial<HTMLTemplateParams> = {
+      importMap: { name: "test", type: "native" },
+      pageInit: {
+        type: "single-spa",
+        layoutTemplate: layoutTemplate,
+      },
+    };
+
+    const settingsMFEUrl =
+      "https://cdn.walmart.com/apps/settings/v1/settings.js";
+
+    env.MAIN_KV.mockKv({
+      [`html-file-${orgKey}-${params.htmlFileName}`]: templateParameters,
+      [`import-map-${orgKey}-${params.customerEnv}-test`]: {
+        imports: {
+          "@walmart/settings": settingsMFEUrl,
+        },
+        scopes: {},
+      },
+    });
+
+    const request = new Request(`https://walmart.com/settings`);
+    const response = await handleIndexHtml(
+      request,
+      params,
+      sampleLog(),
+      env,
+      orgKey
+    );
+
+    expect(response.status).toBe(200);
+    const html = await response.text();
+
+    const domParser = new DOMParser();
+    const doc = domParser.parseFromString(html, "text/html");
+    const linkPreloadEl = doc.querySelector(
+      `link[rel=preload][href="${settingsMFEUrl}"]`
+    );
+    expect(linkPreloadEl).toBeTruthy();
+  });
 });

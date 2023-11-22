@@ -83,12 +83,12 @@ export async function handleIndexHtml(
       });
       applications.forEach(singleSpa.registerApplication);
       let activeApplicationNames: string[], singleSpaLocation: URL;
-      if (isCustomDomain(request.url)) {
-        const requestUrl = new URL(request.url);
+      const requestUrl = new URL(request.url);
+      if (isCustomDomain(requestUrl.hostname)) {
+        singleSpaLocation = requestUrl;
+      } else {
         const path = new URLSearchParams(requestUrl.search).get("path") ?? "/";
         singleSpaLocation = new URL(path, "https://example.com");
-      } else {
-        singleSpaLocation = new URL(request.url);
       }
       activeApplicationNames = singleSpa.checkActivityFunctions(
         // URL and Location objects are similar enough for single-spa to work with either
