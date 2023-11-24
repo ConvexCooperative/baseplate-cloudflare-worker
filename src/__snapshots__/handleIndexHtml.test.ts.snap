@@ -26,9 +26,9 @@ exports[`handleIndexHtml can render a SystemJS + single-spa root config 1`] = `
   <main></main>
     <template id=\\"single-spa-layout\\">
       <single-spa-router>
-      <nav class=\\"topnav\\">
-        <application name=\\"@organization/nav\\"></application>
-      </nav>
+      <route path=\\"/settings\\">
+        <application name=\\"@walmart/settings\\"></application>
+      </route>
     </single-spa-router>
     </template>
     <script>

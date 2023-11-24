@@ -4,6 +4,8 @@ import { EnvVars } from "./main";
 import { createTestEnv } from "./setupTests";
 import { sampleLog } from "./testUtils";
 import { RecursivePartial } from "@baseplate-sdk/utils/lib/utils";
+import { getAppNames, unregisterApplication } from "single-spa";
+import { load as cheerioLoad } from "cheerio";
 
 describe(`handleIndexHtml`, () => {
   let env: EnvVars,
@@ -20,10 +22,14 @@ describe(`handleIndexHtml`, () => {
     };
     layoutTemplate = `
     <single-spa-router>
-      <nav class="topnav">
-        <application name="@organization/nav"></application>
-      </nav>
+      <route path="/settings">
+        <application name="@walmart/settings"></application>
+      </route>
     </single-spa-router>`.trim();
+
+    getAppNames().forEach((appName) => {
+      unregisterApplication(appName);
+    });
   });
 
   it(`fails when no orgKey is passed`, async () => {
@@ -277,5 +283,85 @@ describe(`handleIndexHtml`, () => {
 
     expect(response.status).toBe(200);
     expect(await response.text()).toMatchSnapshot();
+  });
+
+  it(`renders preloads based on active route`, async () => {
+    const templateParameters: RecursivePartial<HTMLTemplateParams> = {
+      importMap: { name: "test", type: "native" },
+      pageInit: {
+        type: "single-spa",
+        layoutTemplate: layoutTemplate,
+      },
+    };
+
+    const settingsMFEUrl =
+      "https://cdn.baseplate.cloud/walmart/prod/apps/settings/v1/settings.js";
+
+    env.MAIN_KV.mockKv({
+      [`html-file-${orgKey}-${params.htmlFileName}`]: templateParameters,
+      [`import-map-${orgKey}-${params.customerEnv}-test`]: {
+        imports: {
+          "@walmart/settings": settingsMFEUrl,
+        },
+        scopes: {},
+      },
+    });
+
+    const request = new Request(
+      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html?path=/settings`
+    );
+    const response = await handleIndexHtml(
+      request,
+      params,
+      sampleLog(),
+      env,
+      orgKey
+    );
+
+    expect(response.status).toBe(200);
+    const html = await response.text();
+
+    const $ = cheerioLoad(html);
+    const linkPreloadEl = $(`link[rel=preload][href="${settingsMFEUrl}"]`);
+    expect(linkPreloadEl).toBeTruthy();
+  });
+
+  it(`renders preloads based on active route on custom domain`, async () => {
+    const templateParameters: RecursivePartial<HTMLTemplateParams> = {
+      importMap: { name: "test", type: "native" },
+      pageInit: {
+        type: "single-spa",
+        layoutTemplate: layoutTemplate,
+      },
+    };
+
+    const settingsMFEUrl =
+      "https://cdn.walmart.com/apps/settings/v1/settings.js";
+
+    env.MAIN_KV.mockKv({
+      [`html-file-${orgKey}-${params.htmlFileName}`]: templateParameters,
+      [`import-map-${orgKey}-${params.customerEnv}-test`]: {
+        imports: {
+          "@walmart/settings": settingsMFEUrl,
+        },
+        scopes: {},
+      },
+    });
+
+    const request = new Request(`https://walmart.com/settings`);
+    const response = await handleIndexHtml(
+      request,
+      params,
+      sampleLog(),
+      env,
+      orgKey
+    );
+
+    expect(response.status).toBe(200);
+    const html = await response.text();
+
+    const $ = cheerioLoad(html);
+    const linkPreloadEl = $(`link[rel=preload][href="${settingsMFEUrl}"]`);
+    expect(linkPreloadEl).toBeTruthy();
   });
 });

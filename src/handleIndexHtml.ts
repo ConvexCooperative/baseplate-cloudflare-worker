@@ -16,6 +16,10 @@ import {
   processImportMap,
   importMapHostname,
 } from "./importMapUtils";
+import * as singleSpa from "single-spa";
+import { constructApplications, constructRoutes } from "single-spa-layout";
+import { isCustomDomain } from "./customDomains";
+import { parseFragment } from "parse5";
 
 // Renders an HTML file to be used as a single-spa root config
 export async function handleIndexHtml(
@@ -79,6 +83,56 @@ export async function handleIndexHtml(
     case "single-spa":
       finalParams.pageInit.isSingleSpa = true;
       finalParams.pageInit.isEntryModule = false;
+
+      const parsedLayout = parseFragment(finalParams.pageInit.layoutTemplate);
+      const routes = constructRoutes(
+        parsedLayout.childNodes[0] as unknown as Element
+      );
+      const applications = constructApplications({
+        routes,
+        async loadApp({ name }) {
+          return { async bootstrap() {}, async mount() {}, async unmount() {} };
+        },
+      });
+      const registerApplication =
+        singleSpa["registerApplication"] ??
+        // @ts-ignore
+        singleSpa.default["registerApplication"];
+      const checkActivityFunctions =
+        singleSpa["checkActivityFunctions"] ??
+        // @ts-ignore
+        singleSpa.default["checkActivityFunctions"];
+      const unregisterApplication =
+        singleSpa["unregisterApplication"] ??
+        // @ts-ignore
+        singleSpa.default["unregisterApplication"];
+
+      applications.forEach(registerApplication);
+      let activeApplicationNames: string[], singleSpaLocation: URL;
+      const requestUrl = new URL(request.url);
+      if (isCustomDomain(requestUrl.hostname)) {
+        singleSpaLocation = requestUrl;
+      } else {
+        const path = new URLSearchParams(requestUrl.search).get("path") ?? "/";
+        singleSpaLocation = new URL(path, "https://example.com");
+      }
+      activeApplicationNames = checkActivityFunctions(
+        // URL and Location objects are similar enough for single-spa to work with either
+        singleSpaLocation as unknown as Location
+      );
+      applications.forEach((application) => {
+        unregisterApplication(application.name);
+      });
+
+      for (let activeAppName of activeApplicationNames) {
+        finalParams.preloads.push({
+          as:
+            finalParams.importMap.type === "native"
+              ? "modulepreload"
+              : "script",
+          importSpecifier: activeAppName,
+        });
+      }
       break;
     default:
       console.error(

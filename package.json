@@ -38,6 +38,7 @@
     "@types/jest": "^28.1.1",
     "@types/webpack": "^5.28.0",
     "babel-loader": "^8.2.5",
+    "cheerio": "1.0.0-rc.12",
     "cross-env": "^7.0.3",
     "eslint": "^8.17.0",
     "eslint-config-ts-important-stuff": "^1.1.0",
@@ -58,6 +59,9 @@
     "@aws-sdk/client-timestream-write": "^3.272.0",
     "@baseplate-sdk/utils": "^3.2.1",
     "mustache": "^4.2.0",
-    "path-to-regexp": "^6.2.1"
+    "parse5": "^7.1.2",
+    "path-to-regexp": "^6.2.1",
+    "single-spa": "6.0.0-beta.4",
+    "single-spa-layout": "^2.2.0"
   }
 }
