@@ -1,14 +1,61 @@
 import { handleRequest } from "./main";
 import { createTestContext, createTestEnv } from "./setupTests";
 import { ImportMap } from "./handleImportMap";
+import { CustomDomain, CustomDomainPurpose } from "@baseplate-sdk/utils";
 
 describe("main handle request", () => {
   describe("Not Custom Domain", () => {
     runTests(false);
   });
 
-  fdescribe("Custom Domains", () => {
+  describe("Custom Domains - CDN Proxy", () => {
     runTests(true);
+  });
+
+  describe("Custom Domains - Web App", () => {
+    it("returns an HTML file for root path", async () => {
+      const request = new Request("https://app.walmart.com");
+      const env = createTestEnv();
+      const customDomain: CustomDomain = {
+        orgKey: "walmart",
+        purpose: CustomDomainPurpose.web_app,
+        customerEnv: "prod",
+        webAppHtmlFilename: "index",
+      };
+
+      env.MAIN_KV.mockKv({
+        "custom-domain-app.walmart.com": customDomain,
+        "import-map-walmart-prod-systemjs": { imports: {}, scopes: {} },
+        "html-file-walmart-index": {},
+      });
+
+      let response = await handleRequest(request, env, createTestContext());
+      expect(response.status).toBe(200);
+      expect(response.headers.get("content-type")).toEqual("text/html");
+    });
+
+    it("returns an HTML file for arbitrary other path", async () => {
+      const request = new Request(
+        "https://app.walmart.com/user-settings/sdf908sfsdfi89sdf"
+      );
+      const env = createTestEnv();
+      const customDomain: CustomDomain = {
+        orgKey: "walmart",
+        purpose: CustomDomainPurpose.web_app,
+        customerEnv: "prod",
+        webAppHtmlFilename: "index",
+      };
+
+      env.MAIN_KV.mockKv({
+        "custom-domain-app.walmart.com": customDomain,
+        "import-map-walmart-prod-systemjs": { imports: {}, scopes: {} },
+        "html-file-walmart-index": {},
+      });
+
+      let response = await handleRequest(request, env, createTestContext());
+      expect(response.status).toBe(200);
+      expect(response.headers.get("content-type")).toEqual("text/html");
+    });
   });
 });
 
@@ -22,8 +69,13 @@ function customDomainsUrl(pathname: string, isCustomDomains: boolean): string {
 
 function runTests(isCustomDomains: boolean) {
   function mockCustomDomainsLookup(env) {
+    const value: CustomDomain = {
+      orgKey: "walmart",
+      purpose: CustomDomainPurpose.cdn_proxy,
+    };
+
     env.MAIN_KV.mockKv({
-      "custom-domain-cdn.walmart.com": "walmart",
+      "custom-domain-cdn.walmart.com": value,
     });
   }
 
