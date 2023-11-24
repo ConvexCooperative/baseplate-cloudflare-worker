@@ -56,7 +56,8 @@ export async function handleIndexHtml(
   );
   const importMapErrors = processImportMap(
     importMap,
-    importMapHostname(params.customDomain, orgSettings)
+    importMapHostname(params.customDomain, orgSettings),
+    orgKey
   );
 
   if (importMapErrors.length > 0) {

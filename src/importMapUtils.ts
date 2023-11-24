@@ -1,7 +1,6 @@
 import { CustomDomain, OrgSettings } from "@baseplate-sdk/utils";
 import { EnvVars } from "./main";
 import { isPlainObject } from "lodash-es";
-import { isCustomDomain } from "./responseUtils";
 
 export async function readImportMap(
   { importMapName, customerEnv }: Params,
@@ -26,7 +25,8 @@ export async function readImportMap(
 
 export function processImportMap(
   input: ImportMap | null,
-  hostnameRewrite: string | null
+  hostnameRewrite: string | null,
+  orgKey: string
 ): string[] {
   const errors: string[] = [];
 
@@ -38,7 +38,8 @@ export function processImportMap(
         ...processModuleMap(
           importMap.imports,
           "importMap.imports",
-          hostnameRewrite
+          hostnameRewrite,
+          orgKey
         )
       );
     } else {
@@ -53,7 +54,8 @@ export function processImportMap(
             ...processModuleMap(
               moduleMap,
               `importMap.scopes[${scope}]`,
-              hostnameRewrite
+              hostnameRewrite,
+              orgKey
             )
           );
         } else {
@@ -79,7 +81,8 @@ export function processImportMap(
 function processModuleMap(
   moduleMap: ModuleMap,
   path: string,
-  hostnameRewrite: string | null
+  hostnameRewrite: string | null,
+  orgKey: string
 ): string[] {
   const errors: string[] = [];
 
@@ -90,7 +93,16 @@ function processModuleMap(
 
     if (hostnameRewrite) {
       const url = new URL(moduleMap[key], "https://cdn.baseplate.cloud");
+      // Change the hostname to be a custom domain
       url.hostname = hostnameRewrite;
+
+      // Custom domains (implemented via hostnameRewrite) do not
+      // require the orgKey at the beginning of the URL path
+      const orgKeyPrefix = `/${orgKey}`;
+      if (url.pathname.startsWith(orgKeyPrefix)) {
+        url.pathname = url.pathname.replace(orgKeyPrefix, "");
+      }
+
       moduleMap[key] = url.href;
     }
   }
