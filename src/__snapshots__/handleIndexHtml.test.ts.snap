@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`handleIndexHtml default index.html matches snapshot 1`] = `"default-src 'self' https: localhost:*; script-src 'unsafe-inline' 'unsafe-eval' https: localhost:*; connect-src https: localhost:* ws://localhost:*; style-src 'unsafe-inline' https:; object-src 'none';"`;
+
+exports[`handleIndexHtml default index.html matches snapshot 2`] = `
+"<!DOCTYPE html>
+<html lang=\\"en\\">
+<head>
+  <meta charset=\\"UTF-8\\">
+  <meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1.0\\">
+  <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\">
+  <title>Web App</title>
+  <!-- Import Map URL: https://cdn.baseplate.cloud/convex/prod/test.importmap  -->
+  <script type=\\"systemjs-importmap\\">
+    {
+  \\"imports\\": {},
+  \\"scopes\\": {}
+}
+  </script>
+  <meta name=\\"importmap-type\\" content=\\"systemjs-importmap\\" />
+  <script src=\\"https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/system.min.js\\"></script>
+  <script src=\\"https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/extras/amd.min.js\\"></script>
+</head>
+<body>
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+  <main></main>
+  <script>
+    System.import('');
+  </script>
+  <script defer src=\\"https://cdn.jsdelivr.net/npm/import-map-overrides@3.1.1/dist/import-map-overrides.js\\"></script>
+  <import-map-overrides-full show-when-local-storage=\\"devtools\\" dev-libs></import-map-overrides-full>
+</body>
+</html>"
+`;

@@ -7,6 +7,9 @@ kv_namespaces = [
   { binding = "MAIN_KV", preview_id = "c85c67a045a7494ca6e1660d0a07a1f5", id = "c85c67a045a7494ca6e1660d0a07a1f5" },
 ]
 workers_dev = true
+rules = [
+  { type = "Text", globs = ["**/*.mustache"], fallthrough = true }
+]
 [vars]
 BASEPLATE_ENV = "prod"
 # [secrets]

@@ -13,6 +13,7 @@ import {
 import { handleApps } from "./handleApps";
 import { handleOptions } from "./cors";
 import { logRequest, RequestLog } from "./logRequests";
+import { handleIndexHtml } from "./handleIndexHtml";
 
 const workerHandler: ExportedHandler<EnvVars> = {
   fetch: handleRequest,
@@ -23,6 +24,7 @@ export default workerHandler;
 const routeHandlers: RouteHandlers = withOptionalOrgKey({
   "/:customerEnv/:importMapName.importmap": handleImportMap,
   "/:customerEnv/apps/:pathParts*": handleApps,
+  "/:customerEnv/:htmlFileName.html": handleIndexHtml,
 });
 
 const routeMatchers = Object.entries(routeHandlers).map(([path, handler]) => [

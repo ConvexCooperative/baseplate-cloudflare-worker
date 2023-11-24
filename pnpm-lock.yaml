@@ -12,8 +12,11 @@ dependencies:
     specifier: ^3.272.0
     version: 3.272.0
   '@baseplate-sdk/utils':
-    specifier: ^3.1.2
-    version: 3.1.2
+    specifier: ^3.2.0
+    version: 3.2.0
+  mustache:
+    specifier: ^4.2.0
+    version: 4.2.0
   path-to-regexp:
     specifier: ^6.2.1
     version: 6.2.1
@@ -2935,8 +2938,8 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
-  /@baseplate-sdk/utils@3.1.2:
-    resolution: {integrity: sha512-NX7s37lAiEn4fQAAnVHNKBB7LI1IBRfvbETHkqkTVbNOFNj0MEJSE7+33NtTkOyzYfdbeJjNqR2Av1Tn11QGXg==}
+  /@baseplate-sdk/utils@3.2.0:
+    resolution: {integrity: sha512-zhhYc9CQ+31cPiZIUGi8xJDcYwJEr8TjG7xYbuk9RiCdmfUKBr8z+79IwFBQ4MNAMuf62WDMK5aetwyMqgQ8lQ==}
     dependencies:
       lodash-es: 4.17.21
     dev: false
@@ -7022,7 +7025,6 @@ packages:
   /mustache@4.2.0:
     resolution: {integrity: sha512-71ippSywq5Yb7/tVYyGbkBggbU8H3u5Rz56fH60jGFgr8uHwxs+aSKeqmluIVzM0m0kB7xQjKS6qPfd0b2ZoqQ==}
     hasBin: true
-    dev: true
 
   /nanoid@3.3.6:
     resolution: {integrity: sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==}

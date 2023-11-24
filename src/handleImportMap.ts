@@ -55,7 +55,7 @@ export async function handleImportMap(
   }
 }
 
-async function readImportMap(
+export async function readImportMap(
   { importMapName, customerEnv }: Params,
   env: EnvVars,
   orgKey: string
@@ -76,7 +76,7 @@ async function readImportMap(
   }
 }
 
-function verifyImportMap(input: ImportMap | null): string[] {
+export function verifyImportMap(input: ImportMap | null): string[] {
   const errors: string[] = [];
 
   if (isPlainObject(input)) {
