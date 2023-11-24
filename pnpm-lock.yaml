@@ -12,8 +12,8 @@ dependencies:
     specifier: ^3.272.0
     version: 3.272.0
   '@baseplate-sdk/utils':
-    specifier: ^3.2.0
-    version: 3.2.0
+    specifier: ^3.2.1
+    version: 3.2.1
   mustache:
     specifier: ^4.2.0
     version: 4.2.0
@@ -2950,8 +2950,8 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
-  /@baseplate-sdk/utils@3.2.0:
-    resolution: {integrity: sha512-zhhYc9CQ+31cPiZIUGi8xJDcYwJEr8TjG7xYbuk9RiCdmfUKBr8z+79IwFBQ4MNAMuf62WDMK5aetwyMqgQ8lQ==}
+  /@baseplate-sdk/utils@3.2.1:
+    resolution: {integrity: sha512-nbESIGSBjpaEtLh9IdfzcCaGbe4QfLFmELRlWvUsvZ50xcKfIIl7P/X4QGZySPb02FcTrbAeykK65YfarpRIqw==}
     dependencies:
       lodash-es: 4.17.21
     dev: false

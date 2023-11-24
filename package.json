@@ -57,7 +57,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.110.0",
     "@aws-sdk/client-timestream-write": "^3.272.0",
-    "@baseplate-sdk/utils": "^3.2.0",
+    "@baseplate-sdk/utils": "^3.2.1",
     "mustache": "^4.2.0",
     "parse5": "^7.1.2",
     "path-to-regexp": "^6.2.1",
