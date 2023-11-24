@@ -7,10 +7,15 @@ import { corsHeaders } from "./cors";
 import { baseplateVersion } from "./baseplateVersion";
 import Mustache from "mustache";
 import {
+  CustomDomain,
   HTMLTemplateParams,
   mergeDefaultHtmlParams,
 } from "@baseplate-sdk/utils";
-import { readImportMap, verifyImportMap } from "./handleImportMap";
+import {
+  readImportMap,
+  processImportMap,
+  importMapHostname,
+} from "./importMapUtils";
 
 // Renders an HTML file to be used as a single-spa root config
 export async function handleIndexHtml(
@@ -49,7 +54,10 @@ export async function handleIndexHtml(
     env,
     orgKey
   );
-  const importMapErrors = verifyImportMap(importMap);
+  const importMapErrors = processImportMap(
+    importMap,
+    importMapHostname(params.customDomain, orgSettings)
+  );
 
   if (importMapErrors.length > 0) {
     console.error(
@@ -108,6 +116,7 @@ export async function handleIndexHtml(
 export interface HandleIndexHtmlParams {
   customerEnv: string;
   htmlFileName: string;
+  customDomain: CustomDomain | null;
 }
 
 type FinalHTMLTemplateParams = HTMLTemplateParams & {
