@@ -1,10 +1,15 @@
+import { HTMLTemplateParams } from "@baseplate-sdk/utils";
 import { handleIndexHtml, HandleIndexHtmlParams } from "./handleIndexHtml";
 import { EnvVars } from "./main";
 import { createTestEnv } from "./setupTests";
 import { sampleLog } from "./testUtils";
+import { RecursivePartial } from "@baseplate-sdk/utils/lib/utils";
 
 describe(`handleIndexHtml`, () => {
-  let env: EnvVars, orgKey: string | undefined, params: HandleIndexHtmlParams;
+  let env: EnvVars,
+    orgKey: string | undefined,
+    params: HandleIndexHtmlParams,
+    layoutTemplate;
 
   beforeEach(() => {
     env = createTestEnv();
@@ -13,6 +18,12 @@ describe(`handleIndexHtml`, () => {
       customerEnv: "prod",
       htmlFileName: "main",
     };
+    layoutTemplate = `
+    <single-spa-router>
+      <nav class="topnav">
+        <application name="@organization/nav"></application>
+      </nav>
+    </single-spa-router>`.trim();
   });
 
   it(`fails when no orgKey is passed`, async () => {
@@ -138,6 +149,133 @@ describe(`handleIndexHtml`, () => {
     expect(response.headers.get("content-type")).toBe("text/html");
     expect(response.headers.get("cache-control")).toBe("public, max-age=3600");
     expect(response.headers.get("content-security-policy")).toMatchSnapshot();
+    expect(await response.text()).toMatchSnapshot();
+  });
+
+  it(`can render a SystemJS + single-spa root config`, async () => {
+    const templateParameters: RecursivePartial<HTMLTemplateParams> = {
+      importMap: { name: "test" },
+      pageInit: {
+        type: "single-spa",
+        layoutTemplate,
+      },
+    };
+
+    env.MAIN_KV.mockKv({
+      [`html-file-${orgKey}-${params.htmlFileName}`]: templateParameters,
+      [`import-map-${orgKey}-${params.customerEnv}-test`]: {
+        imports: {},
+        scopes: {},
+      },
+    });
+
+    const request = new Request(
+      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`
+    );
+    const response = await handleIndexHtml(
+      request,
+      params,
+      sampleLog(),
+      env,
+      orgKey
+    );
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toMatchSnapshot();
+  });
+
+  it(`can render a native module + single-spa root config`, async () => {
+    const templateParameters: RecursivePartial<HTMLTemplateParams> = {
+      importMap: { name: "test", type: "systemjs" },
+      pageInit: {
+        type: "single-spa",
+      },
+    };
+
+    env.MAIN_KV.mockKv({
+      [`html-file-${orgKey}-${params.htmlFileName}`]: templateParameters,
+      [`import-map-${orgKey}-${params.customerEnv}-test`]: {
+        imports: {},
+        scopes: {},
+      },
+    });
+
+    const request = new Request(
+      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`
+    );
+    const response = await handleIndexHtml(
+      request,
+      params,
+      sampleLog(),
+      env,
+      orgKey
+    );
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toMatchSnapshot();
+  });
+
+  it(`can render a systemjs module + entryModule root config`, async () => {
+    const templateParameters: RecursivePartial<HTMLTemplateParams> = {
+      importMap: { name: "test", type: "systemjs" },
+      pageInit: {
+        type: "module",
+        entryModule: "@walmart/root-config",
+      },
+    };
+
+    env.MAIN_KV.mockKv({
+      [`html-file-${orgKey}-${params.htmlFileName}`]: templateParameters,
+      [`import-map-${orgKey}-${params.customerEnv}-test`]: {
+        imports: {},
+        scopes: {},
+      },
+    });
+
+    const request = new Request(
+      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`
+    );
+    const response = await handleIndexHtml(
+      request,
+      params,
+      sampleLog(),
+      env,
+      orgKey
+    );
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toMatchSnapshot();
+  });
+
+  it(`can render a native module + entryModule root config`, async () => {
+    const templateParameters: RecursivePartial<HTMLTemplateParams> = {
+      importMap: { name: "test", type: "native" },
+      pageInit: {
+        type: "module",
+        entryModule: "@walmart/root-config",
+      },
+    };
+
+    env.MAIN_KV.mockKv({
+      [`html-file-${orgKey}-${params.htmlFileName}`]: templateParameters,
+      [`import-map-${orgKey}-${params.customerEnv}-test`]: {
+        imports: {},
+        scopes: {},
+      },
+    });
+
+    const request = new Request(
+      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`
+    );
+    const response = await handleIndexHtml(
+      request,
+      params,
+      sampleLog(),
+      env,
+      orgKey
+    );
+
+    expect(response.status).toBe(200);
     expect(await response.text()).toMatchSnapshot();
   });
 });

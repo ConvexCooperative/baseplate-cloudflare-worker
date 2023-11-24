@@ -16,7 +16,7 @@
   {{/importMap.isSystemJS}}
   {{^importMap.isSystemJS}}
   <script type="importmap">
-    {{importMap.json}}
+    {{{importMap.json}}}
   </script>
   {{/importMap.isSystemJS}}
   {{#preloads}}
@@ -37,9 +37,51 @@
     You need to enable JavaScript to run this app.
   </noscript>
   <main></main>
-  <script>
-    {{#importMap.isSystemJS}}System.{{/importMap.isSystemJS}}import('{{importMap.entryModule}}');
-  </script>
+  {{#pageInit.isSingleSpa}}
+    <template id="single-spa-layout">
+      {{{pageInit.layoutTemplate}}}
+    </template>
+    {{#importMap.isSystemJS}}
+    <script>
+    {{/importMap.isSystemJS}}
+    {{^importMap.isSystemJS}}
+    <script type="module">
+    import { registerApplication, start } from 'single-spa';
+    import {
+      constructApplications,
+      constructRoutes,
+      constructLayoutEngine,
+    } from 'single-spa-layout';
+    {{/importMap.isSystemJS}}
+    {{#importMap.isSystemJS}}
+    Promise
+      .all([System.import("single-spa"), System.import("single-spa-layout")])
+      .then(([singleSpa, singleSpaLayout]) => {
+        const { registerApplication, start } = singleSpa;
+        const { constructApplications, constructRoutes, constructLayoutEngine } = singleSpaLayout;
+    {{/importMap.isSystemJS}}
+
+    const routes = constructRoutes(document.querySelector('#single-spa-layout'));
+    const applications = constructApplications({
+      routes,
+      loadApp({ name }) {
+        return {{#importMap.isSystemJS}}System.{{/importMap.isSystemJS}}import(name);
+      },
+    });
+    const layoutEngine = constructLayoutEngine({ routes, applications });
+
+    applications.forEach(registerApplication);
+    start();
+    {{#importMap.isSystemJS}}
+      })
+    {{/importMap.isSystemJS}}
+    </script>
+  {{/pageInit.isSingleSpa}}
+  {{#pageInit.isEntryModule}}
+    <script>
+      {{#importMap.isSystemJS}}System.{{/importMap.isSystemJS}}import('{{{pageInit.entryModule}}}');
+    </script>
+  {{/pageInit.isEntryModule}}
   {{#importMap.useOverrides}}
   <script defer src="https://cdn.jsdelivr.net/npm/import-map-overrides@3.1.1/dist/import-map-overrides.js"></script>
   <import-map-overrides-full show-when-local-storage="devtools" dev-libs></import-map-overrides-full>
