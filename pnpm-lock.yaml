@@ -24,8 +24,8 @@ dependencies:
     specifier: ^6.2.1
     version: 6.2.1
   single-spa:
-    specifier: 6.0.0-beta.3
-    version: 6.0.0-beta.3
+    specifier: 6.0.0-beta.4
+    version: 6.0.0-beta.4
   single-spa-layout:
     specifier: ^2.2.0
     version: 2.2.0
@@ -7847,11 +7847,11 @@ packages:
       '@types/parse5': 6.0.3
       merge2: 1.4.1
       parse5: 6.0.1
-      single-spa: 6.0.0-beta.3
+      single-spa: 6.0.0-beta.4
     dev: false
 
-  /single-spa@6.0.0-beta.3:
-    resolution: {integrity: sha512-nyRyqq88hBF+X9y2JZrrOcypYhLV3ziRGyU9hiW+EQEU3FmkmWy9eU2DEC1Q1C3XEKv2Of/khHfanT/q2LNWSw==}
+  /single-spa@6.0.0-beta.4:
+    resolution: {integrity: sha512-a34aW+R3SjtfDKqtojuOTUOmYwwfambk4TuL9k3Ftm8X0Jjub6hYjcUKCZrFnQZPCSd4g0XHsJm/r5fPnMfItQ==}
     dev: false
 
   /sisteransi@1.0.5:
