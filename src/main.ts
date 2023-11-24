@@ -74,14 +74,14 @@ export async function handleRequest(
   }
 
   const requestUrl = new URL(request.url);
-  let customDomain: CustomDomain | undefined;
+  let customDomain: CustomDomain | null = null;
   let orgKey: string | undefined;
   if (isCustomDomain(requestUrl.hostname)) {
     const kvKey = `custom-domain-${requestUrl.hostname}`;
     customDomain =
       (await env.MAIN_KV.get<CustomDomain>(kvKey, {
         type: "json",
-      })) ?? undefined;
+      })) ?? null;
 
     orgKey = customDomain?.orgKey;
   } else {
@@ -123,6 +123,7 @@ export async function handleRequest(
       const params: HandleIndexHtmlParams = {
         customerEnv: customDomain.customerEnv,
         htmlFileName: customDomain.webAppHtmlFilename!,
+        customDomain,
       };
 
       return handleIndexHtml(request, params, requestLog, env, orgKey);
@@ -148,6 +149,7 @@ export async function handleRequest(
       const params = {
         customerEnv: "prod",
         orgKey,
+        customDomain,
         ...matchResult.params,
       };
       requestLog.customerEnv = params.customerEnv;
