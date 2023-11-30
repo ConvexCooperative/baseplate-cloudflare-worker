@@ -21,12 +21,13 @@ describe("main handle request", () => {
         purpose: CustomDomainPurpose.web_app,
         customerEnv: "prod",
         webAppHtmlFilename: "index",
+        isProd: true,
       };
 
       env.MAIN_KV.mockKv({
         "custom-domain-app.walmart.com": customDomain,
         "import-map-walmart-prod-systemjs": { imports: {}, scopes: {} },
-        "html-file-walmart-index": {},
+        "html-file-walmart-prod-index": {},
       });
 
       let response = await handleRequest(request, env, createTestContext());
@@ -44,12 +45,13 @@ describe("main handle request", () => {
         purpose: CustomDomainPurpose.web_app,
         customerEnv: "prod",
         webAppHtmlFilename: "index",
+        isProd: true,
       };
 
       env.MAIN_KV.mockKv({
         "custom-domain-app.walmart.com": customDomain,
         "import-map-walmart-prod-systemjs": { imports: {}, scopes: {} },
-        "html-file-walmart-index": {},
+        "html-file-walmart-prod-index": {},
       });
 
       let response = await handleRequest(request, env, createTestContext());
@@ -72,6 +74,7 @@ function runTests(isCustomDomains: boolean) {
     const value: CustomDomain = {
       orgKey: "walmart",
       purpose: CustomDomainPurpose.cdn_proxy,
+      isProd: true,
     };
 
     env.MAIN_KV.mockKv({

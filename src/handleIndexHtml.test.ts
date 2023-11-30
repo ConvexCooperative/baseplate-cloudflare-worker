@@ -51,7 +51,8 @@ describe(`handleIndexHtml`, () => {
   it(`returns 404 when organization doesn't exist`, async () => {
     env.MAIN_KV.mockKv({
       [`org-settings-${orgKey}`]: null,
-      [`html-file-${orgKey}-${params.htmlFileName}`]: {},
+      [`html-file-${orgKey}-${params.customerEnv}-${params.customerEnv}-${params.htmlFileName}`]:
+        {},
     });
     const request = new Request(
       `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`
@@ -69,7 +70,8 @@ describe(`handleIndexHtml`, () => {
 
   it(`returns 404 when html file doesn't exist`, async () => {
     env.MAIN_KV.mockKv({
-      [`html-file-${orgKey}-${params.htmlFileName}`]: null,
+      [`html-file-${orgKey}-${params.customerEnv}-${params.htmlFileName}`]:
+        null,
     });
     const request = new Request(
       `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`
@@ -87,7 +89,7 @@ describe(`handleIndexHtml`, () => {
 
   it(`returns 500 if import map is missing in KV storage`, async () => {
     env.MAIN_KV.mockKv({
-      [`html-file-${orgKey}-${params.htmlFileName}`]: {
+      [`html-file-${orgKey}-${params.customerEnv}-${params.htmlFileName}`]: {
         importMap: { name: "test" },
       },
       [`import-map-${orgKey}-test`]: null,
@@ -109,7 +111,7 @@ describe(`handleIndexHtml`, () => {
 
   it(`returns 500 if import map in KV Storage is not really an import map`, async () => {
     env.MAIN_KV.mockKv({
-      [`html-file-${orgKey}-${params.htmlFileName}`]: {
+      [`html-file-${orgKey}-${params.customerEnv}-${params.htmlFileName}`]: {
         importMap: { name: "test" },
       },
       [`import-map-${orgKey}-test`]: { invalidKey: {} },
@@ -131,7 +133,7 @@ describe(`handleIndexHtml`, () => {
 
   it(`default index.html matches snapshot`, async () => {
     env.MAIN_KV.mockKv({
-      [`html-file-${orgKey}-${params.htmlFileName}`]: {
+      [`html-file-${orgKey}-${params.customerEnv}-${params.htmlFileName}`]: {
         importMap: { name: "test" },
       },
       [`import-map-${orgKey}-${params.customerEnv}-test`]: {
@@ -168,7 +170,8 @@ describe(`handleIndexHtml`, () => {
     };
 
     env.MAIN_KV.mockKv({
-      [`html-file-${orgKey}-${params.htmlFileName}`]: templateParameters,
+      [`html-file-${orgKey}-${params.customerEnv}-${params.htmlFileName}`]:
+        templateParameters,
       [`import-map-${orgKey}-${params.customerEnv}-test`]: {
         imports: {},
         scopes: {},
@@ -199,7 +202,8 @@ describe(`handleIndexHtml`, () => {
     };
 
     env.MAIN_KV.mockKv({
-      [`html-file-${orgKey}-${params.htmlFileName}`]: templateParameters,
+      [`html-file-${orgKey}-${params.customerEnv}-${params.htmlFileName}`]:
+        templateParameters,
       [`import-map-${orgKey}-${params.customerEnv}-test`]: {
         imports: {},
         scopes: {},
@@ -231,7 +235,8 @@ describe(`handleIndexHtml`, () => {
     };
 
     env.MAIN_KV.mockKv({
-      [`html-file-${orgKey}-${params.htmlFileName}`]: templateParameters,
+      [`html-file-${orgKey}-${params.customerEnv}-${params.htmlFileName}`]:
+        templateParameters,
       [`import-map-${orgKey}-${params.customerEnv}-test`]: {
         imports: {},
         scopes: {},
@@ -263,7 +268,8 @@ describe(`handleIndexHtml`, () => {
     };
 
     env.MAIN_KV.mockKv({
-      [`html-file-${orgKey}-${params.htmlFileName}`]: templateParameters,
+      [`html-file-${orgKey}-${params.customerEnv}-${params.htmlFileName}`]:
+        templateParameters,
       [`import-map-${orgKey}-${params.customerEnv}-test`]: {
         imports: {},
         scopes: {},
@@ -298,7 +304,8 @@ describe(`handleIndexHtml`, () => {
       "https://cdn.baseplate.cloud/walmart/prod/apps/settings/v1/settings.js";
 
     env.MAIN_KV.mockKv({
-      [`html-file-${orgKey}-${params.htmlFileName}`]: templateParameters,
+      [`html-file-${orgKey}-${params.customerEnv}-${params.htmlFileName}`]:
+        templateParameters,
       [`import-map-${orgKey}-${params.customerEnv}-test`]: {
         imports: {
           "@walmart/settings": settingsMFEUrl,
@@ -339,7 +346,8 @@ describe(`handleIndexHtml`, () => {
       "https://cdn.walmart.com/apps/settings/v1/settings.js";
 
     env.MAIN_KV.mockKv({
-      [`html-file-${orgKey}-${params.htmlFileName}`]: templateParameters,
+      [`html-file-${orgKey}-${params.customerEnv}-${params.htmlFileName}`]:
+        templateParameters,
       [`import-map-${orgKey}-${params.customerEnv}-test`]: {
         imports: {
           "@walmart/settings": settingsMFEUrl,
