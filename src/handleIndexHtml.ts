@@ -38,9 +38,12 @@ export async function handleIndexHtml(
 
   const [orgSettings, templateParameters] = await Promise.all([
     getOrgSettings(orgKey, env),
-    env.MAIN_KV.get(`html-file-${orgKey}-${params.htmlFileName}`, {
-      type: "json",
-    }),
+    env.MAIN_KV.get(
+      `html-file-${orgKey}-${params.customerEnv}-${params.htmlFileName}`,
+      {
+        type: "json",
+      }
+    ),
   ]);
 
   if (!orgSettings.orgExists || !templateParameters) {
