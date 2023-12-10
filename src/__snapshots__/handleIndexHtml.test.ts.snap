@@ -11,7 +11,10 @@ exports[`handleIndexHtml can render a SystemJS + single-spa root config 1`] = `
   <!-- Import Map URL: https://cdn.baseplate.cloud/convex/prod/test.importmap  -->
   <script type=\\"systemjs-importmap\\">
     {
-  \\"imports\\": {},
+  \\"imports\\": {
+    \\"single-spa\\": \\"https://cdn.jsdelivr.net/npm/single-spa@6.0.0/lib/es2015/system/single-spa.dev.min.js\\",
+    \\"single-spa-layout\\": \\"https://cdn.jsdelivr.net/npm/single-spa-layout@2.2.0/dist/system/single-spa-layout.min.js\\"
+  },
   \\"scopes\\": {}
 }
   </script>
@@ -98,7 +101,10 @@ exports[`handleIndexHtml can render a native module + single-spa root config 1`]
   <!-- Import Map URL: https://cdn.baseplate.cloud/convex/prod/test.importmap  -->
   <script type=\\"systemjs-importmap\\">
     {
-  \\"imports\\": {},
+  \\"imports\\": {
+    \\"single-spa\\": \\"https://cdn.jsdelivr.net/npm/single-spa@6.0.0/lib/es2015/system/single-spa.dev.min.js\\",
+    \\"single-spa-layout\\": \\"https://cdn.jsdelivr.net/npm/single-spa-layout@2.2.0/dist/system/single-spa-layout.min.js\\"
+  },
   \\"scopes\\": {}
 }
   </script>
@@ -186,7 +192,10 @@ exports[`handleIndexHtml default index.html matches snapshot 2`] = `
   <!-- Import Map URL: https://cdn.baseplate.cloud/convex/prod/test.importmap  -->
   <script type=\\"systemjs-importmap\\">
     {
-  \\"imports\\": {},
+  \\"imports\\": {
+    \\"single-spa\\": \\"https://cdn.jsdelivr.net/npm/single-spa@6.0.0/lib/es2015/system/single-spa.dev.min.js\\",
+    \\"single-spa-layout\\": \\"https://cdn.jsdelivr.net/npm/single-spa-layout@2.2.0/dist/system/single-spa-layout.min.js\\"
+  },
   \\"scopes\\": {}
 }
   </script>
