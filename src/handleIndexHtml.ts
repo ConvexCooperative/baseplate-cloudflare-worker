@@ -97,7 +97,7 @@ export async function handleIndexHtml(
         : "https://cdn.jsdelivr.net/npm/react@18.2.0/+esm";
 
       importMap!.imports["react-dom"] = finalParams.importMap.isSystemJS
-        ? "https://cdn.jsdelivr.net/npm/react-dom@18.2.0/index.min.js"
+        ? "https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"
         : "https://cdn.jsdelivr.net/npm/react-dom@18.2.0/+esm";
 
       finalParams.pageInit.isSingleSpa = true;
