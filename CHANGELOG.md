@@ -1,5 +1,11 @@
 # baseplate-cloudflare-worker
 
+## 4.0.4
+
+### Patch Changes
+
+- [#66](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/66) [`5c596c1`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/5c596c188497a6526bba3825ace82a5f1a324898) Thanks [@joeldenning](https://github.com/joeldenning)! - Fix react-dom systemjs url
+
 ## 4.0.3
 
 ### Patch Changes
