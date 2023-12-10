@@ -1,6 +1,6 @@
 {
   "name": "baseplate-cloudflare-worker",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "",
   "type": "module",
   "main": "src/baseplate-cloudflare-worker.js",

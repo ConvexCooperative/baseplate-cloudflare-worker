@@ -1,5 +1,11 @@
 # baseplate-cloudflare-worker
 
+## 4.0.1
+
+### Patch Changes
+
+- [#63](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/63) [`97f579f`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/97f579f1f3ca090935c77a1f04884fafc11c2b93) Thanks [@joeldenning](https://github.com/joeldenning)! - Add necessary dependencies to web app import maps
+
 ## 4.0.0
 
 ### Major Changes
