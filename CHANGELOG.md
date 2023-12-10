@@ -1,5 +1,11 @@
 # baseplate-cloudflare-worker
 
+## 4.0.2
+
+### Patch Changes
+
+- [#64](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/64) [`3c175d5`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/3c175d5cca2fac28f91bf9c66a08ea25f1d274f2) Thanks [@joeldenning](https://github.com/joeldenning)! - Skip invalid preloads in web apps rather than returning 500
+
 ## 4.0.1
 
 ### Patch Changes
