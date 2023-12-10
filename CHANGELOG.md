@@ -1,5 +1,31 @@
 # baseplate-cloudflare-worker
 
+## 4.0.0
+
+### Major Changes
+
+- [#56](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/56) [`b51dbc2`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/b51dbc20fbe7e06b7f3aeed0c4083f7be526f745) Thanks [@joeldenning](https://github.com/joeldenning)! - Extend custom domains feature to support hosting parent apps
+
+  Breaking: The expected value for the `custom-domain-${hostname}` key in Cloudflare KV Storage has changed from text to json
+
+* [#62](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/62) [`1cc0737`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/1cc073745913dd71bd978e6fc1b4bb03e4417d99) Thanks [@joeldenning](https://github.com/joeldenning)! - Support different htmlTemplateParams for different customerEnvs
+
+### Minor Changes
+
+- [#55](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/55) [`dfad25c`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/dfad25cafc5c15d1bab3e12a5b92954b2fa87d30) Thanks [@joeldenning](https://github.com/joeldenning)! - Implement handleIndexHtml endpoint, for hosting web apps / root-configs
+
+* [#60](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/60) [`155e0cb`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/155e0cb28d54bc01df9f1592ed149155007cc52a) Thanks [@joeldenning](https://github.com/joeldenning)! - Rewrite urls in import maps to use custom domains
+
+- [#57](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/57) [`15837fd`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/15837fdd80d239cc135709fb24981a11c8ef8daa) Thanks [@joeldenning](https://github.com/joeldenning)! - Support for single-spa root configs
+
+* [#58](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/58) [`835f68f`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/835f68ff4b4b05ea12d136ba2ae508ea92477757) Thanks [@joeldenning](https://github.com/joeldenning)! - Add `<link rel=preload>` elements automatically based on single-spa layout definition
+
+### Patch Changes
+
+- [#55](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/55) [`dfad25c`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/dfad25cafc5c15d1bab3e12a5b92954b2fa87d30) Thanks [@joeldenning](https://github.com/joeldenning)! - Upgrade @baseplate-sdk/utils
+
+* [#60](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/60) [`155e0cb`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/155e0cb28d54bc01df9f1592ed149155007cc52a) Thanks [@joeldenning](https://github.com/joeldenning)! - Remove unneeded orgKey from import map URLs on custom domains
+
 ## 3.0.0
 
 ### Major Changes
