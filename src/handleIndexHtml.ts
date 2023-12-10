@@ -163,7 +163,7 @@ export async function handleIndexHtml(
   // Since browsers don't support import map specifiers in preload <link> elements,
   // we tell the browser to preload the full URL for the module, as found in the
   // import map
-  for (let preload of finalParams.preloads) {
+  for (let [index, preload] of finalParams.preloads.entries()) {
     if (preload.importSpecifier) {
       if (importMap?.imports[preload.importSpecifier]) {
         preload.href = importMap.imports[preload.importSpecifier];
@@ -173,7 +173,7 @@ export async function handleIndexHtml(
         console.error(
           `import specifier '${preload.importSpecifier}' cannot be preloaded because it doesn't exist in the import map`
         );
-        return internalErrorResponse(request, orgSettings);
+        finalParams.preloads.splice(index, 1);
       }
     }
   }
