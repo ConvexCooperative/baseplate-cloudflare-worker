@@ -84,6 +84,14 @@ export async function handleIndexHtml(
       finalParams.pageInit.isEntryModule = true;
       break;
     case "single-spa":
+      importMap!.imports["single-spa"] = finalParams.importMap.isSystemJS
+        ? "https://cdn.jsdelivr.net/npm/single-spa@6.0.0/lib/es2015/system/single-spa.dev.min.js"
+        : "https://cdn.jsdelivr.net/npm/single-spa@6.0.0/lib/es2015/esm/single-spa.min.js";
+
+      importMap!.imports["single-spa-layout"] = finalParams.importMap.isSystemJS
+        ? "https://cdn.jsdelivr.net/npm/single-spa-layout@2.2.0/dist/system/single-spa-layout.min.js"
+        : "https://cdn.jsdelivr.net/npm/single-spa-layout@2.2.0/dist/esm/single-spa-layout.min.js";
+
       finalParams.pageInit.isSingleSpa = true;
       finalParams.pageInit.isEntryModule = false;
 
