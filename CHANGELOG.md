@@ -1,5 +1,11 @@
 # baseplate-cloudflare-worker
 
+## 4.0.3
+
+### Patch Changes
+
+- [#65](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/pull/65) [`da88cd6`](https://github.com/JustUtahCoders/baseplate-cloudflare-worker/commit/da88cd6baa3ffdaf9eeec5633c71f53508a126b0) Thanks [@joeldenning](https://github.com/joeldenning)! - Add react and react-dom to web-app import maps
+
 ## 4.0.2
 
 ### Patch Changes
