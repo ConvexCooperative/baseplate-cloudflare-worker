@@ -92,6 +92,14 @@ export async function handleIndexHtml(
         ? "https://cdn.jsdelivr.net/npm/single-spa-layout@2.2.0/dist/system/single-spa-layout.min.js"
         : "https://cdn.jsdelivr.net/npm/single-spa-layout@2.2.0/dist/esm/single-spa-layout.min.js";
 
+      importMap!.imports["react"] = finalParams.importMap.isSystemJS
+        ? "https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"
+        : "https://cdn.jsdelivr.net/npm/react@18.2.0/+esm";
+
+      importMap!.imports["react-dom"] = finalParams.importMap.isSystemJS
+        ? "https://cdn.jsdelivr.net/npm/react-dom@18.2.0/index.min.js"
+        : "https://cdn.jsdelivr.net/npm/react-dom@18.2.0/+esm";
+
       finalParams.pageInit.isSingleSpa = true;
       finalParams.pageInit.isEntryModule = false;
 
