@@ -173,6 +173,7 @@ export async function handleIndexHtml(
         console.error(
           `import specifier '${preload.importSpecifier}' cannot be preloaded because it doesn't exist in the import map`
         );
+        // Skip this preload, but still return the html file
         finalParams.preloads.splice(index, 1);
       }
     }
