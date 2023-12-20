@@ -2,7 +2,7 @@
   "$schema": "https://unpkg.com/@changesets/config@2.0.0/schema.json",
   "changelog": [
     "@changesets/changelog-github",
-    { "repo": "JustUtahCoders/baseplate-cloudflare-worker" }
+    { "repo": "ConvexCooperative/baseplate-cloudflare-worker" }
   ],
   "commit": false,
   "fixed": [],
