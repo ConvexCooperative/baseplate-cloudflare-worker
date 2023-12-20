@@ -17,14 +17,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JustUtahCoders/baseplate-cloudflare-worker.git"
+    "url": "git+https://github.com/ConvexCooperative/baseplate-cloudflare-worker.git"
   },
   "author": "",
   "license": "See LICENSE file",
   "bugs": {
-    "url": "https://github.com/JustUtahCoders/baseplate-cloudflare-worker/issues"
+    "url": "https://github.com/ConvexCooperative/baseplate-cloudflare-worker/issues"
   },
-  "homepage": "https://github.com/JustUtahCoders/baseplate-cloudflare-worker#readme",
+  "homepage": "https://github.com/ConvexCooperative/baseplate-cloudflare-worker#readme",
   "devDependencies": {
     "@babel/core": "^7.18.5",
     "@babel/eslint-parser": "^7.18.2",
