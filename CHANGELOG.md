@@ -1,5 +1,11 @@
 # baseplate-cloudflare-worker
 
+## 5.0.0
+
+### Major Changes
+
+- [#67](https://github.com/ConvexCooperative/baseplate-cloudflare-worker/pull/67) [`913903d`](https://github.com/ConvexCooperative/baseplate-cloudflare-worker/commit/913903dc2bdac62a60bc360f75f377302fee2a00) Thanks [@joeldenning](https://github.com/joeldenning)! - Change ownership to ConvexCooperative
+
 ## 4.0.4
 
 ### Patch Changes
