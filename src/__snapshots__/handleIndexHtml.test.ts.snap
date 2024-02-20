@@ -2,43 +2,43 @@
 
 exports[`handleIndexHtml can render a SystemJS + single-spa root config 1`] = `
 "<!DOCTYPE html>
-<html lang=\\"en\\">
+<html lang="en">
 <head>
-  <meta charset=\\"UTF-8\\">
-  <meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1.0\\">
-  <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Web App</title>
   <!-- Import Map URL: https://cdn.baseplate.cloud/convex/prod/test.importmap  -->
-  <script type=\\"systemjs-importmap\\">
+  <script type="systemjs-importmap">
     {
-  \\"imports\\": {
-    \\"single-spa\\": \\"https://cdn.jsdelivr.net/npm/single-spa@6.0.0/lib/es2015/system/single-spa.dev.min.js\\",
-    \\"single-spa-layout\\": \\"https://cdn.jsdelivr.net/npm/single-spa-layout@2.2.0/dist/system/single-spa-layout.min.js\\",
-    \\"react\\": \\"https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js\\",
-    \\"react-dom\\": \\"https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js\\"
+  "imports": {
+    "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@6.0.0/lib/es2015/system/single-spa.dev.min.js",
+    "single-spa-layout": "https://cdn.jsdelivr.net/npm/single-spa-layout@2.2.0/dist/system/single-spa-layout.min.js",
+    "react": "https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js",
+    "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"
   },
-  \\"scopes\\": {}
+  "scopes": {}
 }
   </script>
-  <meta name=\\"importmap-type\\" content=\\"systemjs-importmap\\" />
-  <script src=\\"https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/system.min.js\\"></script>
-  <script src=\\"https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/extras/amd.min.js\\"></script>
+  <meta name="importmap-type" content="systemjs-importmap" />
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/system.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/extras/amd.min.js"></script>
 </head>
 <body>
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
   <main></main>
-    <template id=\\"single-spa-layout\\">
+    <template id="single-spa-layout">
       <single-spa-router>
-      <route path=\\"/settings\\">
-        <application name=\\"@walmart/settings\\"></application>
+      <route path="/settings">
+        <application name="@walmart/settings"></application>
       </route>
     </single-spa-router>
     </template>
     <script>
     Promise
-      .all([System.import(\\"single-spa\\"), System.import(\\"single-spa-layout\\")])
+      .all([System.import("single-spa"), System.import("single-spa-layout")])
       .then(([singleSpa, singleSpaLayout]) => {
         const { registerApplication, start } = singleSpa;
         const { constructApplications, constructRoutes, constructLayoutEngine } = singleSpaLayout;
@@ -56,25 +56,25 @@ exports[`handleIndexHtml can render a SystemJS + single-spa root config 1`] = `
     start();
       })
     </script>
-  <script defer src=\\"https://cdn.jsdelivr.net/npm/import-map-overrides@3.1.1/dist/import-map-overrides.js\\"></script>
-  <import-map-overrides-full show-when-local-storage=\\"devtools\\" dev-libs></import-map-overrides-full>
+  <script defer src="https://cdn.jsdelivr.net/npm/import-map-overrides@3.1.1/dist/import-map-overrides.js"></script>
+  <import-map-overrides-full show-when-local-storage="devtools" dev-libs></import-map-overrides-full>
 </body>
 </html>"
 `;
 
 exports[`handleIndexHtml can render a native module + entryModule root config 1`] = `
 "<!DOCTYPE html>
-<html lang=\\"en\\">
+<html lang="en">
 <head>
-  <meta charset=\\"UTF-8\\">
-  <meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1.0\\">
-  <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Web App</title>
   <!-- Import Map URL: https://cdn.baseplate.cloud/convex/prod/test.importmap  -->
-  <script type=\\"importmap\\">
+  <script type="importmap">
     {
-  \\"imports\\": {},
-  \\"scopes\\": {}
+  "imports": {},
+  "scopes": {}
 }
   </script>
 </head>
@@ -86,47 +86,47 @@ exports[`handleIndexHtml can render a native module + entryModule root config 1`
     <script>
       import('@walmart/root-config');
     </script>
-  <script defer src=\\"https://cdn.jsdelivr.net/npm/import-map-overrides@3.1.1/dist/import-map-overrides.js\\"></script>
-  <import-map-overrides-full show-when-local-storage=\\"devtools\\" dev-libs></import-map-overrides-full>
+  <script defer src="https://cdn.jsdelivr.net/npm/import-map-overrides@3.1.1/dist/import-map-overrides.js"></script>
+  <import-map-overrides-full show-when-local-storage="devtools" dev-libs></import-map-overrides-full>
 </body>
 </html>"
 `;
 
 exports[`handleIndexHtml can render a native module + single-spa root config 1`] = `
 "<!DOCTYPE html>
-<html lang=\\"en\\">
+<html lang="en">
 <head>
-  <meta charset=\\"UTF-8\\">
-  <meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1.0\\">
-  <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Web App</title>
   <!-- Import Map URL: https://cdn.baseplate.cloud/convex/prod/test.importmap  -->
-  <script type=\\"systemjs-importmap\\">
+  <script type="systemjs-importmap">
     {
-  \\"imports\\": {
-    \\"single-spa\\": \\"https://cdn.jsdelivr.net/npm/single-spa@6.0.0/lib/es2015/system/single-spa.dev.min.js\\",
-    \\"single-spa-layout\\": \\"https://cdn.jsdelivr.net/npm/single-spa-layout@2.2.0/dist/system/single-spa-layout.min.js\\",
-    \\"react\\": \\"https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js\\",
-    \\"react-dom\\": \\"https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js\\"
+  "imports": {
+    "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@6.0.0/lib/es2015/system/single-spa.dev.min.js",
+    "single-spa-layout": "https://cdn.jsdelivr.net/npm/single-spa-layout@2.2.0/dist/system/single-spa-layout.min.js",
+    "react": "https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js",
+    "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"
   },
-  \\"scopes\\": {}
+  "scopes": {}
 }
   </script>
-  <meta name=\\"importmap-type\\" content=\\"systemjs-importmap\\" />
-  <script src=\\"https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/system.min.js\\"></script>
-  <script src=\\"https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/extras/amd.min.js\\"></script>
+  <meta name="importmap-type" content="systemjs-importmap" />
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/system.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/extras/amd.min.js"></script>
 </head>
 <body>
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
   <main></main>
-    <template id=\\"single-spa-layout\\">
+    <template id="single-spa-layout">
       <single-spa-router></single-spa-router>
     </template>
     <script>
     Promise
-      .all([System.import(\\"single-spa\\"), System.import(\\"single-spa-layout\\")])
+      .all([System.import("single-spa"), System.import("single-spa-layout")])
       .then(([singleSpa, singleSpaLayout]) => {
         const { registerApplication, start } = singleSpa;
         const { constructApplications, constructRoutes, constructLayoutEngine } = singleSpaLayout;
@@ -144,30 +144,30 @@ exports[`handleIndexHtml can render a native module + single-spa root config 1`]
     start();
       })
     </script>
-  <script defer src=\\"https://cdn.jsdelivr.net/npm/import-map-overrides@3.1.1/dist/import-map-overrides.js\\"></script>
-  <import-map-overrides-full show-when-local-storage=\\"devtools\\" dev-libs></import-map-overrides-full>
+  <script defer src="https://cdn.jsdelivr.net/npm/import-map-overrides@3.1.1/dist/import-map-overrides.js"></script>
+  <import-map-overrides-full show-when-local-storage="devtools" dev-libs></import-map-overrides-full>
 </body>
 </html>"
 `;
 
 exports[`handleIndexHtml can render a systemjs module + entryModule root config 1`] = `
 "<!DOCTYPE html>
-<html lang=\\"en\\">
+<html lang="en">
 <head>
-  <meta charset=\\"UTF-8\\">
-  <meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1.0\\">
-  <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Web App</title>
   <!-- Import Map URL: https://cdn.baseplate.cloud/convex/prod/test.importmap  -->
-  <script type=\\"systemjs-importmap\\">
+  <script type="systemjs-importmap">
     {
-  \\"imports\\": {},
-  \\"scopes\\": {}
+  "imports": {},
+  "scopes": {}
 }
   </script>
-  <meta name=\\"importmap-type\\" content=\\"systemjs-importmap\\" />
-  <script src=\\"https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/system.min.js\\"></script>
-  <script src=\\"https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/extras/amd.min.js\\"></script>
+  <meta name="importmap-type" content="systemjs-importmap" />
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/system.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/extras/amd.min.js"></script>
 </head>
 <body>
   <noscript>
@@ -177,8 +177,8 @@ exports[`handleIndexHtml can render a systemjs module + entryModule root config 
     <script>
       System.import('@walmart/root-config');
     </script>
-  <script defer src=\\"https://cdn.jsdelivr.net/npm/import-map-overrides@3.1.1/dist/import-map-overrides.js\\"></script>
-  <import-map-overrides-full show-when-local-storage=\\"devtools\\" dev-libs></import-map-overrides-full>
+  <script defer src="https://cdn.jsdelivr.net/npm/import-map-overrides@3.1.1/dist/import-map-overrides.js"></script>
+  <import-map-overrides-full show-when-local-storage="devtools" dev-libs></import-map-overrides-full>
 </body>
 </html>"
 `;
@@ -187,39 +187,39 @@ exports[`handleIndexHtml default index.html matches snapshot 1`] = `"default-src
 
 exports[`handleIndexHtml default index.html matches snapshot 2`] = `
 "<!DOCTYPE html>
-<html lang=\\"en\\">
+<html lang="en">
 <head>
-  <meta charset=\\"UTF-8\\">
-  <meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1.0\\">
-  <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Web App</title>
   <!-- Import Map URL: https://cdn.baseplate.cloud/convex/prod/test.importmap  -->
-  <script type=\\"systemjs-importmap\\">
+  <script type="systemjs-importmap">
     {
-  \\"imports\\": {
-    \\"single-spa\\": \\"https://cdn.jsdelivr.net/npm/single-spa@6.0.0/lib/es2015/system/single-spa.dev.min.js\\",
-    \\"single-spa-layout\\": \\"https://cdn.jsdelivr.net/npm/single-spa-layout@2.2.0/dist/system/single-spa-layout.min.js\\",
-    \\"react\\": \\"https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js\\",
-    \\"react-dom\\": \\"https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js\\"
+  "imports": {
+    "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@6.0.0/lib/es2015/system/single-spa.dev.min.js",
+    "single-spa-layout": "https://cdn.jsdelivr.net/npm/single-spa-layout@2.2.0/dist/system/single-spa-layout.min.js",
+    "react": "https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js",
+    "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"
   },
-  \\"scopes\\": {}
+  "scopes": {}
 }
   </script>
-  <meta name=\\"importmap-type\\" content=\\"systemjs-importmap\\" />
-  <script src=\\"https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/system.min.js\\"></script>
-  <script src=\\"https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/extras/amd.min.js\\"></script>
+  <meta name="importmap-type" content="systemjs-importmap" />
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/system.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@6.14.2/dist/extras/amd.min.js"></script>
 </head>
 <body>
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
   <main></main>
-    <template id=\\"single-spa-layout\\">
+    <template id="single-spa-layout">
       <single-spa-router></single-spa-router>
     </template>
     <script>
     Promise
-      .all([System.import(\\"single-spa\\"), System.import(\\"single-spa-layout\\")])
+      .all([System.import("single-spa"), System.import("single-spa-layout")])
       .then(([singleSpa, singleSpaLayout]) => {
         const { registerApplication, start } = singleSpa;
         const { constructApplications, constructRoutes, constructLayoutEngine } = singleSpaLayout;
@@ -237,8 +237,8 @@ exports[`handleIndexHtml default index.html matches snapshot 2`] = `
     start();
       })
     </script>
-  <script defer src=\\"https://cdn.jsdelivr.net/npm/import-map-overrides@3.1.1/dist/import-map-overrides.js\\"></script>
-  <import-map-overrides-full show-when-local-storage=\\"devtools\\" dev-libs></import-map-overrides-full>
+  <script defer src="https://cdn.jsdelivr.net/npm/import-map-overrides@3.1.1/dist/import-map-overrides.js"></script>
+  <import-map-overrides-full show-when-local-storage="devtools" dev-libs></import-map-overrides-full>
 </body>
 </html>"
 `;

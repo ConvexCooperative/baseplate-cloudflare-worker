@@ -5,7 +5,7 @@ import { isPlainObject } from "lodash-es";
 export async function readImportMap(
   { importMapName, customerEnv }: Params,
   env: EnvVars,
-  orgKey: string
+  orgKey: string,
 ): Promise<ImportMap | null> {
   const kvKey = `import-map-${orgKey}-${customerEnv}-${importMapName}`;
 
@@ -26,7 +26,7 @@ export async function readImportMap(
 export function processImportMap(
   input: ImportMap | null,
   hostnameRewrite: string | null,
-  orgKey: string
+  orgKey: string,
 ): string[] {
   const errors: string[] = [];
 
@@ -39,8 +39,8 @@ export function processImportMap(
           importMap.imports,
           "importMap.imports",
           hostnameRewrite,
-          orgKey
-        )
+          orgKey,
+        ),
       );
     } else {
       errors.push("importMap.imports is not present");
@@ -55,12 +55,12 @@ export function processImportMap(
               moduleMap,
               `importMap.scopes[${scope}]`,
               hostnameRewrite,
-              orgKey
-            )
+              orgKey,
+            ),
           );
         } else {
           errors.push(
-            `importMap.scopes[${scope}] is not a plain object: ${moduleMap}`
+            `importMap.scopes[${scope}] is not a plain object: ${moduleMap}`,
           );
         }
       }
@@ -82,7 +82,7 @@ function processModuleMap(
   moduleMap: ModuleMap,
   path: string,
   hostnameRewrite: string | null,
-  orgKey: string
+  orgKey: string,
 ): string[] {
   const errors: string[] = [];
 
@@ -115,7 +115,7 @@ function addPackagesViaTrailingSlashes(importMap: ImportMap) {
     if (!importSpecifier.endsWith("/")) {
       importMap.imports[importSpecifier + "/"] = new URL(
         ".",
-        importMap.imports[importSpecifier]
+        importMap.imports[importSpecifier],
       ).href;
     }
   }
@@ -123,7 +123,7 @@ function addPackagesViaTrailingSlashes(importMap: ImportMap) {
 
 export function importMapHostname(
   customDomain: CustomDomain | null,
-  orgSettings: OrgSettings
+  orgSettings: OrgSettings,
 ): string | null {
   if (customDomain) {
     if (customDomain.isProd) {

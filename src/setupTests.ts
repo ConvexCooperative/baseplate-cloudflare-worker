@@ -1,4 +1,3 @@
-import "isomorphic-fetch";
 import { jest } from "@jest/globals";
 import { MockInstance } from "jest-mock";
 import { OrgSettings } from "@baseplate-sdk/utils";

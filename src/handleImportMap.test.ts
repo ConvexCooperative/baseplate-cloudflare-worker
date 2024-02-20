@@ -24,7 +24,7 @@ describe(`handleImportMap`, () => {
       "import-map-juc-prod-system": importMap,
     });
     const request = new Request(
-      "https://cdn.example.com/walmart/systemjs.importmap"
+      "https://cdn.example.com/walmart/systemjs.importmap",
     );
     const response: Response = await handleImportMap(
       request,
@@ -34,7 +34,7 @@ describe(`handleImportMap`, () => {
       },
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual(importMap);
@@ -68,7 +68,7 @@ describe(`handleImportMap`, () => {
       },
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(200);
@@ -79,7 +79,7 @@ describe(`handleImportMap`, () => {
     env.MAIN_KV.mockKv({});
 
     const request = new Request(
-      "https://cdn.example.com/walmart/systemjs.importmap"
+      "https://cdn.example.com/walmart/systemjs.importmap",
     );
     const response: Response = await handleImportMap(
       request,
@@ -89,14 +89,14 @@ describe(`handleImportMap`, () => {
       },
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
     expect(response.status).toBe(404);
   });
 
   it(`returns a 500 if importMap.imports is invalid`, async () => {
     const request = new Request(
-      "https://cdn.example.com/walmart/systemjs.importmap"
+      "https://cdn.example.com/walmart/systemjs.importmap",
     );
     env.MAIN_KV.mockKv({
       "import-map-juc-prod-system": {
@@ -113,14 +113,14 @@ describe(`handleImportMap`, () => {
       },
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
     expect(response.status).toBe(500);
   });
 
   it(`returns a 500 if importMap.imports[key] is invalid`, async () => {
     const request = new Request(
-      "https://cdn.example.com/walmart/systemjs.importmap"
+      "https://cdn.example.com/walmart/systemjs.importmap",
     );
     env.MAIN_KV.mockKv({
       "import-map-juc-prod-system": {
@@ -139,14 +139,14 @@ describe(`handleImportMap`, () => {
       },
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
     expect(response.status).toBe(500);
   });
 
   it(`returns a 500 if importMap.scopes[key] is invalid`, async () => {
     const request = new Request(
-      "https://cdn.example.com/walmart/systemjs.importmap"
+      "https://cdn.example.com/walmart/systemjs.importmap",
     );
     env.MAIN_KV.mockKv({
       "import-map-juc-prod-system": {
@@ -166,14 +166,14 @@ describe(`handleImportMap`, () => {
       },
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
     expect(response.status).toBe(500);
   });
 
   it(`returns a 500 if importMap.scopes[key][key] is invalid`, async () => {
     const request = new Request(
-      "https://cdn.example.com/walmart/systemjs.importmap"
+      "https://cdn.example.com/walmart/systemjs.importmap",
     );
     env.MAIN_KV.mockKv({
       "import-map-juc-prod-system": {
@@ -196,7 +196,7 @@ describe(`handleImportMap`, () => {
       },
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
     expect(response.status).toBe(500);
   });
@@ -213,7 +213,7 @@ describe(`handleImportMap`, () => {
       "import-map-juc-prod-system": importMap,
     });
     const request = new Request(
-      "https://cdn.example.com/walmart/systemjs.importmap"
+      "https://cdn.example.com/walmart/systemjs.importmap",
     );
     const response: Response = await handleImportMap(
       request,
@@ -223,7 +223,7 @@ describe(`handleImportMap`, () => {
       },
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
     expect(response.status).toBe(200);
     expect(response.headers.get("access-control-allow-origin")).toBe("*");
@@ -242,7 +242,7 @@ describe(`handleImportMap`, () => {
     });
 
     const request = new Request(
-      "https://cdn.example.com/juc/prod/systemjs.importmap"
+      "https://cdn.example.com/juc/prod/systemjs.importmap",
     );
     const response: Response = await handleImportMap(
       request,
@@ -252,7 +252,7 @@ describe(`handleImportMap`, () => {
       },
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(200);

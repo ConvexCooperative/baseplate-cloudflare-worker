@@ -16,13 +16,13 @@ export async function handleImportMap(
   params: Params,
   requestLog: RequestLog,
   env: EnvVars,
-  orgKey?: string
+  orgKey?: string,
 ): Promise<Response> {
   requestLog.isImportMap = true;
 
   if (!orgKey) {
     console.error(
-      `No orgKey passed to handleImportMap function. Returning HTTP 500.`
+      `No orgKey passed to handleImportMap function. Returning HTTP 500.`,
     );
     return internalErrorResponse(request);
   }
@@ -36,12 +36,12 @@ export async function handleImportMap(
     const importMapErrors = processImportMap(
       importMap,
       importMapHostname(params.customDomain, orgSettings),
-      orgKey
+      orgKey,
     );
 
     if (importMapErrors.length > 0) {
       console.error(
-        `Import Map Invalid for org ${orgKey} and request URL ${request.url}!`
+        `Import Map Invalid for org ${orgKey} and request URL ${request.url}!`,
       );
       console.error(importMapErrors);
       return internalErrorResponse(request, orgSettings);

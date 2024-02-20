@@ -12,7 +12,7 @@ const invalidOrgKeys = ["npm"];
 export async function handleOptions(
   request: Request,
   env: EnvVars,
-  orgKey?: string
+  orgKey?: string,
 ): Promise<Response> {
   const body = null;
   let orgSettings;
@@ -29,7 +29,7 @@ export async function handleOptions(
 
 export function corsHeaders(
   request: Request,
-  orgSettings?: OrgSettings
+  orgSettings?: OrgSettings,
 ): HeadersInit {
   const noOrgSettings = !orgSettings || !orgSettings.orgExists;
   const requestOrigin = request.headers.get("origin");
@@ -48,7 +48,7 @@ export function corsHeaders(
     allowAnyOrigin ||
     (requestOrigin && orgSettings.cors.allowOrigins.includes(requestOrigin));
   const requestHasCredentials = Boolean(
-    request.headers.get("Cookie") || request.headers.get("Authorization")
+    request.headers.get("Cookie") || request.headers.get("Authorization"),
   );
 
   if (requestFromValidOrigin) {
@@ -74,7 +74,7 @@ export function corsHeaders(
 
   if (!isUndefined(orgSettings.cors.allowCredentials)) {
     headers["Access-Control-Allow-Credentials"] = new Boolean(
-      orgSettings.cors.allowCredentials
+      orgSettings.cors.allowCredentials,
     ).toString();
   }
 

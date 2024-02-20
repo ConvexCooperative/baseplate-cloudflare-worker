@@ -34,7 +34,7 @@ describe("CORS", () => {
           headers: {
             Origin: "walmart.com",
           },
-        }
+        },
       );
       const response: Response = await handleOptions(request, env, orgKey);
       expect(response.status).toBe(200);
@@ -50,7 +50,7 @@ describe("CORS", () => {
           },
         }),
         env,
-        orgKey
+        orgKey,
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -72,12 +72,12 @@ describe("CORS", () => {
           },
         }),
         env,
-        orgKey
+        orgKey,
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
       expect(response.headers.get("Access-Control-Expose-Headers")).toBe(
-        "X-Special-Header, X-Another-Special-Header"
+        "X-Special-Header, X-Another-Special-Header",
       );
     });
 
@@ -90,7 +90,7 @@ describe("CORS", () => {
           },
         }),
         env,
-        orgKey
+        orgKey,
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -113,7 +113,7 @@ describe("CORS", () => {
           },
         }),
         env,
-        orgKey
+        orgKey,
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -129,12 +129,12 @@ describe("CORS", () => {
           },
         }),
         env,
-        orgKey
+        orgKey,
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
       expect(response.headers.get("Access-Control-Allow-Credentials")).toBe(
-        "true"
+        "true",
       );
 
       const corsSettings: Partial<CORSSettings> = {
@@ -153,12 +153,12 @@ describe("CORS", () => {
           },
         }),
         env,
-        orgKey
+        orgKey,
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
       expect(response.headers.get("Access-Control-Allow-Credentials")).toBe(
-        "false"
+        "false",
       );
     });
 
@@ -171,13 +171,13 @@ describe("CORS", () => {
           },
         }),
         env,
-        orgKey
+        orgKey,
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
       // By default we allow GET-ish requests
       expect(response.headers.get("Access-Control-Allow-Methods")).toBe(
-        "GET, HEAD, OPTIONS"
+        "GET, HEAD, OPTIONS",
       );
 
       const corsSettings: Partial<CORSSettings> = {
@@ -197,12 +197,12 @@ describe("CORS", () => {
           },
         }),
         env,
-        orgKey
+        orgKey,
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
       expect(response.headers.get("Access-Control-Allow-Methods")).toBe(
-        "GET, HEAD, OPTIONS, POST"
+        "GET, HEAD, OPTIONS, POST",
       );
     });
 
@@ -215,7 +215,7 @@ describe("CORS", () => {
           },
         }),
         env,
-        orgKey
+        orgKey,
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
@@ -237,12 +237,12 @@ describe("CORS", () => {
           },
         }),
         env,
-        orgKey
+        orgKey,
       );
       expect(response.status).toBe(200);
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
       expect(response.headers.get("Access-Control-Allow-Headers")).toBe(
-        "X-Special-Header, X-Another-Special-Header"
+        "X-Special-Header, X-Another-Special-Header",
       );
     });
   });
@@ -256,7 +256,7 @@ describe("CORS", () => {
           headers: {
             Origin: "cdn.example.com",
           },
-        }
+        },
       );
       const response: Response = await handleOptions(request, env, orgKey);
       expect(response.status).toBe(200);
