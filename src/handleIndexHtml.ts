@@ -27,11 +27,11 @@ export async function handleIndexHtml(
   params: HandleIndexHtmlParams,
   requestLog: RequestLog,
   env: EnvVars,
-  orgKey?: string
+  orgKey?: string,
 ): Promise<Response> {
   if (!orgKey) {
     console.error(
-      `No orgKey passed to handleIndexHtml function. Returning HTTP 500.`
+      `No orgKey passed to handleIndexHtml function. Returning HTTP 500.`,
     );
     return internalErrorResponse(request);
   }
@@ -42,7 +42,7 @@ export async function handleIndexHtml(
       `html-file-${orgKey}-${params.customerEnv}-${params.htmlFileName}`,
       {
         type: "json",
-      }
+      },
     ),
   ]);
 
@@ -59,17 +59,17 @@ export async function handleIndexHtml(
       customerEnv: params.customerEnv,
     },
     env,
-    orgKey
+    orgKey,
   );
   const importMapErrors = processImportMap(
     importMap,
     importMapHostname(params.customDomain, orgSettings),
-    orgKey
+    orgKey,
   );
 
   if (importMapErrors.length > 0) {
     console.error(
-      `Import Map Invalid for org ${orgKey} and request URL ${request.url}!`
+      `Import Map Invalid for org ${orgKey} and request URL ${request.url}!`,
     );
     console.error(importMapErrors);
     return internalErrorResponse(request, orgSettings);
@@ -105,7 +105,7 @@ export async function handleIndexHtml(
 
       const parsedLayout = parseFragment(finalParams.pageInit.layoutTemplate);
       const routes = constructRoutes(
-        parsedLayout.childNodes[0] as unknown as Element
+        parsedLayout.childNodes[0] as unknown as Element,
       );
       const applications = constructApplications({
         routes,
@@ -137,7 +137,7 @@ export async function handleIndexHtml(
       }
       activeApplicationNames = checkActivityFunctions(
         // URL and Location objects are similar enough for single-spa to work with either
-        singleSpaLocation as unknown as Location
+        singleSpaLocation as unknown as Location,
       );
       applications.forEach((application) => {
         unregisterApplication(application.name);
@@ -156,7 +156,7 @@ export async function handleIndexHtml(
     default:
       console.error(
         // @ts-ignore
-        `handleIndexHtml: htmlTemplateParameters.pageInit.type '${finalParams.pageInit.type}' is not supported.`
+        `handleIndexHtml: htmlTemplateParameters.pageInit.type '${finalParams.pageInit.type}' is not supported.`,
       );
       return internalErrorResponse(request, orgSettings);
   }
@@ -164,7 +164,7 @@ export async function handleIndexHtml(
   finalParams.importMap.json = JSON.stringify(importMap!, null, 2);
   finalParams.importMap.url = new URL(
     `./${finalParams.importMap.name}.importmap`,
-    request.url
+    request.url,
   ).href;
 
   // Preload JS files from the import map that are known to be needed
@@ -179,7 +179,7 @@ export async function handleIndexHtml(
           finalParams.importMap.type === "native" ? "modulepreload" : "script";
       } else {
         console.error(
-          `import specifier '${preload.importSpecifier}' cannot be preloaded because it doesn't exist in the import map`
+          `import specifier '${preload.importSpecifier}' cannot be preloaded because it doesn't exist in the import map`,
         );
         // Skip this preload, but still return the html file
         finalParams.preloads.splice(index, 1);

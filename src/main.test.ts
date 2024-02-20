@@ -37,7 +37,7 @@ describe("main handle request", () => {
 
     it("returns an HTML file for arbitrary other path", async () => {
       const request = new Request(
-        "https://app.walmart.com/user-settings/sdf908sfsdfi89sdf"
+        "https://app.walmart.com/user-settings/sdf908sfsdfi89sdf",
       );
       const env = createTestEnv();
       const customDomain: CustomDomain = {
@@ -100,10 +100,10 @@ function runTests(isCustomDomains: boolean) {
     let response = await handleRequest(
       new Request(
         customDomainsUrl(`/prod/systemjs.importmap`, isCustomDomains),
-        {}
+        {},
       ),
       env,
-      context
+      context,
     );
 
     expect(response.status).toBe(200);

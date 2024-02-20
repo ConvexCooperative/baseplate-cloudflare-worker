@@ -3,7 +3,7 @@ import { OrgSettings } from "@baseplate-sdk/utils";
 
 export function notFoundResponse(
   request: Request,
-  orgSettings?: OrgSettings
+  orgSettings?: OrgSettings,
 ): Response {
   return new Response(
     JSON.stringify({
@@ -16,13 +16,13 @@ export function notFoundResponse(
         "cache-control": "public, max-age=0",
         ...corsHeaders(request, orgSettings),
       },
-    }
+    },
   );
 }
 
 export function internalErrorResponse(
   request: Request,
-  orgSettings?: OrgSettings
+  orgSettings?: OrgSettings,
 ): Response {
   return new Response(
     "Baseplate Cloudflare worker failed. Check with customer support for assistance.",
@@ -33,6 +33,6 @@ export function internalErrorResponse(
         "cache-control": "public, max-age=0",
         ...corsHeaders(request, orgSettings),
       },
-    }
+    },
   );
 }

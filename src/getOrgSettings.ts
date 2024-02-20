@@ -3,7 +3,7 @@ import { EnvVars } from "./main";
 
 export async function getOrgSettings(
   orgKey: string,
-  env: EnvVars
+  env: EnvVars,
 ): Promise<OrgSettings> {
   let orgSettings: Partial<OrgSettings>;
 

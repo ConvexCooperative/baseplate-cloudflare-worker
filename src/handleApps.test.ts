@@ -26,12 +26,12 @@ describe(`handleApps`, () => {
     mockFetch.mockReturnValueOnce(
       new Response("console.log('hi');", {
         status: 200,
-      })
+      }),
     );
 
     response = await handleApps(
       new Request(
-        "https://cdn.single-spa-baseplate.com/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
+        "https://cdn.single-spa-baseplate.com/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js",
       ),
       {
         customerEnv: "prod",
@@ -43,12 +43,12 @@ describe(`handleApps`, () => {
       },
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(mockFetch).toHaveBeenCalledTimes(1);
     expect((mockFetch.mock.calls[0][0] as Request).url).toBe(
-      "https://cdn.baseplate.cloud/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
+      "https://cdn.baseplate.cloud/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js",
     );
   });
 
@@ -73,12 +73,12 @@ describe(`handleApps`, () => {
     mockFetch.mockReturnValueOnce(
       new Response("console.log('hi');", {
         status: 200,
-      })
+      }),
     );
 
     response = await handleApps(
       new Request(
-        "https://cdn.baseplate.cloud/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
+        "https://cdn.baseplate.cloud/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js",
       ),
       {
         customerEnv: "prod",
@@ -90,13 +90,13 @@ describe(`handleApps`, () => {
       },
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(200);
     expect(mockFetch).toHaveBeenCalledTimes(1);
     expect((mockFetch.mock.calls[0][0] as Request).url).toBe(
-      "https://cdn.walmart.com/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
+      "https://cdn.walmart.com/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js",
     );
   });
 
@@ -104,7 +104,7 @@ describe(`handleApps`, () => {
     mockFetch.mockReturnValueOnce(
       new Response("console.log('hi');", {
         status: 200,
-      })
+      }),
     );
 
     response = await handleApps(
@@ -115,7 +115,7 @@ describe(`handleApps`, () => {
             // this makes it a cross-origin request
             Origin: "example.com",
           },
-        }
+        },
       ),
       {
         customerEnv: "prod",
@@ -127,7 +127,7 @@ describe(`handleApps`, () => {
       },
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(200);
@@ -138,12 +138,12 @@ describe(`handleApps`, () => {
     mockFetch.mockReturnValueOnce(
       new Response("console.log('hi');", {
         status: 200,
-      })
+      }),
     );
 
     response = await handleApps(
       new Request(
-        "https://cdn.baseplate.cloud/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
+        "https://cdn.baseplate.cloud/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js",
       ),
       {
         customerEnv: "prod",
@@ -155,7 +155,7 @@ describe(`handleApps`, () => {
       },
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(200);
@@ -166,12 +166,12 @@ describe(`handleApps`, () => {
     mockFetch.mockReturnValueOnce(
       new Response("console.log('hi');", {
         status: 200,
-      })
+      }),
     );
 
     response = await handleApps(
       new Request(
-        "https://cdn.baseplate.cloud/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
+        "https://cdn.baseplate.cloud/walmart/apps/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js",
       ),
       {
         customerEnv: "prod",
@@ -183,7 +183,7 @@ describe(`handleApps`, () => {
       },
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(200);
@@ -218,7 +218,7 @@ describe(`handleApps`, () => {
       Promise.resolve({
         Body: "var a = 1",
         ContentType: "application/javascript",
-      })
+      }),
     );
 
     response = await handleApps(
@@ -229,13 +229,13 @@ describe(`handleApps`, () => {
       },
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
     let responseBody = await response.text();
 
     expect(response.ok).toBe(true);
     expect(response.headers.get("content-type")).toEqual(
-      "application/javascript"
+      "application/javascript",
     );
     expect(responseBody).toEqual("var a = 1");
     expect(sendMock).toHaveBeenCalled();
@@ -281,7 +281,7 @@ describe(`handleApps`, () => {
       },
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(404);
@@ -293,6 +293,6 @@ type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
     : T[P] extends object
-    ? RecursivePartial<T[P]>
-    : T[P];
+      ? RecursivePartial<T[P]>
+      : T[P];
 };

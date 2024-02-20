@@ -57,15 +57,15 @@ const orgKeyRegex = pathToRegexp("/:orgKey/(.*)");
 export async function handleRequest(
   request: Request,
   env: EnvVars,
-  context: ExecutionContext
+  context: ExecutionContext,
 ) {
   const missingEnvVars = requiredEnvironmentVariables.filter(
-    (requiredVar) => !env[requiredVar]
+    (requiredVar) => !env[requiredVar],
   );
 
   if (missingEnvVars.length > 0) {
     console.error(
-      `Missing environment variables '${missingEnvVars.join(", ")}'`
+      `Missing environment variables '${missingEnvVars.join(", ")}'`,
     );
     return internalErrorResponse(request);
   }
@@ -106,12 +106,12 @@ export async function handleRequest(
   if (customDomain?.purpose === CustomDomainPurpose.web_app) {
     if (!customDomain.customerEnv) {
       console.error(
-        `custom domain '${requestUrl.hostname}' does not have a customerEnv property in KV Storage`
+        `custom domain '${requestUrl.hostname}' does not have a customerEnv property in KV Storage`,
       );
       return internalErrorResponse(request, undefined);
     } else if (!customDomain.webAppHtmlFilename) {
       console.error(
-        `custom domain '${requestUrl.hostname}' does not have a webAppHtmlFilename property in KV Storage`
+        `custom domain '${requestUrl.hostname}' does not have a webAppHtmlFilename property in KV Storage`,
       );
       return internalErrorResponse(request, undefined);
     } else {
@@ -172,7 +172,7 @@ type RouteHandler = (
   params: object,
   requestLog: RequestLog,
   env: EnvVars,
-  orgKey?: string
+  orgKey?: string,
 ) => Promise<Response>;
 
 export interface EnvVars {

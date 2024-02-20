@@ -64,7 +64,7 @@ export async function logRequest(log: RequestLog, env: EnvVars): Promise<void> {
         DatabaseName: env.TIMESTREAM_DATABASE,
         TableName: env.TIMESTREAM_TABLE,
         Records,
-      })
+      }),
     );
   } catch (err) {
     // eslint-disable-next-line no-console

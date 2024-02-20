@@ -12,13 +12,13 @@ export async function handleApps(
   params: Params,
   requestLog: RequestLog,
   env: EnvVars,
-  orgKey?: string
+  orgKey?: string,
 ): Promise<Response> {
   requestLog.microfrontendName = params.pathParts[0];
 
   if (!orgKey) {
     console.error(
-      `No orgKey passed to handleApps function. Returning HTTP 500.`
+      `No orgKey passed to handleApps function. Returning HTTP 500.`,
     );
     return internalErrorResponse(request);
   }
@@ -33,11 +33,11 @@ export async function handleApps(
 
   const proxySettings = getMicrofrontendProxySettings(
     orgSettings,
-    params.customerEnv
+    params.customerEnv,
   );
   if (!proxySettings) {
     console.error(
-      `No proxy settings found for org ${orgKey} and customerEnv ${params.customerEnv}`
+      `No proxy settings found for org ${orgKey} and customerEnv ${params.customerEnv}`,
     );
     return internalErrorResponse(request, orgSettings);
   }
@@ -46,7 +46,7 @@ export async function handleApps(
 
   if (!proxyHost) {
     console.error(
-      `No proxy host found for org ${orgKey} and customerEnv ${params.customerEnv}`
+      `No proxy host found for org ${orgKey} and customerEnv ${params.customerEnv}`,
     );
   }
 
@@ -83,7 +83,7 @@ export async function handleApps(
         new GetObjectCommand({
           Bucket,
           Key,
-        })
+        }),
       );
     } catch (e) {
       if (e.Code === "NoSuchKey") {
@@ -130,7 +130,7 @@ export async function handleApps(
   for (let additionalHeader in additionalHeaders) {
     finalResponse.headers.set(
       additionalHeader,
-      additionalHeaders[additionalHeader]
+      additionalHeaders[additionalHeader],
     );
   }
 
@@ -139,7 +139,7 @@ export async function handleApps(
 
 function getMicrofrontendProxySettings(
   orgSettings: OrgSettings,
-  customerEnv: string
+  customerEnv: string,
 ): StaticFileProxySettings {
   return orgSettings.staticFiles.microfrontendProxy.environments[customerEnv];
 }

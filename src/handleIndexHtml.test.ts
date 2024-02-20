@@ -34,7 +34,7 @@ describe(`handleIndexHtml`, () => {
 
   it(`fails when no orgKey is passed`, async () => {
     const request = new Request(
-      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`
+      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`,
     );
     orgKey = undefined;
     const response = await handleIndexHtml(
@@ -42,7 +42,7 @@ describe(`handleIndexHtml`, () => {
       params,
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(500);
@@ -55,14 +55,14 @@ describe(`handleIndexHtml`, () => {
         {},
     });
     const request = new Request(
-      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`
+      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`,
     );
     const response = await handleIndexHtml(
       request,
       params,
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(404);
@@ -74,14 +74,14 @@ describe(`handleIndexHtml`, () => {
         null,
     });
     const request = new Request(
-      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`
+      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`,
     );
     const response = await handleIndexHtml(
       request,
       params,
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(404);
@@ -96,14 +96,14 @@ describe(`handleIndexHtml`, () => {
     });
 
     const request = new Request(
-      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`
+      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`,
     );
     const response = await handleIndexHtml(
       request,
       params,
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(500);
@@ -118,14 +118,14 @@ describe(`handleIndexHtml`, () => {
     });
 
     const request = new Request(
-      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`
+      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`,
     );
     const response = await handleIndexHtml(
       request,
       params,
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(500);
@@ -143,14 +143,14 @@ describe(`handleIndexHtml`, () => {
     });
 
     const request = new Request(
-      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`
+      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`,
     );
     const response = await handleIndexHtml(
       request,
       params,
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(200);
@@ -179,14 +179,14 @@ describe(`handleIndexHtml`, () => {
     });
 
     const request = new Request(
-      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`
+      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`,
     );
     const response = await handleIndexHtml(
       request,
       params,
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(200);
@@ -211,14 +211,14 @@ describe(`handleIndexHtml`, () => {
     });
 
     const request = new Request(
-      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`
+      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`,
     );
     const response = await handleIndexHtml(
       request,
       params,
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(200);
@@ -244,14 +244,14 @@ describe(`handleIndexHtml`, () => {
     });
 
     const request = new Request(
-      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`
+      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`,
     );
     const response = await handleIndexHtml(
       request,
       params,
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(200);
@@ -277,14 +277,14 @@ describe(`handleIndexHtml`, () => {
     });
 
     const request = new Request(
-      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`
+      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html`,
     );
     const response = await handleIndexHtml(
       request,
       params,
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(200);
@@ -315,14 +315,14 @@ describe(`handleIndexHtml`, () => {
     });
 
     const request = new Request(
-      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html?path=/settings`
+      `https://cdn.baseplate.cloud/${orgKey}/prod/index.html?path=/settings`,
     );
     const response = await handleIndexHtml(
       request,
       params,
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(200);
@@ -362,7 +362,7 @@ describe(`handleIndexHtml`, () => {
       params,
       sampleLog(),
       env,
-      orgKey
+      orgKey,
     );
 
     expect(response.status).toBe(200);
