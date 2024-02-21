@@ -1,5 +1,11 @@
 # baseplate-cloudflare-worker
 
+## 5.1.0
+
+### Minor Changes
+
+- [#70](https://github.com/ConvexCooperative/baseplate-cloudflare-worker/pull/70) [`76cf54d`](https://github.com/ConvexCooperative/baseplate-cloudflare-worker/commit/76cf54d76894989ae2523042802e2f735fce675d) Thanks [@joeldenning](https://github.com/joeldenning)! - Upgrade and clean dependencies
+
 ## 5.0.0
 
 ### Major Changes
